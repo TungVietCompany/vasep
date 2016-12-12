@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="background_toolbar">#0c69d3</color>
+    <color name="accent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transperent">#00000000</color>
+    
+    <color name="screen1_category">#3973c7</color>
+    <color name="screen1_title_item">#404040</color>
+    <color name="screen1_date_item">#a1a1a1</color>
+
+    <color name="screen4_money_item">#f62022</color>
+    <color name="screen4_view_before">#0c69d3</color>
+    <color name="screen4_book_buy">#f81751</color>
+</resources>
