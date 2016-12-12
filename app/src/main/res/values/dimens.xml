@@ -14,4 +14,10 @@
     <dimen name="screen2_margin_date">10dp</dimen>
     <dimen name="screen4_padding_view">10dp</dimen>
     <dimen name="screen4_margin_view">5dp</dimen>
+
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+
+    <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
 </resources>

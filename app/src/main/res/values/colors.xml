@@ -16,4 +16,6 @@
     <color name="screen4_money_item">#f62022</color>
     <color name="screen4_view_before">#0c69d3</color>
     <color name="screen4_book_buy">#f81751</color>
+
+    <color name="screen5_color_boder">#d3d0d0</color>
 </resources>
