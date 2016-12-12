@@ -246,7 +246,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             }
         },2000);
     }
-
+    private int totalItemCount,lastVisibleItem;
     @Override
     public void onLoadMore() {
         mAdapter.setProgressMore(true);
