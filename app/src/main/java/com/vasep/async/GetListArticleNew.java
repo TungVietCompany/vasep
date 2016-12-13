@@ -50,10 +50,7 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
 
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setMessage(Information.loading);
-        dialog.setIndeterminate(true);
-        dialog.show();
+
     }
 
     @Override
@@ -72,12 +69,15 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                     }else{
                         adapterItem.addItemMore(articles);
                         adapterItem.notifyDataSetChanged();
+
                     }
+                    adapterItem.setMoreLoading(false);
                 }
+
         } catch (Exception e) {
             Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
-        dialog.dismiss();
+
     }
 
 

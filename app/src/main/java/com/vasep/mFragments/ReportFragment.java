@@ -72,9 +72,15 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(),this);
-        mAdapter.setGridLayoutManager(mLayoutManager);
-        mAdapter.setRecyclerView(mRecyclerView);
+        try {
+            if (mAdapter == null) {
+                mAdapter = new AdapterItem(getContext(), this);
+                mAdapter.setGridLayoutManager(mLayoutManager);
+                mAdapter.setRecyclerView(mRecyclerView);
+            }
+        }catch (Exception ex){
+
+        }
         mRecyclerView.setAdapter(mAdapter);
         swipeRefresh.setOnRefreshListener(this);
 
@@ -244,7 +250,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 loadData(0);
 
             }
-        },2000);
+        },1000);
     }
     private int totalItemCount,lastVisibleItem;
     @Override
@@ -253,14 +259,17 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mAdapter.setProgressMore(false);
-                int start = mAdapter.getItemCount();
-                int id = Integer.parseInt(mAdapter.getArticle(start).getId());
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
-                getListArticle.execute();
-                mAdapter.setMoreLoading(false);
+                try {
+                    mAdapter.setProgressMore(false);
+                    int start = mAdapter.getItemCount();
+                    GetListArticleNew getListArticle = new GetListArticleNew(getContext(), mAdapter, 2, 4, Integer.parseInt(mAdapter.getArticle(start).getId()), 2);
+                    getListArticle.execute();
+
+                }catch (Exception exx){
+                    String ss= exx.getMessage();
+                }
             }
-        },2000);
+        },1000);
     }
 
     private void loadData(int from) {

@@ -29,7 +29,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnLoadMoreListener onLoadMoreListener;
     private GridLayoutManager mGridLayoutManager;
 
-    private boolean isMoreLoading = false;
+    public boolean isMoreLoading() {
+        return isMoreLoading;
+    }
+
+    private boolean isMoreLoading= false;
     private int visibleThreshold = 4;
     private Context context;
 
@@ -43,6 +47,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.onLoadMoreListener = onLoadMoreListener;
         itemList = new ArrayList<>();
         this.context = context;
+
     }
 
     public void setGridLayoutManager(GridLayoutManager linearLayoutManager) {
@@ -56,19 +61,9 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 super.onScrolled(recyclerView, dx, dy);
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = mGridLayoutManager.getItemCount();
-               /* lastVisibleItem = mGridLayoutManager.findFirstVisibleItemPosition();
-                if (!isMoreLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
-                    }
-                    isMoreLoading = true;
-                }*/
-
-
-                totalItemCount = mGridLayoutManager.getItemCount();
                 lastVisibleItem = mGridLayoutManager.findLastVisibleItemPosition();
 
-                if (!isMoreLoading && (totalItemCount - visibleItemCount) <= (lastVisibleItem + visibleThreshold)) {
+                if (!isMoreLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     if (onLoadMoreListener != null) {
                         onLoadMoreListener.onLoadMore();
                     }
