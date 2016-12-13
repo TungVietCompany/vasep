@@ -72,9 +72,11 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                     }else{
                         adapterItem.addItemMore(articles);
                         adapterItem.notifyDataSetChanged();
+
                     }
                     adapterItem.setMoreLoading(false);
                 }
+
         } catch (Exception e) {
             Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
