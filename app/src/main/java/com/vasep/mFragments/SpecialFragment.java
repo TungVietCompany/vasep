@@ -73,7 +73,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
-        GetListArticle getListArticle = new GetListArticle(getContext(), 2, 0,1, rView,screen1_image_top,
+        GetListArticle getListArticle = new GetListArticle(getContext(), 2, 0,0, rView,screen1_image_top,
                 screen1_date_top,screen1_category_top,screen1_title_top);
         getListArticle.execute();
 
@@ -88,7 +88,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
         ActionBar actionBar = ((AppCompatActivity) (getActivity())).getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true); // show or hide the default home button
-        actionBar.setLogo(R.drawable.filter_icon);
+        actionBar.setLogo(R.drawable.icon_menu);
         actionBar.setDisplayUseLogoEnabled(true);
 
         /*click vào nut home tren toolbar*/

@@ -9,6 +9,7 @@
     <dimen name="screen1_date_item">10sp</dimen>
     <dimen name="screen1_title_top">18sp</dimen>
     <dimen name="screen1_date_top">12sp</dimen>
+    <dimen name="textsize_12sp">12sp</dimen>
 
     <dimen name="screen2_margin_title">5dp</dimen>
     <dimen name="screen2_margin_date">10dp</dimen>
