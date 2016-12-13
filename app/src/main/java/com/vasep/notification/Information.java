@@ -6,4 +6,6 @@ package com.vasep.notification;
 public class Information {
     public final static String loading = "Đang tải ...";
     public final static String no_data = "Không có dữ liệu";
+    public final static String insert_contact_success = "Gửi liên hệ thành công";
+    public final static String insert_contact_fail = "Gửi liên hệ thất bại";
 }

@@ -1,6 +1,7 @@
 package com.vasep.api;
 
 import com.vasep.models.ArticleModel;
+import com.vasep.models.Result;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -18,4 +19,6 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getTopArticle")
     Call<ArticleModel> getArticle(@Query("top") int top,@Query("from") int from,@Query("type") int type);
 
+    @POST("rest_vasep/rest/insertContact")
+    Call<Result> insertContact(@Body Object contact);
 }

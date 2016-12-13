@@ -20,15 +20,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
         android:orientation="vertical"
         >
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="250dp"
             android:layout_margin="5dp"
             android:background="@drawable/customborder"
             >
@@ -37,10 +43,10 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/profile_pic"
-
+                android:id="@+id/screen6_image"
                 />
             <TextView
+                android:id="@+id/screen6_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -57,10 +63,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/margin_5dp"
             >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,15 +92,16 @@
             android:layout_height="wrap_content"
             android:weightSum="3"
             android:orientation="vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/customborderdetail"
-            android:padding="5dp"
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:background="@drawable/customborderpay"
+            android:padding="@dimen/padding_5dp"
             >
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/padding_5dp"
                 >
 
                 <TextView
@@ -103,17 +109,20 @@
                     android:layout_height="wrap_content"
                     android:text="Đơn giá"
                     android:id="@+id/textView7" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="135.000 vnđ"
-                    android:id="@+id/textView8"
+                    android:id="@+id/screen6_price"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/padding_5dp"
                 >
 
                 <TextView
@@ -125,39 +134,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 vnđ"
-                    android:id="@+id/textView10"
+                    android:id="@+id/screen6_discount"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/padding_5dp"
                 >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tổng tiền"
-                    android:id="@+id/textView11" />
+                    android:id="@+id/textView11"
+                    android:textStyle="bold"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="135.000 vnđ"
-                    android:id="@+id/textView12"
+                    android:id="@+id/screen6_summoney"
+                    android:textColor="@color/screen4_money_item"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:layout_marginBottom="@dimen/margin_5dp"
             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:background="@drawable/borderbutton"
                 android:id="@+id/textView13"
                 android:textColor="#ffffff"
@@ -177,15 +191,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:orientation="horizontal"
             android:weightSum="2"
             >
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:background="@drawable/customborderdetail"
+                android:background="@drawable/customborderpay"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 >
@@ -201,18 +214,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/textsize_12sp"
                     android:textColor="@color/colorPrimary"
-                    android:text="Cá tra | 28/11/2016"
+                    android:text="google in-app purchase"
                     android:textAllCaps="true"
-                    android:padding="5dp"
+                    android:padding="@dimen/padding_5dp"
                     />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/customborderdetail"
+                android:background="@drawable/customborderpay"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 >
@@ -228,9 +242,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/textsize_12sp"
                     android:textColor="@color/colorPrimary"
-                    android:text="Cá tra | 28/11/2016"
+                    android:text="Thanh toán qua ngân hàng"
                     android:textAllCaps="true"
                     android:padding="5dp"
                     />
@@ -239,7 +253,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:orientation="vertical"
             >
             <android.support.v7.widget.CardView
@@ -268,7 +281,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:cardBackgroundColor="@color/colorAccent"
+                app:cardBackgroundColor="@color/screen_background_contact"
+                android:id="@+id/screen6_contact"
                 >
                 <TextView
                     android:layout_width="match_parent"
@@ -287,5 +301,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

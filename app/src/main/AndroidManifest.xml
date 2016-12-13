@@ -29,11 +29,15 @@
         <activity
             android:name="com.vasep.activity.NewsDetailActivity"
             android:label="@string/title_activity_news_detail"
-            android:parentActivityName="com.vasep.activity.MainActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.vasep.activity.SpecialDetailActivity"
+            android:label="@string/title_activity_news_detail"
             android:theme="@style/AppTheme" />
         <activity android:name="com.vasep.activity.ReportDetailActivity" />
         <activity android:name="com.vasep.activity.ContactActivity" />
-        <activity android:name="com.vasep.activity.PurchaseActivity"></activity>
+        <activity android:name="com.vasep.activity.PurchaseActivity"
+            ></activity>
     </application>
 
 </manifest>

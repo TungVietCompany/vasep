@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SpecialDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
@@ -38,7 +39,6 @@ public class GetListArticle extends AsyncTask<Void, List<Article>, List<Article>
     RecyclerView rview;
     ImageView image_top;
     TextView txt_date_top, txt_title_top, txt_category_top;
-    GridLayoutManager gridLayoutManager;
     public GetListArticle(Context context, int top, int from, int type, RecyclerView rview, ImageView image_top, TextView txt_date_top, TextView txt_category_top, TextView txt_title_top) {
         this.context = context;
         this.top = top;
@@ -78,15 +78,9 @@ public class GetListArticle extends AsyncTask<Void, List<Article>, List<Article>
 
         try {
                 if (articles.size() > 0) {
-                    gridLayoutManager = new GridLayoutManager(context, 2);
-                    rview.setLayoutManager(gridLayoutManager);
-
                     adapterHome = new AdapterHome(context, articles);
                     rview.setAdapter(adapterHome);
-
                     if (type == 2) {
-
-
                 /*bắt sự kiện click vào item reprort*/
                         rview.addOnItemTouchListener(new RecyclerItemClickListener(context,
                                 new RecyclerItemClickListener.OnItemClickListener() {
@@ -98,7 +92,7 @@ public class GetListArticle extends AsyncTask<Void, List<Article>, List<Article>
                                     }
                                 }));
 
-                    }else {
+                    }else if(type == 1){
                         Picasso.with(context).load(articles.get(0).getImage()).into(image_top);
                         txt_date_top.setText(ChangeDate.convertDate(articles.get(0).getCreate_date()));
                         txt_category_top.setText(articles.get(0).getCategory_name() + " | ");
@@ -109,6 +103,21 @@ public class GetListArticle extends AsyncTask<Void, List<Article>, List<Article>
                                     @Override
                                     public void onItemClick(View view, int position) {
                                         Intent intent = new Intent(context, NewsDetailActivity.class);
+                                        intent.putExtra("article", articles.get(position));
+                                        context.startActivity(intent);
+                                    }
+                                }));
+                    }else{
+                        Picasso.with(context).load(articles.get(0).getImage()).into(image_top);
+                        txt_date_top.setText(ChangeDate.convertDate(articles.get(0).getCreate_date()));
+                        txt_category_top.setText(articles.get(0).getCategory_name() + " | ");
+                        txt_title_top.setText(articles.get(0).getTitle());
+                /*bắt sự kiện click vào item*/
+                        rview.addOnItemTouchListener(new RecyclerItemClickListener(context,
+                                new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
                                         intent.putExtra("article", articles.get(position));
                                         context.startActivity(intent);
                                     }

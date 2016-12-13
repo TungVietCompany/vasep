@@ -1,5 +1,6 @@
 package com.vasep.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,9 @@ import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.R;
+import com.vasep.mFragments.ReportFragment;
+import com.vasep.mFragments.SpecialFragment;
+import com.vasep.models.Article;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -44,7 +48,20 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        callFragment(new NewsFragment());
+
+        Intent i = getIntent();
+        int type = i.getIntExtra("type",0);
+        Log.d("sa",type+"");
+        if(type == 0){
+            callFragment(new NewsFragment());
+        }else if(type == 3){
+            callFragment(new ReportFragment());
+        }
+        else if(type == 2){
+            callFragment(new NewsFragment());
+        }else if(type == 1){
+            callFragment(new SpecialFragment());
+        }
     }
 
 

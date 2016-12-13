@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,17 +13,16 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.vasep.controller.ChangeDate;
-import com.vasep.models.Article;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.controller.ChangeDate;
+import com.vasep.models.Article;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewsDetailActivity extends AppCompatActivity {
+public class SpecialDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     private WebView webView;
@@ -49,7 +46,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent i = getIntent();
         Article article = (Article)i.getSerializableExtra("article");
-        Picasso.with(NewsDetailActivity.this).load(article.getImage()).into(screen2_image_top);
+        Picasso.with(SpecialDetailActivity.this).load(article.getImage()).into(screen2_image_top);
         screen2_category_top.setText(article.getCategory_name()+" | ");
         screen2_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen1_title_item.setText(article.getTitle());
@@ -71,8 +68,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewsDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",2);
+                Intent intent = new Intent(SpecialDetailActivity.this,MainActivity.class);
+                intent.putExtra("type",1);
                 startActivity(intent);
                 finish();
             }
