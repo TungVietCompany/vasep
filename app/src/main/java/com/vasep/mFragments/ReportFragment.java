@@ -1,9 +1,7 @@
 package com.vasep.mFragments;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,21 +24,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.vasep.activity.MainActivity;
-import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
-import com.vasep.adapter.AdapterLvMaketing;
-import com.vasep.adapter.AdapterMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.models.Article;
@@ -57,7 +45,7 @@ import com.vasep.R;
 
 import java.util.ArrayList;
 
-public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener
+public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
         ,SwipeRefreshLayout.OnRefreshListener{
     AHBottomNavigation bottomNavigation;
 
@@ -79,52 +67,50 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         View rootView = inflater.inflate(R.layout.report_fragment, container, false);
         rView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
 
+        itemList = new ArrayList<Article>();
         swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
+        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
-        rView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter.setGridLayoutManager(mLayoutManager);
+        mAdapter.setRecyclerView(mRecyclerView);
+        mRecyclerView.setAdapter(mAdapter);
         swipeRefresh.setOnRefreshListener(this);
 
-        GetListArticle getListArticle = new GetListArticle(getContext(), 6, 0,2, rView);
-        getListArticle.execute();
+        /*rView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getContext(),ReportDetailActivity.class);
+                        startActivity(intent);
+                    }
+                }));
+*/
 
-        toolbar = (Toolbar)rootView.findViewById(R.id.toolbar_report);
-
+        toolbar = (Toolbar)rootView.findViewById(R.id.tool_bar);
         ((AppCompatActivity)(getActivity())).setSupportActionBar(toolbar);
+        ((AppCompatActivity)(getActivity())).getSupportActionBar().setTitle("Material Search");
+        toolbar.setTitleTextColor(Color.parseColor("#0c69d3"));
+
         ((AppCompatActivity)(getActivity())).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ActionBar actionBar = ((AppCompatActivity)(getActivity())).getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.icon_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
-
-        /*click vào nut home tren toolbar*/
-        View view = toolbar.getChildAt(1);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialogmenu);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
-                GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
-                recyclerView.setLayoutManager(gridview);
-
-                AdapterMenu adapter = new AdapterMenu(getContext());
-                recyclerView.setAdapter(adapter);
-
-                dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
-                dialog.show();
-
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         holder = new ViewHolder(R.layout.dialog_report);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Dialog dialog = new Dialog(new ContextThemeWrapper(getActivity(), R.style.DialogSlideAnim));
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.getWindow().setGravity(Gravity.BOTTOM);
+//                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+//                dialog.setContentView(R.layout.dialog_report);
+//                dialog.show();
                 showCompleteDialog(holder,Gravity.BOTTOM,clickListener,itemClickListener,dismissListener,cancelListener,false);
             }
         });
@@ -133,6 +119,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         bottomNavigation= (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_report);
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
+        loadData(0);
         return rootView;
     }
 
@@ -198,13 +185,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     OnClickListener clickListener = new OnClickListener() {
         @Override
         public void onClick(DialogPlus dialog, View view) {
-            CardView card_report = (CardView)view.findViewById(R.id.card_report);
-            card_report.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(),"hu",Toast.LENGTH_LONG).show();
-                }
-            });
         }
     };
 
@@ -252,20 +232,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setOverlayBackgroundResource(android.R.color.transparent)
                 .setMargin(0,toolbar.getHeight(),0,0)
                 .create();
-
-        final String marketing[]={"EU","Quốc tế","Hàn Quốc"};
-        ListView lv=(ListView)dialog.findViewById(R.id.lv_maketing);
-        //ArrayAdapter<String>adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, marketing);
-        AdapterLvMaketing adapter = new AdapterLvMaketing(getContext(),marketing);
-        lv.setAdapter(adapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-
         dialog.show();
     }
 
@@ -275,9 +241,31 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void run() {
                 swipeRefresh.setRefreshing(false);
-
+                loadData(0);
 
             }
         },2000);
+    }
+    private int totalItemCount,lastVisibleItem;
+    @Override
+    public void onLoadMore() {
+        mAdapter.setProgressMore(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.setProgressMore(false);
+                int start = mAdapter.getItemCount();
+                int id = Integer.parseInt(mAdapter.getArticle(start).getId());
+                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                getListArticle.execute();
+                mAdapter.setMoreLoading(false);
+            }
+        },2000);
+    }
+
+    private void loadData(int from) {
+        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),mAdapter,1, 4,from,2);
+        getListArticle.execute();
+
     }
 }
