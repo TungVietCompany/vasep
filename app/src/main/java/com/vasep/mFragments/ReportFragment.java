@@ -57,7 +57,7 @@ import com.vasep.R;
 
 import java.util.ArrayList;
 
-public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener
+public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
         ,SwipeRefreshLayout.OnRefreshListener{
     AHBottomNavigation bottomNavigation;
 
@@ -71,8 +71,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     private ArrayList<Article> itemList;
     private SwipeRefreshLayout swipeRefresh;
 
-    RecyclerView mRecyclerView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,12 +78,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         rView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
 
         swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
+
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
         rView.setLayoutManager(mLayoutManager);
+        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter.setGridLayoutManager(mLayoutManager);
+        mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
-
-        GetListArticle getListArticle = new GetListArticle(getContext(), 6, 0,2, rView);
-        getListArticle.execute();
 
         toolbar = (Toolbar)rootView.findViewById(R.id.toolbar_report);
 
@@ -133,6 +132,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         bottomNavigation= (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_report);
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
+        loadData(0);
         return rootView;
     }
 
@@ -165,10 +165,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Holder viewHolder = new ViewHolder(R.layout.dialog_search);
+
         switch(item.getItemId())
         {
             case R.id.action_search_report:
-                showCompleteDialog(holder,Gravity.TOP,clickListener,itemClickListener,dismissListener,cancelListener,false);
+                showCompleteDialog(viewHolder,Gravity.TOP,clickListenersearch,itemClickListenersearch,
+                        dismissListenersearch,cancelListenersearch,false);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -195,6 +198,44 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         transaction.commit();
     }
 
+    //search
+
+    OnClickListener clickListenersearch = new OnClickListener() {
+        @Override
+        public void onClick(DialogPlus dialog, View view) {
+            CardView card_report = (CardView)view.findViewById(R.id.card_report);
+            card_report.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(),"hu",Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
+    OnItemClickListener itemClickListenersearch = new OnItemClickListener() {
+        @Override
+        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+
+        }
+    };
+
+    OnDismissListener dismissListenersearch = new OnDismissListener() {
+        @Override
+        public void onDismiss(DialogPlus dialog) {
+
+        }
+    };
+
+    OnCancelListener cancelListenersearch = new OnCancelListener() {
+        @Override
+        public void onCancel(DialogPlus dialog) {
+
+        }
+    };
+
+
+    //end
     OnClickListener clickListener = new OnClickListener() {
         @Override
         public void onClick(DialogPlus dialog, View view) {
@@ -255,7 +296,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
         final String marketing[]={"EU","Quốc tế","Hàn Quốc"};
         ListView lv=(ListView)dialog.findViewById(R.id.lv_maketing);
-        //ArrayAdapter<String>adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, marketing);
         AdapterLvMaketing adapter = new AdapterLvMaketing(getContext(),marketing);
         lv.setAdapter(adapter);
 
@@ -275,9 +315,29 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void run() {
                 swipeRefresh.setRefreshing(false);
-
+                loadData(0);
 
             }
-        },2000);
+        },1000);
+    }
+    @Override
+    public void onLoadMore() {
+        mAdapter.setProgressMore(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.setProgressMore(false);
+                int start = mAdapter.getItemCount();
+                int id = Integer.parseInt(mAdapter.getArticle(start).getId());
+                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                getListArticle.execute();
+            }
+        },1000);
+    }
+
+    private void loadData(int from) {
+        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,1, 4,from,2);
+        getListArticle.execute();
+
     }
 }

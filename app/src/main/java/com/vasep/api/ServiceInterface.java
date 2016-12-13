@@ -1,6 +1,7 @@
 package com.vasep.api;
 
 import com.vasep.models.ArticleModel;
+import com.vasep.models.CategoryResult;
 import com.vasep.models.Result;
 
 import okhttp3.MultipartBody;
@@ -21,4 +22,7 @@ public interface ServiceInterface {
 
     @POST("rest_vasep/rest/insertContact")
     Call<Result> insertContact(@Body Object contact);
+
+    @GET("rest_vasep/rest/getAllCategory")
+    Call<CategoryResult> allCategory();
 }

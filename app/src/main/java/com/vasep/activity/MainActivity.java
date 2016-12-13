@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.vasep.adapter.AdapterHome;
+import com.vasep.adapter.AdapterRecylerSearch;
+import com.vasep.async.GetAllCategory;
 import com.vasep.mFragments.NewsFragment;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.Holder;
@@ -92,10 +94,9 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Holder holder = new ViewHolder(R.layout.dialog_report);
+        Holder holder = new ViewHolder(R.layout.dialog_search);
         switch(item.getItemId())
         {
-
             case R.id.action_search_report:
                 showCompleteDialog(holder, Gravity.TOP,clickListener,itemClickListener,dismissListener,cancelListener,false);
                 break;
@@ -163,6 +164,14 @@ public class MainActivity extends AppCompatActivity{
                 .setOverlayBackgroundResource(android.R.color.transparent)
                 .setMargin(0,115,0,0)
                 .create();
+
+        RecyclerView rview = (RecyclerView)dialog.findViewById(R.id.rv_search);
+        GridLayoutManager grid = new GridLayoutManager(MainActivity.this,3);
+        rview.setLayoutManager(grid);
+
+        GetAllCategory getAllCategory = new GetAllCategory(MainActivity.this,rview);
+        getAllCategory.execute();
+
         dialog.show();
     }
 }

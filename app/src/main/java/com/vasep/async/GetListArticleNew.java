@@ -38,22 +38,21 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
     ProgressDialog dialog;
     public List<Article> list;
     AdapterItem adapterItem;
+    RecyclerView rView;
     private  int type_load;
-    public GetListArticleNew(Context context,AdapterItem adapterItem,int type_load, int top, int from, int type) {
+    public GetListArticleNew(Context context,RecyclerView rView,AdapterItem adapterItem,int type_load, int top, int from, int type) {
         this.context = context;
         this.top = top;
         this.from = from;
         this.type = type;
         this.adapterItem = adapterItem;
         this.type_load = type_load;
+        this.rView=rView;
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setMessage(Information.loading);
-        dialog.setIndeterminate(true);
-        dialog.show();
+
     }
 
     @Override
@@ -69,15 +68,17 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                     if(type_load == 1){
                         adapterItem.addAll(articles);
                         adapterItem.notifyDataSetChanged();
+                        rView.setAdapter(adapterItem);
                     }else{
                         adapterItem.addItemMore(articles);
                         adapterItem.notifyDataSetChanged();
                     }
+                    adapterItem.setMoreLoading(false);
                 }
         } catch (Exception e) {
             Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
-        dialog.dismiss();
+
     }
 
 

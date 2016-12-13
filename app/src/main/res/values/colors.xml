@@ -8,7 +8,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="transperent">#00000000</color>
-
+    <color name="bg_category_seach">#828282</color>
 
     <color name="screen1_category">#3973c7</color>
     <color name="screen1_title_item">#404040</color>

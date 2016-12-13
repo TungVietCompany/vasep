@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_rv_search"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_5dp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tôm"
+        android:textColor="@color/white"
+        android:padding="@dimen/padding_10dp"
+        android:layout_margin="@dimen/margin_5dp"
+        android:textStyle="bold"
+        android:id="@+id/screen10_txt_category"
+        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/close"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_10dp"
+            android:id="@+id/screen10_image_category"
+            />
+    </LinearLayout>
+</LinearLayout>
