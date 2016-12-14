@@ -41,4 +41,21 @@ public class ArticleController {
         return null;
     }
 
+    public List<Article> getReport(int article_id,int user_id){
+        Call<ArticleModel> report = service.getReport(article_id,user_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            ArticleModel str = report.execute().body();
+            if (str.getCode() == 200){
+                return str.getArticle();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
 }

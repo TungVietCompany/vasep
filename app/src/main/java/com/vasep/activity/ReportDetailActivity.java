@@ -47,6 +47,9 @@ public class ReportDetailActivity extends AppCompatActivity {
     @Bind(R.id.screen4_book)
     CardView screen4_book;
 
+    @Bind(R.id.screen4_read)
+    CardView screen4_read;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +59,32 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
+
+        /*if(article.getIs_buy() == "0"){
+            screen4_money_item.setText(article.getPrice() +" vnđ");
+        }else{
+            screen4_money_item.setText("Đã mua");
+            screen4_money_item.setTextColor(getResources().getColor(R.color.screen1_category));
+
+            screen4_read.setVisibility(View.GONE);
+            screen4_book.setVisibility(View.GONE);
+
+        }*/
+
         Picasso.with(ReportDetailActivity.this).load(article.getImage()).into(screen4_image_item);
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
         screen4_money_item.setText(article.getPrice() +" vnđ");
+
+        screen4_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(ReportDetailActivity.this,ShowDetailActivity.class);
+                intent1.putExtra("article",article);
+                startActivity(intent1);
+            }
+        });
 
         screen4_book.setOnClickListener(new View.OnClickListener() {
             @Override

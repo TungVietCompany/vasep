@@ -30,7 +30,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -42,6 +44,10 @@ import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterLvMaketing;
 import com.vasep.adapter.AdapterMenu;
+import com.vasep.adapter.AdapterRecylerSearch;
+import com.vasep.async.GetAllCategory;
+import com.vasep.async.GetAllMarket;
+import com.vasep.async.GetAllProduct;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.models.Article;
@@ -70,13 +76,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     private AdapterItem mAdapter;
     private ArrayList<Article> itemList;
     private SwipeRefreshLayout swipeRefresh;
-
+    View rootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.report_fragment, container, false);
+        rootView = inflater.inflate(R.layout.report_fragment, container, false);
         rView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
-
+        setHasOptionsMenu(true);
         swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
@@ -101,10 +107,14 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*final Dialog dialog = new Dialog(getContext());
+                final Dialog dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogmenu);
-                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
+
+//                RelativeLayout relactive_menu = (RelativeLayout)dialog.findViewById(R.id.relactive_menu);
+//                relactive_menu.getBackground().setAlpha(20);
+
                 RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
                 GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
                 recyclerView.setLayoutManager(gridview);
@@ -113,8 +123,18 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 recyclerView.setAdapter(adapter);
 
                 dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
-                dialog.show();*/
+                dialog.show();
 
+            }
+        });
+
+        ImageView search = (ImageView)rootView.findViewById(R.id.screen3_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Holder viewHolder = new ViewHolder(R.layout.dialog_search);
+                showCompleteDialogSearch(viewHolder,Gravity.TOP,clickListenersearch,itemClickListenersearch,
+                        dismissListenersearch,cancelListenersearch,false);
             }
         });
 
@@ -157,26 +177,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_report, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Holder viewHolder = new ViewHolder(R.layout.dialog_search);
-
-        switch(item.getItemId())
-        {
-            case R.id.action_search_report:
-                showCompleteDialog(viewHolder,Gravity.TOP,clickListenersearch,itemClickListenersearch,
-                        dismissListenersearch,cancelListenersearch,false);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public void onTabSelected(int position, boolean wasSelected) {
@@ -203,13 +203,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     OnClickListener clickListenersearch = new OnClickListener() {
         @Override
         public void onClick(DialogPlus dialog, View view) {
-            CardView card_report = (CardView)view.findViewById(R.id.card_report);
-            card_report.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(),"hu",Toast.LENGTH_LONG).show();
-                }
-            });
+
         }
     };
 
@@ -270,6 +264,39 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         }
     };
 
+    private void showCompleteDialogSearch(Holder holder, int gravity,
+                                    OnClickListener clickListener, OnItemClickListener itemClickListener,
+                                    OnDismissListener dismissListener, OnCancelListener cancelListener,
+                                    boolean expanded) {
+        final DialogPlus dialog = DialogPlus.newDialog(getContext())
+                .setContentHolder(holder)
+                .setCancelable(true)
+                .setGravity(gravity)
+                .setOnClickListener(clickListener)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                                item + "], position = [" + position + "]");
+                    }
+                })
+                .setOnDismissListener(dismissListener)
+                .setExpanded(expanded)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setOnCancelListener(cancelListener)
+                .setOverlayBackgroundResource(android.R.color.transparent)
+                .setMargin(0,toolbar.getHeight(),0,0)
+                .create();
+
+        RecyclerView rv_search = (RecyclerView)dialog.findViewById(R.id.rv_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        rv_search.setLayoutManager(gridLayoutManager);
+
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog);
+        getAllCategory.execute();
+
+        dialog.show();
+    }
+
 
     private void showCompleteDialog(Holder holder, int gravity,
                                     OnClickListener clickListener, OnItemClickListener itemClickListener,
@@ -294,10 +321,9 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setMargin(0,toolbar.getHeight(),0,0)
                 .create();
 
-        final String marketing[]={"EU","Quốc tế","Hàn Quốc"};
         ListView lv=(ListView)dialog.findViewById(R.id.lv_maketing);
-        AdapterLvMaketing adapter = new AdapterLvMaketing(getContext(),marketing);
-        lv.setAdapter(adapter);
+        GetAllMarket getAllMarket = new GetAllMarket(getContext(),lv);
+        getAllMarket.execute();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -306,10 +332,10 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             }
         });
 
-        final String product[]={"Cá tra","Cá ngừ","Bột cá"};
+
         ListView lv_product=(ListView)dialog.findViewById(R.id.lv_product);
-        AdapterLvMaketing adapterLvProduct = new AdapterLvMaketing(getContext(),product);
-        lv_product.setAdapter(adapterLvProduct);
+        GetAllProduct getAllProduct = new GetAllProduct(getContext(),lv_product);
+        getAllProduct.execute();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

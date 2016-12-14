@@ -9,8 +9,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.vasep.R;
+import com.vasep.models.Market;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by thuyetpham94 on 13/12/2016.
@@ -18,9 +20,9 @@ import java.util.ArrayList;
 
 public class AdapterLvMaketing extends BaseAdapter {
     private Context mContext;
-    String[] list;
+    List<Market> list;
 
-    public AdapterLvMaketing(Context c, String[] list) {
+    public AdapterLvMaketing(Context c, List<Market> list) {
         mContext = c;
         this.list=list;
 
@@ -29,7 +31,7 @@ public class AdapterLvMaketing extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return list.length;
+        return list.size();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class AdapterLvMaketing extends BaseAdapter {
         convertView = inflater.inflate(R.layout.adapter_lv_maketing, null);
 
         TextView textView = (TextView)convertView.findViewById(R.id.txt_adapterlv_maket);
-        textView.setText(list[position]);
+        textView.setText(list.get(position).getName());
 
         return convertView;
     }

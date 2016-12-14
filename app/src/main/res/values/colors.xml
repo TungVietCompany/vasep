@@ -21,5 +21,6 @@
     <color name="screen5_color_boder">#d3d0d0</color>
     <color name="screen_background_contact">#046403</color>
 
+    <color name="bg_menu">#73000000</color>
 
 </resources>

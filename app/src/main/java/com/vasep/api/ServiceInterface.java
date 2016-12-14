@@ -2,6 +2,8 @@ package com.vasep.api;
 
 import com.vasep.models.ArticleModel;
 import com.vasep.models.CategoryResult;
+import com.vasep.models.MarketResult;
+import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
 
 import okhttp3.MultipartBody;
@@ -25,5 +27,14 @@ public interface ServiceInterface {
 
     @GET("rest_vasep/rest/getAllCategory")
     Call<CategoryResult> allCategory();
+
+    @GET("rest_vasep/rest/getReport")
+    Call<ArticleModel> getReport(@Query("article_id") int article_id,@Query("user_id") int user_id);
+
+    @GET("rest_vasep/rest/getAllMarket")
+    Call<MarketResult> getMarket();
+
+    @GET("rest_vasep/rest/getAllProduct")
+    Call<ProductResult> getProduct();
 
 }

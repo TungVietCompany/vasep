@@ -60,47 +60,6 @@ public class MainActivity extends AppCompatActivity{
             callFragment(new SpecialFragment());
         }
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_report,menu);
-//        final MenuItem item = menu.findItem(R.id.action_search);
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//        searchView.setOnQueryTextListener(this);
-//
-//        MenuItemCompat.setOnActionExpandListener(item,
-//                new MenuItemCompat.OnActionExpandListener() {
-//                    @Override
-//                    public boolean onMenuItemActionCollapse(MenuItem item) {
-//                        toolbar.setBackground(getResources().getDrawable(R.drawable.toolbar_background));
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public boolean onMenuItemActionExpand(MenuItem item) {
-//                        toolbar.setBackgroundColor(Color.parseColor("#00000000"));
-//                        return true;
-//                    }
-//                });
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Holder holder = new ViewHolder(R.layout.dialog_search);
-        switch(item.getItemId())
-        {
-            case R.id.action_search_report:
-                showCompleteDialog(holder, Gravity.TOP,clickListener,itemClickListener,dismissListener,cancelListener,false);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

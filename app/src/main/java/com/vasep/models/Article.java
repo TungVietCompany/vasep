@@ -17,8 +17,10 @@ public class Article implements Serializable{
     private String language_type;
     private String category_name;
     private String discount;
+    private String is_buy;
+    private String report;
 
-    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount) {
+    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String is_buy, String report) {
         this.id = id;
         this.title = title;
         this.create_date = create_date;
@@ -30,9 +32,27 @@ public class Article implements Serializable{
         this.language_type = language_type;
         this.category_name = category_name;
         this.discount = discount;
+        this.is_buy = is_buy;
+        this.report = report;
     }
 
     public Article() {
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
+    }
+
+    public String getIs_buy() {
+        return is_buy;
+    }
+
+    public void setIs_buy(String is_buy) {
+        this.is_buy = is_buy;
     }
 
     public String getDiscount() {

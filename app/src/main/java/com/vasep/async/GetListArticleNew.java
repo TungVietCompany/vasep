@@ -94,7 +94,7 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                     adapterItem.setMoreLoading(false);
 
                     if (type == 2) {
-                /*bắt sự kiện click vào item reprort*/
+                    /*bắt sự kiện click vào item reprort*/
                         rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
                                 new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
@@ -102,6 +102,8 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                                         Intent intent = new Intent(context, ReportDetailActivity.class);
                                         intent.putExtra("article", adapterItem.getList().get(position));
                                         context.startActivity(intent);
+//                                        GetReport getReport = new GetReport(context,Integer.parseInt(adapterItem.getList().get(position).getId()),1);
+//                                        getReport.execute();
                                     }
                                 }));
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/transperent"
+    android:id="@+id/relactive_menu"
+    android:background="#33000000"
     >
     <TextView
         android:layout_width="match_parent"
