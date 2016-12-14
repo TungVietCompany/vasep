@@ -33,6 +33,7 @@
                 android:gravity="center"
                 android:padding="@dimen/margin_10dp"
                 android:textColor="@color/white"
+                android:id="@+id/screen10_btn_search"
                 />
         </android.support.v7.widget.CardView>
         <TextView

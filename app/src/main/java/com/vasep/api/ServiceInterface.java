@@ -25,4 +25,5 @@ public interface ServiceInterface {
 
     @GET("rest_vasep/rest/getAllCategory")
     Call<CategoryResult> allCategory();
+
 }

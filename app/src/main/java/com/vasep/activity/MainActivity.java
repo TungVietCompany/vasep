@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.vasep.adapter.AdapterHome;
@@ -39,12 +40,6 @@ public class MainActivity extends AppCompatActivity{
 
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     //MaterialSearchView searchView;
-
-    RecyclerView rView;
-    AdapterHome adapter_home;
-    GridLayoutManager gridLayoutManager;
-    Toolbar toolbar;
-    AHBottomNavigation bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,9 +163,10 @@ public class MainActivity extends AppCompatActivity{
         RecyclerView rview = (RecyclerView)dialog.findViewById(R.id.rv_search);
         GridLayoutManager grid = new GridLayoutManager(MainActivity.this,3);
         rview.setLayoutManager(grid);
-
-        GetAllCategory getAllCategory = new GetAllCategory(MainActivity.this,rview);
+        GetAllCategory getAllCategory = new GetAllCategory(MainActivity.this,rview,dialog);
         getAllCategory.execute();
+
+
 
         dialog.show();
     }

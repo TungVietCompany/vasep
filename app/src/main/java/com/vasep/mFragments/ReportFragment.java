@@ -101,10 +101,10 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(getContext());
+                /*final Dialog dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogmenu);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
                 GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
                 recyclerView.setLayoutManager(gridview);
@@ -113,7 +113,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 recyclerView.setAdapter(adapter);
 
                 dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
-                dialog.show();
+                dialog.show();*/
 
             }
         });
@@ -298,6 +298,18 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         ListView lv=(ListView)dialog.findViewById(R.id.lv_maketing);
         AdapterLvMaketing adapter = new AdapterLvMaketing(getContext(),marketing);
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+        final String product[]={"Cá tra","Cá ngừ","Bột cá"};
+        ListView lv_product=(ListView)dialog.findViewById(R.id.lv_product);
+        AdapterLvMaketing adapterLvProduct = new AdapterLvMaketing(getContext(),product);
+        lv_product.setAdapter(adapterLvProduct);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

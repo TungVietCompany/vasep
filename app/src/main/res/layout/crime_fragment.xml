@@ -13,7 +13,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background_toolbar"
+
             app:contentScrim="@color/background_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -95,13 +95,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@color/white"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefresh"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="horizontal"
         >
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -110,7 +108,7 @@
             android:background="@color/white"
             >
         </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/myBottomNavigation_ID"
         android:layout_width="match_parent"

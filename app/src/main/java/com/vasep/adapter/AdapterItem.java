@@ -34,7 +34,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private boolean isMoreLoading= false;
-    private int visibleThreshold = 4;
+    private int visibleThreshold = 2;
     private Context context;
 
     int lastVisibleItem, visibleItemCount, totalItemCount;
@@ -48,6 +48,10 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         itemList = new ArrayList<>();
         this.context = context;
 
+    }
+
+    public List<Article> getList(){
+        return  itemList;
     }
 
     public void setGridLayoutManager(GridLayoutManager linearLayoutManager) {

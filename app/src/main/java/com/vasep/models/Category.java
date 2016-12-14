@@ -9,12 +9,21 @@ public class Category {
     private String name;
     private String create_date;
     private String description;
+    private boolean ischeck = false;
 
     public Category(String id, String name, String create_date, String description) {
         this.id = id;
         this.name = name;
         this.create_date = create_date;
         this.description = description;
+    }
+
+    public boolean ischeck() {
+        return ischeck;
+    }
+
+    public void setIscheck(boolean ischeck) {
+        this.ischeck = ischeck;
     }
 
     public String getId() {

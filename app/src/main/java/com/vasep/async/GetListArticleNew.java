@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SpecialDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.controller.ArticleController;
@@ -40,6 +41,8 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
     AdapterItem adapterItem;
     RecyclerView rView;
     private  int type_load;
+    ImageView image_top;
+    TextView txt_date_top, txt_title_top, txt_category_top;
     public GetListArticleNew(Context context,RecyclerView rView,AdapterItem adapterItem,int type_load, int top, int from, int type) {
         this.context = context;
         this.top = top;
@@ -48,6 +51,20 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
         this.adapterItem = adapterItem;
         this.type_load = type_load;
         this.rView=rView;
+    }
+
+    public GetListArticleNew(Context context, int top, int from, int type, AdapterItem adapterItem, RecyclerView rView, int type_load, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top) {
+        this.context = context;
+        this.top = top;
+        this.from = from;
+        this.type = type;
+        this.adapterItem = adapterItem;
+        this.rView = rView;
+        this.type_load = type_load;
+        this.image_top = image_top;
+        this.txt_date_top = txt_date_top;
+        this.txt_title_top = txt_title_top;
+        this.txt_category_top = txt_category_top;
     }
 
     @Override
@@ -75,10 +92,54 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
 
                     }
                     adapterItem.setMoreLoading(false);
+
+                    if (type == 2) {
+                /*bắt sự kiện click vào item reprort*/
+                        rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
+                                new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Intent intent = new Intent(context, ReportDetailActivity.class);
+                                        intent.putExtra("article", adapterItem.getList().get(position));
+                                        context.startActivity(intent);
+                                    }
+                                }));
+
+                    }else if(type == 1){
+                        Picasso.with(context).load(adapterItem.getList().get(0).getImage()).into(image_top);
+                        txt_date_top.setText(ChangeDate.convertDate(articles.get(0).getCreate_date()));
+                        txt_category_top.setText(adapterItem.getList().get(0).getCategory_name() + " | ");
+                        txt_title_top.setText(adapterItem.getList().get(0).getTitle());
+                /*bắt sự kiện click vào item*/
+                        rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
+                                new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Intent intent = new Intent(context, NewsDetailActivity.class);
+                                        intent.putExtra("article", adapterItem.getList().get(position));
+                                        context.startActivity(intent);
+                                    }
+                                }));
+                    }else{
+                        Picasso.with(context).load(adapterItem.getList().get(0).getImage()).into(image_top);
+                        txt_date_top.setText(ChangeDate.convertDate(adapterItem.getList().get(0).getCreate_date()));
+                        txt_category_top.setText(adapterItem.getList().get(0).getCategory_name() + " | ");
+                        txt_title_top.setText(adapterItem.getList().get(0).getTitle());
+                /*bắt sự kiện click vào item*/
+                        rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
+                                new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                        intent.putExtra("article", adapterItem.getList().get(position));
+                                        context.startActivity(intent);
+                                    }
+                                }));
+                    }
                 }
 
         } catch (Exception e) {
-            Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
+
         }
 
     }

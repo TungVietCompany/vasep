@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,8 +27,10 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.adapter.AdapterHome;
+import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.async.GetListArticle;
+import com.vasep.async.GetListArticleNew;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.vasep.R;
 
@@ -36,7 +40,8 @@ import butterknife.Bind;
  * Created by Oclemmy on 5/10/2016 for ProgrammingWizards Channel and http://www.Camposha.com.
  * Fragment shown when crim navigation item is clicked.
  */
-public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener {
+public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
+        ,SwipeRefreshLayout.OnRefreshListener {
 
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     //MaterialSearchView searchView;
@@ -59,6 +64,9 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
     //@Bind(R.id.screen1_title_top)
     TextView screen1_title_top;
 
+    private SwipeRefreshLayout swipeRefresh;
+    private AdapterItem mAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,13 +77,22 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
         screen1_title_top = (TextView) rootView.findViewById(R.id.screen1_title_top);
+        swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
         /*chèn dữ liệu vào recylerview*/
-        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
+        rView.setLayoutManager(mLayoutManager);
+        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter.setGridLayoutManager(mLayoutManager);
+        mAdapter.setRecyclerView(rView);
+        swipeRefresh.setOnRefreshListener(this);
+
+        /*gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
         GetListArticle getListArticle = new GetListArticle(getContext(), 2, 0,1, rView,screen1_image_top,
                 screen1_date_top,screen1_category_top,screen1_title_top);
-        getListArticle.execute();
+        getListArticle.execute();*/
 
 
         /*khởi tạo toolbar*/
@@ -117,6 +134,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         bottomNavigation = (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_ID);
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
+        loadData(0);
         return rootView;
     }
 
@@ -154,5 +172,36 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+                loadData(0);
+
+            }
+        },1000);
+    }
+    @Override
+    public void onLoadMore() {
+        mAdapter.setProgressMore(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.setProgressMore(false);
+                int start = mAdapter.getItemCount();
+                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,Integer.parseInt(mAdapter.getArticle(start).getId()),1,mAdapter,rView,2,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+                getListArticle.execute();
+            }
+        },1000);
+    }
+
+    private void loadData(int from) {
+        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,from,1,mAdapter,rView,1,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+        getListArticle.execute();
+
     }
 }
