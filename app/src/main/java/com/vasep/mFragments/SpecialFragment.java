@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +27,18 @@ import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.Holder;
+import com.orhanobut.dialogplus.OnCancelListener;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
+import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
@@ -128,6 +138,17 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         bottomNavigation = (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_ID);
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();loadData(0);
+
+        ImageView search = (ImageView)rootView.findViewById(R.id.screen2_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Holder viewHolder = new ViewHolder(R.layout.dialog_search);
+                showCompleteDialogSearch(viewHolder, Gravity.TOP,clickListenersearch,itemClickListenersearch,
+                        dismissListenersearch,cancelListenersearch,false);
+            }
+        });
+
         return rootView;
     }
 
@@ -197,4 +218,67 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         getListArticle.execute();
 
     }
+
+    private void showCompleteDialogSearch(Holder holder, int gravity,
+                                          OnClickListener clickListener, OnItemClickListener itemClickListener,
+                                          OnDismissListener dismissListener, OnCancelListener cancelListener,
+                                          boolean expanded) {
+        final DialogPlus dialog = DialogPlus.newDialog(getContext())
+                .setContentHolder(holder)
+                .setCancelable(true)
+                .setGravity(gravity)
+                .setOnClickListener(clickListener)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                                item + "], position = [" + position + "]");
+                    }
+                })
+                .setOnDismissListener(dismissListener)
+                .setExpanded(expanded)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setOnCancelListener(cancelListener)
+                .setOverlayBackgroundResource(android.R.color.transparent)
+                .setMargin(0,toolbar.getHeight(),0,0)
+                .create();
+
+        RecyclerView rv_search = (RecyclerView)dialog.findViewById(R.id.rv_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        rv_search.setLayoutManager(gridLayoutManager);
+
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,dialog,0);
+        getAllCategory.execute();
+
+        dialog.show();
+    }
+
+    //search
+
+    OnClickListener clickListenersearch = new OnClickListener() {
+        @Override
+        public void onClick(DialogPlus dialog, View view) {
+
+        }
+    };
+
+    OnItemClickListener itemClickListenersearch = new OnItemClickListener() {
+        @Override
+        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+
+        }
+    };
+
+    OnDismissListener dismissListenersearch = new OnDismissListener() {
+        @Override
+        public void onDismiss(DialogPlus dialog) {
+
+        }
+    };
+
+    OnCancelListener cancelListenersearch = new OnCancelListener() {
+        @Override
+        public void onCancel(DialogPlus dialog) {
+
+        }
+    };
 }

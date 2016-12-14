@@ -37,4 +37,8 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getAllProduct")
     Call<ProductResult> getProduct();
 
+    @GET("rest_vasep/rest/searchArticle")
+    Call<ArticleModel> searchArticle(@Query("categories") String categories,@Query("title") String title);
+
+
 }

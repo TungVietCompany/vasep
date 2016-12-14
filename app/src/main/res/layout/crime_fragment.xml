@@ -3,6 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefresh"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view"
+            android:background="@color/white"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:id="@+id/myBottomNavigation_ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -82,36 +102,29 @@
                 android:gravity="center">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@drawable/vasep_portal"
                     android:contentDescription="@string/app_name"
                     android:scaleType="fitCenter"
                     android:cropToPadding="false"
                     android:adjustViewBounds="true" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_search"
+                    android:id="@+id/screen2_search"
+                    android:layout_marginRight="@dimen/margin_10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/padding_5dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    />
             </RelativeLayout>
                 >
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/swipeRefresh"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycler_view"
-            android:background="@color/white"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-        android:id="@+id/myBottomNavigation_ID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
 </android.support.design.widget.CoordinatorLayout>

@@ -291,7 +291,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,dialog,2);
         getAllCategory.execute();
 
         dialog.show();

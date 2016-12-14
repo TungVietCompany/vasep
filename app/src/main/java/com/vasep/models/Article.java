@@ -19,6 +19,7 @@ public class Article implements Serializable{
     private String discount;
     private String is_buy;
     private String report;
+    private String is_special;
 
     public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String is_buy, String report) {
         this.id = id;
@@ -37,6 +38,14 @@ public class Article implements Serializable{
     }
 
     public Article() {
+    }
+
+    public String getIs_special() {
+        return is_special;
+    }
+
+    public void setIs_special(String is_special) {
+        this.is_special = is_special;
     }
 
     public String getReport() {

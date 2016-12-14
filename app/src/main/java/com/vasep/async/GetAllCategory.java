@@ -25,13 +25,16 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
 
     Context context;
     AdapterRecylerSearch adapterRecylerSearch;
-    RecyclerView rview;
+    RecyclerView rview,rviewarticle;
     ProgressDialog dialog;
     DialogPlus dialogPlus;
-    public GetAllCategory(Context context, RecyclerView rview, DialogPlus dialogPlus){
+    int type;
+    public GetAllCategory(Context context, RecyclerView rview,RecyclerView rviewarticle, DialogPlus dialogPlus,int type){
         this.context = context;
         this.rview = rview;
         this.dialogPlus = dialogPlus;
+        this.rviewarticle = rviewarticle;
+        this.type = type;
     }
 
 
@@ -55,6 +58,7 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
         try{
             if(categories.size() > 0){
                 TextView txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_btn_search);
+                final TextView screen10_txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_txt_search);
                 adapterRecylerSearch = new AdapterRecylerSearch(context,categories);
                 rview.setAdapter(adapterRecylerSearch);
 
@@ -73,9 +77,10 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                                 id = id.substring(0,id.length()-1);
                             }
                         }catch (Exception e){
-
                         }
-                        String ss = id;
+                        SearchArticle article = new SearchArticle(context,id,screen10_txt_search.getText().toString(),rviewarticle,type);
+                        article.execute();
+                        dialogPlus.dismiss();
                     }
                 });
 

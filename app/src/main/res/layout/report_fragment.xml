@@ -33,12 +33,17 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/close"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_search"
                     android:id="@+id/screen3_search"
                     android:layout_marginRight="@dimen/margin_10dp"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/padding_5dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    />
 
             </RelativeLayout>
             >
