@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.vasep.R;
+import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterRecylerSearch;
 import com.vasep.controller.CategoryController;
 import com.vasep.models.Category;
@@ -29,12 +30,22 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
     ProgressDialog dialog;
     DialogPlus dialogPlus;
     int type;
-    public GetAllCategory(Context context, RecyclerView rview,RecyclerView rviewarticle, DialogPlus dialogPlus,int type){
+
+    AdapterItem adapterItem;
+    boolean isSearch;
+    String category_id,txt_search_new;
+    String id = "";
+    String txt;
+    public GetAllCategory(Context context,boolean isSearch, String category_id, String txt_search_new, RecyclerView rview,RecyclerView rviewarticle,AdapterItem adapterItem, DialogPlus dialogPlus,int type){
         this.context = context;
         this.rview = rview;
         this.dialogPlus = dialogPlus;
         this.rviewarticle = rviewarticle;
         this.type = type;
+        this.adapterItem = adapterItem;
+        this.isSearch = isSearch;
+        this.category_id = category_id;
+        this.txt_search_new = txt_search_new;
     }
 
 
@@ -57,16 +68,17 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
     protected void onPostExecute(List<Category> categories) {
         try{
             if(categories.size() > 0){
-                TextView txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_btn_search);
+                final TextView txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_btn_search);
                 final TextView screen10_txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_txt_search);
                 adapterRecylerSearch = new AdapterRecylerSearch(context,categories);
-                rview.setAdapter(adapterRecylerSearch);
 
+                txt = screen10_txt_search.getText().toString();
+                rview.setAdapter(adapterRecylerSearch);
 
                 txt_search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String id = "";
+
                         try{
                             for (int i=0;i <adapterRecylerSearch.getCategories().size();i++){
                                 if(adapterRecylerSearch.getCategories().get(i).ischeck()){
@@ -78,13 +90,14 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                             }
                         }catch (Exception e){
                         }
-                        SearchArticle article = new SearchArticle(context,id,screen10_txt_search.getText().toString(),rviewarticle,type);
-                        article.execute();
-                        dialogPlus.dismiss();
+                        GetListArticleSearch getListArticle = new GetListArticleSearch(context,id,txt,rview,adapterItem,1, 6,0,2);
+                        getListArticle.execute();
+                        isSearch = true;
+                        category_id = id;
+                        txt_search_new = txt;
+                        //dialogPlus.dismiss();
                     }
                 });
-
-
             }else{
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }

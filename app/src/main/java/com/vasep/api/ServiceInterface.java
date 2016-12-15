@@ -5,6 +5,7 @@ import com.vasep.models.CategoryResult;
 import com.vasep.models.MarketResult;
 import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
+import com.vasep.models.TypeModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -38,7 +39,11 @@ public interface ServiceInterface {
     Call<ProductResult> getProduct();
 
     @GET("rest_vasep/rest/searchArticle")
-    Call<ArticleModel> searchArticle(@Query("categories") String categories,@Query("title") String title);
+    Call<ArticleModel> searchArticle(@Query("categories") String categories,@Query("title") String title,@Query("type") int type,
+                                     @Query("top") int top,@Query("from") int from);
+
+    @GET("rest_vasep/rest/getAllType")
+    Call<TypeModel> getAllType();
 
 
 }

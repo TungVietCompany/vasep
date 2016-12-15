@@ -98,6 +98,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void clearData(){
+        itemList.clear();
+        notifyDataSetChanged();
+    }
+
     public Article getArticle(int count){
         Article article = itemList.get(count-1);
         return article;

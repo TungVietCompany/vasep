@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vasep.R;
@@ -80,6 +81,7 @@ public class AdapterRecylerSearch extends RecyclerView.Adapter<AdapterRecylerSea
         TextView screen10_txt_category;
         ImageView screen10_image_category;
         LinearLayout linear_search;
+/*        RelativeLayout linear_search;*/
         public SearchHoder(View itemView) {
             super(itemView);
             screen10_txt_category = (TextView)itemView.findViewById(R.id.screen10_txt_category);

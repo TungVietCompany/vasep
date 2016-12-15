@@ -2,15 +2,20 @@ package com.vasep.async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
+import com.vasep.activity.ReportDetailActivity;
 import com.vasep.adapter.AdapterHome;
+import com.vasep.adapter.AdapterItem;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ContactController;
 import com.vasep.models.Article;
 import com.vasep.notification.Information;
+import com.vasep.recyclerclick.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +25,20 @@ import java.util.List;
  */
 
 public class SearchArticle extends AsyncTask<Void,Void,List<Article>> {
-
+    List<Article> list1;
     Context context;
     ProgressDialog dialog;
     String categories,title;
     RecyclerView rview;
     int type;
-    public SearchArticle(Context context, String categories, String title, RecyclerView rview,int type){
+    AdapterItem adapterItem;
+    public SearchArticle(Context context, String categories, String title,AdapterItem adapterItem, RecyclerView rview,int type){
         this.context = context;
         this.title = title;
         this.categories = categories;
         this.rview = rview;
         this.type = type;
+        this.adapterItem = adapterItem;
     }
 
     @Override
@@ -45,21 +52,21 @@ public class SearchArticle extends AsyncTask<Void,Void,List<Article>> {
     @Override
     protected List<Article> doInBackground(Void... params) {
         ArticleController contactController = new ArticleController();
-        return contactController.searchArticle(categories,title);
+        return contactController.searchArticle(categories,title,2,4,0);
     }
 
     @Override
     protected void onPostExecute(List<Article> list) {
         try{
             if(list.size()>0){
-                List<Article> list1 = new ArrayList<>();
+                list1 = new ArrayList<>();
                 for(int i=0;i<list.size();i++){
                     if(list.get(i).getIs_special().equals(String.valueOf(type))){
                         list1.add(list.get(i));
                     }
                 }
-                AdapterHome adapterHome = new AdapterHome(context,list1);
-                rview.setAdapter(adapterHome);
+                adapterItem.addAll(list1);
+                adapterItem.notifyDataSetChanged();
             }
         }catch (Exception e){
 

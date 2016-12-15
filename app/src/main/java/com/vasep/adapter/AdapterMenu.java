@@ -5,8 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.models.Category;
+
+import java.util.List;
 
 
 /**
@@ -14,9 +20,18 @@ import com.vasep.R;
  */
 public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> {
     private Context mContext;
-
-    public AdapterMenu(Context c) {
+    private List<Category> categories;
+    public AdapterMenu(Context c,List<Category> categories) {
         mContext = c;
+        this.categories = categories;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
@@ -28,7 +43,8 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
 
     @Override
     public void onBindViewHolder(ExploreHoder holder, int position) {
-
+        Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
+        holder.textView.setText(categories.get(position).getName());
     }
 
 
@@ -40,13 +56,16 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
 
     @Override
     public int getItemCount() {
-        return 12;
+        return categories.size();
     }
 
     public class ExploreHoder extends RecyclerView.ViewHolder{
+        ImageView img_menu;
+        TextView textView;
         public ExploreHoder(View itemView) {
             super(itemView);
-
+            img_menu = (ImageView)itemView.findViewById(R.id.img_menu);
+            textView = (TextView)itemView.findViewById(R.id.txt_menu);
         }
     }
 }

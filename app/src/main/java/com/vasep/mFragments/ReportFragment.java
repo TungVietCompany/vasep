@@ -30,9 +30,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -46,10 +49,13 @@ import com.vasep.adapter.AdapterLvMaketing;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.adapter.AdapterRecylerSearch;
 import com.vasep.async.GetAllCategory;
+import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetAllMarket;
 import com.vasep.async.GetAllProduct;
+import com.vasep.async.GetAllType;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
+import com.vasep.async.GetListArticleSearch;
 import com.vasep.models.Article;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -62,21 +68,26 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
         ,SwipeRefreshLayout.OnRefreshListener{
     AHBottomNavigation bottomNavigation;
 
     RecyclerView rView;
-    AdapterHome adapter_home;
 
     Holder holder;
     Toolbar toolbar;
 
     private AdapterItem mAdapter;
-    private ArrayList<Article> itemList;
     private SwipeRefreshLayout swipeRefresh;
     View rootView;
+
+    String language_type = "0";
+    private static List<Article> list = new ArrayList<>();
+
+    private boolean issearch = false;
+    static String category_id,textsearch;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,7 +121,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 final Dialog dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogmenu);
-                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
 
 //                RelativeLayout relactive_menu = (RelativeLayout)dialog.findViewById(R.id.relactive_menu);
 //                relactive_menu.getBackground().setAlpha(20);
@@ -118,11 +129,36 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
                 GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
                 recyclerView.setLayoutManager(gridview);
+                AdapterMenu  adapterMenu = new AdapterMenu(getContext(),null);
+                if(adapterMenu.getCategories() != null){
+                    AdapterMenu adapterMenu1 = new AdapterMenu(getContext(),adapterMenu.getCategories());
+                    recyclerView.setAdapter(adapterMenu1);
+                }else {
+                    GetAllCategoryMenu getAllCategoryMenu = new GetAllCategoryMenu(getContext(), recyclerView,language_type,mAdapter, adapterMenu, 2);
+                    getAllCategoryMenu.execute();
+                }
 
-                AdapterMenu adapter = new AdapterMenu(getContext());
-                recyclerView.setAdapter(adapter);
+                Switch swtich = (Switch)dialog.findViewById(R.id.switch_menu);
+                swtich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            language_type = "0";
+                        }else{
+                            language_type ="1";
+                        }
+                    }
+                });
 
                 dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
+                TextView calatoge_menu = (TextView)dialog.findViewById(R.id.calatoge_menu);
+                calatoge_menu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
                 dialog.show();
 
             }
@@ -133,6 +169,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void onClick(View v) {
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
+
                 showCompleteDialogSearch(viewHolder,Gravity.TOP,clickListenersearch,itemClickListenersearch,
                         dismissListenersearch,cancelListenersearch,false);
             }
@@ -233,13 +270,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     OnClickListener clickListener = new OnClickListener() {
         @Override
         public void onClick(DialogPlus dialog, View view) {
-            CardView card_report = (CardView)view.findViewById(R.id.card_report);
-            card_report.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(),"hu",Toast.LENGTH_LONG).show();
-                }
-            });
         }
     };
 
@@ -291,7 +321,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,dialog,2);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
         getAllCategory.execute();
 
         dialog.show();
@@ -340,9 +370,11 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             }
         });
+
+        GetAllType getAllType = new GetAllType(getContext(),dialog);
+        getAllType.execute();
 
         dialog.show();
     }
@@ -366,9 +398,15 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                int id = Integer.parseInt(mAdapter.getArticle(start).getId());
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
-                getListArticle.execute();
+                if(mAdapter.getList().size() != 0 && !issearch){
+                    GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                    getListArticle.execute();
+                }
+                if(issearch){
+                    GetListArticleSearch getListArticle = new GetListArticleSearch(getContext(),category_id,textsearch,rView,mAdapter,2, 6,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                    getListArticle.execute();
+                }
+
             }
         },1000);
     }

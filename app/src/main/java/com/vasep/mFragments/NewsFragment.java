@@ -130,8 +130,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
                 recyclerView.setLayoutManager(gridview);
 
-                AdapterMenu adapter = new AdapterMenu(getContext());
-                recyclerView.setAdapter(adapter);
+//                AdapterMenu adapter = new AdapterMenu(getContext());
+//                recyclerView.setAdapter(adapter);
 
                 //dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
                 dialog.show();
@@ -214,14 +214,14 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,Integer.parseInt(mAdapter.getArticle(start).getId()),1,mAdapter,rView,2,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,Integer.parseInt(mAdapter.getArticle(start).getId()),0,mAdapter,rView,2,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
                 getListArticle.execute();
             }
         },1000);
     }
 
     private void loadData(int from) {
-        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,from,1,mAdapter,rView,1,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,from,0,mAdapter,rView,1,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
         getListArticle.execute();
 
     }
@@ -253,8 +253,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,dialog,1);
-        getAllCategory.execute();
+        /*GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,1);
+        getAllCategory.execute();*/
 
         dialog.show();
     }

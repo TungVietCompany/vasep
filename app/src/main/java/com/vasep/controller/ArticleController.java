@@ -58,8 +58,8 @@ public class ArticleController {
         return null;
     }
 
-    public List<Article> searchArticle(String categories,String title){
-        Call<ArticleModel> search = service.searchArticle(categories,title);
+    public List<Article> searchArticle(String categories,String title,int type,int top,int from){
+        Call<ArticleModel> search = service.searchArticle(categories,title,type,top,from);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

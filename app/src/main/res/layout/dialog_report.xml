@@ -24,43 +24,49 @@
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="@dimen/margin_5dp"
+                android:id="@+id/screen10_report1"
                 >
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baocao_filter"/>
+                    android:src="@drawable/baocao_filter"
+                    android:paddingTop="@dimen/margin_5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="báo cáo xuất nhập khẩu thủy sản"
                     android:textAllCaps="true"
                     android:gravity="center"
                     android:textStyle="bold"
+                    android:id="@+id/screen10_txt_report1"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="127 báo cáo"
                     android:textAllCaps="true"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="italic"
+                    android:id="@+id/screen10_number_report1"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="@dimen/margin_5dp"
+
+                android:id="@+id/screen10_report2"
                 >
                 <ImageView
                     android:layout_width="match_parent"
@@ -71,27 +77,30 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="báo cáo xuất nhập khẩu thủy sản"
                     android:textAllCaps="true"
                     android:gravity="center"
+                    android:id="@+id/screen10_txt_report2"
+                    android:textStyle="bold"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="127 báo cáo"
                     android:textAllCaps="true"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
+                    android:id="@+id/screen10_number_report2"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="@dimen/margin_5dp"
+                android:id="@+id/screen10_report3"
                 >
                 <ImageView
                     android:layout_width="match_parent"
@@ -100,17 +109,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="báo cáo xuất nhập khẩu thủy sản"
                     android:textAllCaps="true"
                     android:gravity="center"
+                    android:id="@+id/screen10_txt_report3"
+                    android:textStyle="bold"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="127 báo cáo"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
                     android:gravity="center"
+                    android:id="@+id/screen10_number_report3"
                     />
             </LinearLayout>
         </LinearLayout>

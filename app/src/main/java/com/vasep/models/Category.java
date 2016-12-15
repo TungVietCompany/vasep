@@ -10,12 +10,23 @@ public class Category {
     private String create_date;
     private String description;
     private boolean ischeck = false;
+    private String image;
 
-    public Category(String id, String name, String create_date, String description) {
+    public Category(String id, String name, String create_date, String description, boolean ischeck, String image) {
         this.id = id;
         this.name = name;
         this.create_date = create_date;
         this.description = description;
+        this.ischeck = ischeck;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean ischeck() {
