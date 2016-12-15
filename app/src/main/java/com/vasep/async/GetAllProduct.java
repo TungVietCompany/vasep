@@ -3,6 +3,7 @@ package com.vasep.async;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.vasep.adapter.AdapterLvMaketing;
@@ -20,8 +21,8 @@ import java.util.List;
 public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
 
     Context context;
-    ListView lv;
-    public GetAllProduct(Context context, ListView lv){
+    NumberPicker lv;
+    public GetAllProduct(Context context, NumberPicker lv){
         this.context = context;
         this.lv = lv;
     }
@@ -43,8 +44,15 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
     protected void onPostExecute(List<Market> categories) {
         try{
             if(categories.size() > 0){
-                AdapterLvMaketing adapter = new AdapterLvMaketing(context,categories);
-                lv.setAdapter(adapter);
+
+                String[] values=new String[categories.size()];
+                for (int i=0; i<categories.size(); i++){
+                    values[i]= categories.get(i).getName();
+                }
+                lv.setMinValue(0);
+                lv.setMaxValue(values.length-1);
+                lv.setDisplayedValues(values);
+                lv.setWrapSelectorWheel(false);
             }else{
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }

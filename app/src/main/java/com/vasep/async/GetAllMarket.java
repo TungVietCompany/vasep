@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,8 @@ import java.util.List;
 public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
 
     Context context;
-    ListView lv;
-    public GetAllMarket(Context context, ListView lv){
+    NumberPicker lv;
+    public GetAllMarket(Context context, NumberPicker lv){
         this.context = context;
         this.lv = lv;
     }
@@ -51,8 +52,15 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
     protected void onPostExecute(List<Market> categories) {
         try{
             if(categories.size() > 0){
-                AdapterLvMaketing adapter = new AdapterLvMaketing(context,categories);
-                lv.setAdapter(adapter);
+                String[] values=new String[categories.size()];
+                for (int i=0; i<categories.size(); i++){
+                    values[i]= categories.get(i).getName();
+                }
+                lv.setMinValue(0);
+                lv.setMaxValue(values.length-1);
+                lv.setDisplayedValues(values);
+
+                lv.setWrapSelectorWheel(false);
             }else{
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }

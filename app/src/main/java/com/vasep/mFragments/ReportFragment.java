@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ import com.vasep.async.GetAllType;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.async.GetListArticleSearch;
+import com.vasep.controller.CustomNumberPicker;
 import com.vasep.models.Article;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -351,25 +353,28 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setMargin(0,toolbar.getHeight(),0,0)
                 .create();
 
-        ListView lv=(ListView)dialog.findViewById(R.id.lv_maketing);
+        CustomNumberPicker lv=(CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
         GetAllMarket getAllMarket = new GetAllMarket(getContext(),lv);
         getAllMarket.execute();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                //Display the newly selected value from picker
 
             }
         });
 
 
-        ListView lv_product=(ListView)dialog.findViewById(R.id.lv_product);
+        CustomNumberPicker lv_product=(CustomNumberPicker)dialog.findViewById(R.id.lv_product);
         GetAllProduct getAllProduct = new GetAllProduct(getContext(),lv_product);
         getAllProduct.execute();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_product.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                //Display the newly selected value from picker
+
             }
         });
 

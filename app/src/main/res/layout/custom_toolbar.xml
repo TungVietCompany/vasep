@@ -18,7 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/background_toolbar"
-            android:src="@drawable/vasep_report"
-            android:scaleType="fitCenter" />
+            android:src="@mipmap/icon_app"
+            android:scaleType="fitCenter"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:elevation="0dp"
+            android:cropToPadding="false" />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

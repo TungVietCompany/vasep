@@ -17,7 +17,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:layout_collapseMode="pin">
+        app:layout_collapseMode="pin"
+        android:minHeight="17dp">
 
     </android.support.v7.widget.Toolbar>
 

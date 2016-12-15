@@ -34,8 +34,14 @@
         <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/webview_showdetail"
+            android:id="@+id/pdfView"
             >
         </WebView>
+
+        <es.voghdev.pdfviewpager.library.PDFViewPager
+            android:id="@+id/pdfViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
     </LinearLayout>
 </RelativeLayout>

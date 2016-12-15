@@ -35,4 +35,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
+    compile 'com.github.barteksc:android-pdf-viewer:2.3.0'
+    compile 'es.voghdev.pdfviewpager:library:1.0.1'
 }
