@@ -53,13 +53,17 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
         try{
             if(categories.size() > 0){
                 String[] values=new String[categories.size()];
+                int index=0;
                 for (int i=0; i<categories.size(); i++){
+                    if(categories.get(i).getName().equals("Việt Nam"));{
+                        index=i;
+                    }
                     values[i]= categories.get(i).getName();
                 }
                 lv.setMinValue(0);
                 lv.setMaxValue(values.length-1);
+                lv.setValue(9);
                 lv.setDisplayedValues(values);
-
                 lv.setWrapSelectorWheel(false);
             }else{
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();

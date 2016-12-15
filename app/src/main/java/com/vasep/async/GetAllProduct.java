@@ -44,13 +44,17 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
     protected void onPostExecute(List<Market> categories) {
         try{
             if(categories.size() > 0){
-
+                int index=0;
                 String[] values=new String[categories.size()];
                 for (int i=0; i<categories.size(); i++){
+                   /* if(categories.get(i).getName().equals("Thuỷ sản"));{
+                        index=i;
+                    }*/
                     values[i]= categories.get(i).getName();
                 }
                 lv.setMinValue(0);
                 lv.setMaxValue(values.length-1);
+                lv.setValue(9);
                 lv.setDisplayedValues(values);
                 lv.setWrapSelectorWheel(false);
             }else{
