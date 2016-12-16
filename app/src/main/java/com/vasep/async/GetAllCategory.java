@@ -2,6 +2,7 @@ package com.vasep.async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,20 +33,14 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
     int type;
 
     AdapterItem adapterItem;
-    boolean isSearch;
-    String category_id,txt_search_new;
-    String id = "";
-    String txt;
-    public GetAllCategory(Context context,boolean isSearch, String category_id, String txt_search_new, RecyclerView rview,RecyclerView rviewarticle,AdapterItem adapterItem, DialogPlus dialogPlus,int type){
+
+    public GetAllCategory(Context context, RecyclerView rview,RecyclerView rviewarticle,AdapterItem adapterItem, DialogPlus dialogPlus,int type){
         this.context = context;
         this.rview = rview;
         this.dialogPlus = dialogPlus;
         this.rviewarticle = rviewarticle;
         this.type = type;
         this.adapterItem = adapterItem;
-        this.isSearch = isSearch;
-        this.category_id = category_id;
-        this.txt_search_new = txt_search_new;
     }
 
 
@@ -71,14 +66,12 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                 final TextView txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_btn_search);
                 final TextView screen10_txt_search = (TextView)dialogPlus.findViewById(R.id.screen10_txt_search);
                 adapterRecylerSearch = new AdapterRecylerSearch(context,categories);
-
-                txt = screen10_txt_search.getText().toString();
                 rview.setAdapter(adapterRecylerSearch);
 
                 txt_search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        String id = "";
                         try{
                             for (int i=0;i <adapterRecylerSearch.getCategories().size();i++){
                                 if(adapterRecylerSearch.getCategories().get(i).ischeck()){
@@ -90,11 +83,13 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                             }
                         }catch (Exception e){
                         }
-                        GetListArticleSearch getListArticle = new GetListArticleSearch(context,id,txt,rview,adapterItem,1, 6,0,2);
+                        GetListArticleSearch getListArticle = new GetListArticleSearch(context,id,screen10_txt_search.getText().toString(),rview,adapterItem,1, 6,0,2);
                         getListArticle.execute();
-                        isSearch = true;
-                        category_id = id;
-                        txt_search_new = txt;
+                        SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("category_id",id);
+                        editor.putString("title",screen10_txt_search.getText().toString());
+                        editor.commit();
                         //dialogPlus.dismiss();
                     }
                 });

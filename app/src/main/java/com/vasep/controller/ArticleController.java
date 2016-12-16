@@ -75,4 +75,21 @@ public class ArticleController {
         return null;
     }
 
+    public List<Article> filterArticle(String market_id,String product_id,int type_id,int top,int from){
+        Call<ArticleModel> filter = service.filterArticle(market_id,product_id,type_id,top,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            ArticleModel str = filter.execute().body();
+            if (str.getCode() == 200){
+                return str.getArticle();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.vasep.mFragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import com.vasep.async.GetAllMarket;
 import com.vasep.async.GetAllProduct;
 import com.vasep.async.GetAllType;
 import com.vasep.async.GetListArticle;
+import com.vasep.async.GetListArticleFilter;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.CustomNumberPicker;
@@ -89,7 +91,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     private static List<Article> list = new ArrayList<>();
 
     private boolean issearch = false;
-    static String category_id,textsearch;
+    private boolean isfilter = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -192,6 +194,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
         loadData(0);
+
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("is_search",false);
+        editor.putBoolean("is_filter",false);
+        editor.commit();
+
         return rootView;
     }
 
@@ -221,9 +230,19 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     public void onTabSelected(int position, boolean wasSelected) {
         if (position==0)
         {
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("is_search",false);
+            editor.putBoolean("is_filter",false);
+            editor.commit();
             callFragment(new SpecialFragment());
         }else  if (position==1)
         {
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("is_search",false);
+            editor.putBoolean("is_filter",false);
+            editor.commit();
             callFragment(new NewsFragment());
         }
 
@@ -323,7 +342,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,2);
         getAllCategory.execute();
 
         dialog.show();
@@ -353,7 +372,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setMargin(0,toolbar.getHeight(),0,0)
                 .create();
 
-        CustomNumberPicker lv=(CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
+        final CustomNumberPicker lv=(CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
         GetAllMarket getAllMarket = new GetAllMarket(getContext(),lv);
         getAllMarket.execute();
 
@@ -366,7 +385,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         });
 
 
-        CustomNumberPicker lv_product=(CustomNumberPicker)dialog.findViewById(R.id.lv_product);
+        final CustomNumberPicker lv_product=(CustomNumberPicker)dialog.findViewById(R.id.lv_product);
         GetAllProduct getAllProduct = new GetAllProduct(getContext(),lv_product);
         getAllProduct.execute();
 
@@ -374,6 +393,27 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
                 //Display the newly selected value from picker
+            }
+        });
+
+
+
+        TextView screen10_txt_btn = (TextView)dialog.findViewById(R.id.screen10_txt_btn);
+
+        screen10_txt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("product_id",lv_product.getValue());
+                editor.putInt("market_id",lv.getValue());
+                editor.commit();
+                int type_report =  pref.getInt("type_report", 1);
+                int pro = pref.getInt("product_id", 1);
+
+                GetListArticleFilter getListArticleFilter = new GetListArticleFilter(getContext(),String.valueOf(lv_product.getValue()),
+                        String.valueOf(lv.getValue()),rView,mAdapter,1,10,0,type_report);
+                getListArticleFilter.execute();
 
             }
         });
@@ -407,11 +447,18 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,2, 4,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
                     getListArticle.execute();
                 }
+                SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+                issearch = pref.getBoolean("is_search",false);
                 if(issearch){
-                    GetListArticleSearch getListArticle = new GetListArticleSearch(getContext(),category_id,textsearch,rView,mAdapter,2, 6,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                    GetListArticleSearch getListArticle = new GetListArticleSearch(getContext(),pref.getString("category_id",""),pref.getString("title",""),rView,mAdapter,2, 6,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
                     getListArticle.execute();
                 }
 
+                isfilter = pref.getBoolean("is_filter",false);
+                if(isfilter){
+                    GetListArticleFilter getListArticlefilter = new GetListArticleFilter(getContext(),pref.getString("category_id",""),pref.getString("title",""),rView,mAdapter,2, 6,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
+                    getListArticlefilter.execute();
+                }
             }
         },1000);
     }

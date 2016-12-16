@@ -2,6 +2,7 @@ package com.vasep.async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,6 +30,9 @@ public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
 
     Context context;
     DialogPlus dialogPlus;
+
+    int type_report = 1;
+
     public GetAllType(Context context,DialogPlus dialogPlus){
         this.context = context;
         this.dialogPlus = dialogPlus;
@@ -78,13 +82,22 @@ public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
                 screen10_txt_report3.setText(type.get(2).getName());
                 screen10_number_report3.setText(type.get(2).getNumber_report()+ " báo cáo");
 
+                linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                type.get(0).setCheck(true);
+
+                SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("type_report",type_report);
+                editor.commit();
+
                 linearLayout1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(type.get(0).isCheck()){
                             linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-
                         }else {
+                            editor.putInt("type_report",1);
+                            editor.commit();
                             linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
                             linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                             linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
@@ -97,6 +110,8 @@ public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
                         if(type.get(1).isCheck()){
                             linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                         }else {
+                            editor.putInt("type_report",2);
+                            editor.commit();
                             linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
                             linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                             linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
@@ -109,6 +124,8 @@ public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
                         if(type.get(2).isCheck()){
                             linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                         }else {
+                            editor.putInt("type_report",3);
+                            editor.commit();
                             linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
                             linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                             linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
