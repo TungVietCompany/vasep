@@ -127,23 +127,23 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         //InsertView insert = new InsertView(getContext(),1);
         //insert.execute();
 
-        String session_id = FirebaseInstanceId.getInstance().getToken().toString();
+//        String session_id = FirebaseInstanceId.getInstance().getToken().toString();
+//
+//        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+//        final SharedPreferences.Editor editor = pref.edit();
+//
+//        if(pref.getString("firebase_id", null) == null){
+//            editor.putString("firebase_id",session_id);
+//            editor.commit();
+//            NotiAsync notiAsync = new NotiAsync(getContext(),session_id,"android");
+//            notiAsync.execute();
+//
+//        }
 
-        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-        final SharedPreferences.Editor editor = pref.edit();
 
-        if(pref.getString("firebase_id", null) == null){
-            editor.putString("firebase_id",session_id);
-            editor.commit();
-
-
-        }
-
-        NotiAsync notiAsync = new NotiAsync(getContext(),session_id,"android");
-        notiAsync.execute();
 
         //Toast.makeText(getContext(),"hs"+session_id,Toast.LENGTH_LONG).show();
-        System.out.print("session:"+session_id);
+       // System.out.print("session:"+session_id);
         /*gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
