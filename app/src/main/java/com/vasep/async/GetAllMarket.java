@@ -81,7 +81,7 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
                 }
                 lv.setMinValue(0);
                 lv.setMaxValue(values.length-1);
-                lv.setValue(10);
+                lv.setValue(0);
                 lv.setDisplayedValues(values);
                 lv.setWrapSelectorWheel(false);
             }else{

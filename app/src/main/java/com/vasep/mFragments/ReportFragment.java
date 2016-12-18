@@ -456,12 +456,12 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void onClick(View v) {
                 try{
-                    if(marketID==0){
+                    if(marketID==0|| marketID==-1){
                         marketID=-1;
                     }else{
                         marketID= Integer.parseInt(getAllMarket.getList().get(marketID).getId());
                     }
-                    if(productID==1){
+                    if(productID==0||productID==-1){
                         productID=-1;
                     }else{
                         productID= Integer.parseInt(getAllProduct.getList().get(productID).getId());
@@ -475,7 +475,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     }
                     mAdapter.setType(0);
                     dialog.dismiss();
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);
                     getListArticleSearch.execute();
 
                 }catch (Exception err){

@@ -73,9 +73,9 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
                         values[i+1] = categories.get(i).getEng_name();
                     }
                 }
-                lv.setMinValue(1);
+                lv.setMinValue(0);
                 lv.setMaxValue(values.length-1);
-                lv.setValue(9);
+                lv.setValue(0);
                 lv.setDisplayedValues(values);
                 lv.setWrapSelectorWheel(false);
             }else{

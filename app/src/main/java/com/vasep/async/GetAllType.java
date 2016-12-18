@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,14 +60,17 @@ public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
                 for (int i = 0; i < type.size(); i++) {
                     type.get(i).setCheck(false);
                 }
+                final ImageView image_rp1=(ImageView) dialogPlus.findViewById(R.id.image_rp1);
+                final ImageView image_rp2=(ImageView) dialogPlus.findViewById(R.id.image_rp2);
+                final ImageView image_rp3=(ImageView) dialogPlus.findViewById(R.id.image_rp3);
 
-                TextView screen10_txt_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report1);
-                TextView screen10_txt_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report2);
-                TextView screen10_txt_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report3);
+                final TextView screen10_txt_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report1);
+                final TextView screen10_txt_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report2);
+                final TextView screen10_txt_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report3);
 
-                TextView screen10_number_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report1);
-                TextView screen10_number_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report2);
-                TextView screen10_number_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report3);
+                final TextView screen10_number_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report1);
+                final TextView screen10_number_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report2);
+                final TextView screen10_number_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report3);
 
                 final LinearLayout linearLayout1 = (LinearLayout) dialogPlus.findViewById(R.id.screen10_report1);
                 final LinearLayout linearLayout2 = (LinearLayout) dialogPlus.findViewById(R.id.screen10_report2);
@@ -88,25 +92,82 @@ public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
                     editor.putInt("type_report", 1);
                     editor.commit();
                     linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                    linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                    linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                    image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                    image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                    image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                    screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.black));
+
+                    screen10_number_report1.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
                 }else if(type_report==2){
+                    editor.putInt("type_report", 2);
+                    editor.commit();
                     linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                    linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                    linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                    image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                    image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                    image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                    screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.black));
+
+                    screen10_number_report2.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
                 }else{
+                    editor.putInt("type_report", 3);
+                    editor.commit();
                     linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                    linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                    linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                    image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                    image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                    image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                    screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.black));
+
+                    screen10_number_report3.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
                 }
 
-                linearLayout1.setOnClickListener(new View.OnClickListener() {
+                image_rp1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         editor.putInt("type_report", 1);
                         editor.commit();
                         linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
                         linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                         linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
 
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+
                     }
                 });
-                linearLayout2.setOnClickListener(new View.OnClickListener() {
+                image_rp2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -116,9 +177,21 @@ public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
                         linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                         linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
 
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+
                     }
                 });
-                linearLayout3.setOnClickListener(new View.OnClickListener() {
+                image_rp3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -128,8 +201,91 @@ public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
                         linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
                         linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
 
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+
                     }
                 });
+
+                screen10_txt_report1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editor.putInt("type_report", 1);
+                        editor.commit();
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    }
+                });
+
+                screen10_txt_report2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editor.putInt("type_report", 2);
+                        editor.commit();
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                    }
+                });
+
+                screen10_txt_report3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editor.putInt("type_report", 3);
+                        editor.commit();
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
+                        image_rp3.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter_active));
+                        image_rp2.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+                        image_rp1.setImageDrawable(context.getResources().getDrawable(R.drawable.baocao_filter));
+
+                        screen10_txt_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_txt_report3.setTextColor(context.getResources().getColor(R.color.black));
+
+                        screen10_number_report3.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        screen10_number_report2.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+                        screen10_number_report1.setTextColor(context.getResources().getColor(R.color.screen5_color_boder));
+
+                    }
+                });
+
             } else {
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }
