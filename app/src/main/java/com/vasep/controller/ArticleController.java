@@ -126,4 +126,22 @@ public class ArticleController {
         return false;
     }
 
+
+    public List<Article> getArticlebyid(String id){
+        Call<ArticleModel> filter = service.getById(id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            ArticleModel str = filter.execute().body();
+            if (str.getCode() == 200){
+                return str.getArticle();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
 }

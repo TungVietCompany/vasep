@@ -28,14 +28,17 @@ public class FireBaseService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         super.onMessageReceived(remoteMessage);
+        String title = remoteMessage.getNotification().getTitle();
         String ss= remoteMessage.getNotification().getBody();
-        sendNotification(remoteMessage.getNotification().getBody());
+        String id = remoteMessage.getNotification().getSound();
+        sendNotification(remoteMessage.getNotification().getBody(),title,id);
     }
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent( this , MainActivity. class );
+    private void sendNotification(String messageBody,String title,String id) {
+        Intent intent = new Intent( this , MainActivity.class );
+        intent.putExtra("id_type",id);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP );
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -51,7 +54,7 @@ public class FireBaseService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.icon_menu)
                 .setLargeIcon(((BitmapDrawable)drawable).getBitmap())
-                .setContentTitle("vasep")
+                .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

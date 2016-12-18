@@ -25,6 +25,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterRecylerSearch;
 import com.vasep.async.GetAllCategory;
+import com.vasep.async.GetArticleAsync;
 import com.vasep.mFragments.NewsFragment;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.Holder;
@@ -53,6 +54,14 @@ public class MainActivity extends LocalizationActivity {
         INSTANCE= this;
         Intent i = getIntent();
         type = i.getIntExtra("type",0);
+
+        String id_type = i.getStringExtra("id_type");
+        if(id_type != null){
+            String[] arr = id_type.split("_");
+            GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this,arr[0],arr[1]);
+            getArticleAsync.execute();
+        }
+
         Log.d("sa",type+"");
         if(type == 0){
             try {
