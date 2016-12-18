@@ -156,7 +156,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     getAllCategoryMenu.execute();
                 }
 
-                Switch swtich = (Switch)dialog.findViewById(R.id.switch_menu);
+                final Switch swtich = (Switch) dialog.findViewById(R.id.switch_menu);
+                if (language == null || language.equals("vi")) {
+                    swtich.setChecked(true);
+                } else {
+                    swtich.setChecked(false);
+                }
+
                 swtich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -183,7 +189,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                             } catch (Exception err) {}
 
                         }
-                      dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 ImageView close_up=(ImageView) dialog.findViewById(R.id.close_up);
@@ -232,6 +238,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 swipeRefresh.setPadding(0,0,0,height);
             }
         });
+        bottomNavigation.setCurrentItem(2);
         this.createNavItems();
         loadData(0);
         return rootView;
@@ -367,8 +374,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
-        getAllCategory.execute();
+        //GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
+        //getAllCategory.execute();
 
         dialog.show();
     }

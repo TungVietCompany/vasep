@@ -46,7 +46,6 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
         this.rview = rview;
         this.type = type;
         this.adapterHome = adapterHome;
-
         this.adapterItem = adapterItem;
 
     }

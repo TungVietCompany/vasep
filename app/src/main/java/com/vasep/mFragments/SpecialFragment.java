@@ -231,6 +231,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
             }
         });
 
+
         this.createNavItems();
         loadData(0);
 
