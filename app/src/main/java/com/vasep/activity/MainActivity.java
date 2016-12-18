@@ -44,16 +44,17 @@ public class MainActivity extends LocalizationActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     //MaterialSearchView searchView;
     public static MainActivity INSTANCE;
+    public int type;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         INSTANCE= this;
         Intent i = getIntent();
-        int type = i.getIntExtra("type",0);
+        type = i.getIntExtra("type",0);
         Log.d("sa",type+"");
         if(type == 0){
-            callFragment(new NewsFragment());
+            callFragment(new SpecialFragment());
         }else if(type == 3){
             callFragment(new ReportFragment());
         }
@@ -76,6 +77,14 @@ public class MainActivity extends LocalizationActivity {
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public static MainActivity getINSTANCE() {
