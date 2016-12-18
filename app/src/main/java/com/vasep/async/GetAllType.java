@@ -26,14 +26,13 @@ import java.util.List;
  * Created by thuyetpham94 on 13/12/2016.
  */
 
-public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
+public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
 
     Context context;
     DialogPlus dialogPlus;
 
-    int type_report = 1;
 
-    public GetAllType(Context context,DialogPlus dialogPlus){
+    public GetAllType(Context context, DialogPlus dialogPlus) {
         this.context = context;
         this.dialogPlus = dialogPlus;
 
@@ -54,88 +53,87 @@ public class GetAllType extends AsyncTask<Void,Void,List<Type>>{
 
     @Override
     protected void onPostExecute(final List<Type> type) {
-        try{
-            if(type.size() > 0){
+        try {
+            if (type.size() > 0) {
 
-                for(int i = 0;i<type.size() ;i++){
+                for (int i = 0; i < type.size(); i++) {
                     type.get(i).setCheck(false);
                 }
 
-                TextView screen10_txt_report1 = (TextView)dialogPlus.findViewById(R.id.screen10_txt_report1);
-                TextView screen10_txt_report2 = (TextView)dialogPlus.findViewById(R.id.screen10_txt_report2);
-                TextView screen10_txt_report3 = (TextView)dialogPlus.findViewById(R.id.screen10_txt_report3);
+                TextView screen10_txt_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report1);
+                TextView screen10_txt_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report2);
+                TextView screen10_txt_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_txt_report3);
 
-                TextView screen10_number_report1 = (TextView)dialogPlus.findViewById(R.id.screen10_number_report1);
-                TextView screen10_number_report2 = (TextView)dialogPlus.findViewById(R.id.screen10_number_report2);
-                TextView screen10_number_report3 = (TextView)dialogPlus.findViewById(R.id.screen10_number_report3);
+                TextView screen10_number_report1 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report1);
+                TextView screen10_number_report2 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report2);
+                TextView screen10_number_report3 = (TextView) dialogPlus.findViewById(R.id.screen10_number_report3);
 
-                final LinearLayout linearLayout1 = (LinearLayout)dialogPlus.findViewById(R.id.screen10_report1);
-                final LinearLayout linearLayout2 = (LinearLayout)dialogPlus.findViewById(R.id.screen10_report2);
-                final LinearLayout linearLayout3 = (LinearLayout)dialogPlus.findViewById(R.id.screen10_report3);
+                final LinearLayout linearLayout1 = (LinearLayout) dialogPlus.findViewById(R.id.screen10_report1);
+                final LinearLayout linearLayout2 = (LinearLayout) dialogPlus.findViewById(R.id.screen10_report2);
+                final LinearLayout linearLayout3 = (LinearLayout) dialogPlus.findViewById(R.id.screen10_report3);
 
-                screen10_txt_report1.setText(type.get(0).getName());
-                screen10_number_report1.setText(type.get(0).getNumber_report()+ " báo cáo");
+                screen10_txt_report1.setText(context.getResources().getString(R.string.report_type1));
+                screen10_number_report1.setText(type.get(0).getNumber_report() + " " + context.getResources().getString(R.string.bt_Report));
 
-                screen10_txt_report2.setText(type.get(1).getName());
-                screen10_number_report2.setText(type.get(1).getNumber_report()+ " báo cáo");
+                screen10_txt_report2.setText(context.getResources().getString(R.string.report_type2));
+                screen10_number_report2.setText(type.get(1).getNumber_report() + " " + context.getResources().getString(R.string.bt_Report));
 
-                screen10_txt_report3.setText(type.get(2).getName());
-                screen10_number_report3.setText(type.get(2).getNumber_report()+ " báo cáo");
+                screen10_txt_report3.setText(context.getResources().getString(R.string.report_type3));
+                screen10_number_report3.setText(type.get(2).getNumber_report() + " " + context.getResources().getString(R.string.bt_Report));
 
-                linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
-                type.get(0).setCheck(true);
-
-                SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
-                editor.putInt("type_report",type_report);
-                editor.commit();
+                final int type_report = pref.getInt("type_report", 0);
+                if(type_report==0||type_report==1){
+                    editor.putInt("type_report", 1);
+                    editor.commit();
+                    linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                }else if(type_report==2){
+                    linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                }else{
+                    linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                }
 
                 linearLayout1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(type.get(0).isCheck()){
-                            linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }else {
-                            editor.putInt("type_report",1);
-                            editor.commit();
-                            linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
-                            linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                            linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }
+
+                        editor.putInt("type_report", 1);
+                        editor.commit();
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
                     }
                 });
                 linearLayout2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(type.get(1).isCheck()){
-                            linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }else {
-                            editor.putInt("type_report",2);
-                            editor.commit();
-                            linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
-                            linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                            linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }
+
+                        editor.putInt("type_report", 2);
+                        editor.commit();
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
                     }
                 });
                 linearLayout3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(type.get(2).isCheck()){
-                            linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }else {
-                            editor.putInt("type_report",3);
-                            editor.commit();
-                            linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
-                            linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                            linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
-                        }
+
+                        editor.putInt("type_report", 3);
+                        editor.commit();
+                        linearLayout3.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customborderpay));
+                        linearLayout1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+                        linearLayout2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.customnoborderpay));
+
                     }
                 });
-            }else{
+            } else {
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
 

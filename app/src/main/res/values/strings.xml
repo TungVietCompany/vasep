@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VASEP</string>
+    <string name="app_name">VASEPPortal</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -55,7 +55,7 @@
 
     <string name="catalog">DANH MỤC</string>
     <string name="contact">LIÊN HỆ</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="nodata">Không có dữ liệu</string>
 
 
 </resources>

@@ -33,25 +33,36 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return isMoreLoading;
     }
 
-    private boolean isMoreLoading= false;
+    private boolean isMoreLoading = false;
     private int visibleThreshold = 2;
     private Context context;
-
+    private int type=1;
     int lastVisibleItem, visibleItemCount, totalItemCount;
 
     public interface OnLoadMoreListener {
         void onLoadMore();
     }
 
+
+
     public AdapterItem(Context context, OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
         itemList = new ArrayList<>();
         this.context = context;
 
+
     }
 
-    public List<Article> getList(){
-        return  itemList;
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public List<Article> getList() {
+        return itemList;
     }
 
     public void setGridLayoutManager(GridLayoutManager linearLayoutManager) {
@@ -98,14 +109,19 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void clearData(){
+    public void clearData() {
         itemList.clear();
         notifyDataSetChanged();
     }
 
-    public Article getArticle(int count){
-        Article article = itemList.get(count-1);
-        return article;
+    public int getArticle(int count) {
+        if (count > 0) {
+            int index = Integer.parseInt(itemList.get(count - 1).getId());
+            return index;
+        } else {
+            return 0;
+        }
+
     }
 
     public void addItemMore(List<Article> lst) {
@@ -116,11 +132,13 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsHoder) {
-            Article article = (Article) itemList.get(position);
-            Picasso.with(context).load(article.getImage()).into(((NewsHoder) holder).imageView);
-            ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
-            ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
-            ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
+
+                    Article article = (Article) itemList.get(position);
+                    Picasso.with(context).load(article.getImage()).into(((NewsHoder) holder).imageView);
+                    ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
+                    ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
+                    ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
+
 
         }
     }
@@ -131,7 +149,9 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+
+            return itemList.size();
+
     }
 
     public void setProgressMore(final boolean isProgress) {

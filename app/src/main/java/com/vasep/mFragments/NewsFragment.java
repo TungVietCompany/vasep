@@ -28,6 +28,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +55,14 @@ import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
 import com.vasep.async.InsertView;
 import com.vasep.async.NotiAsync;
+import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.Common;
+import com.vasep.models.Article;
 import com.vasep.models.Category;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.vasep.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -91,8 +95,12 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
     //@Bind(R.id.screen1_title_top)
     TextView screen1_title_top;
 
+    //@Bind(R.id.screen1_tops)
+    RelativeLayout screen1_tops;
+
+
     private SwipeRefreshLayout swipeRefresh;
-    private AdapterItem mAdapter;
+    private AdapterItem mAdapter,mAdapterNew;
 
     @Nullable
     @Override
@@ -100,6 +108,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         View rootView = inflater.inflate(R.layout.crime_fragment, container, false);
 
         /*khai bao*/
+        screen1_tops = (RelativeLayout) rootView.findViewById(R.id.screen1_tops);
         screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
@@ -110,6 +119,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         rView.setLayoutManager(mLayoutManager);
         mAdapter = new AdapterItem(getContext(), this);
+        mAdapterNew= new AdapterItem(getContext(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -159,9 +169,9 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             @Override
             public void onGlobalLayout() {
                 bottomNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width  = bottomNavigation.getMeasuredWidth();
+                int width = bottomNavigation.getMeasuredWidth();
                 int height = bottomNavigation.getMeasuredHeight();
-                swipeRefresh.setPadding(0,0,0,height);
+                swipeRefresh.setPadding(0, 0, 0, height);
             }
         });
         bottomNavigation.setOnTabSelectedListener(this);
@@ -220,18 +230,17 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 if (language == null || language.equals("vi")) {
 
                     adapterMenu = new AdapterMenu(getContext(), null);
-                }
-                else{
+                } else {
                     adapterMenu = new AdapterMenu(getContext(), null);
 
                 }
-                final TextView catalog_title= (TextView) dialog.findViewById(R.id.calatoge_menu);
+                final TextView catalog_title = (TextView) dialog.findViewById(R.id.calatoge_menu);
                 catalog_title.setText(R.string.catalog);
 
-                final TextView language_title= (TextView) dialog.findViewById(R.id.language_title);
+                final TextView language_title = (TextView) dialog.findViewById(R.id.language_title);
                 language_title.setText(R.string.language);
 
-                final TextView btn_login= (TextView) dialog.findViewById(R.id.btn_login);
+                final TextView btn_login = (TextView) dialog.findViewById(R.id.btn_login);
                 btn_login.setText(R.string.login);
                 if (adapterMenu.getCategories() != null) {
                     AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
@@ -251,44 +260,45 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 swtich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            editor.putString("language", "vi");
-                            editor.commit();
-                            try {
-                                List<Category> list=adapterMenu.getCategories();
-                                for (int i=0; i<list.size(); i++){
-                                    list.get(i).setLanguage_type(0);
+                        try {
+                            if (isChecked) {
+                                editor.putString("language", "vi");
+                                editor.commit();
+                                try {
+                                    List<Category> list = adapterMenu.getCategories();
+                                    for (int i = 0; i < list.size(); i++) {
+                                        list.get(i).setLanguage_type(0);
+                                    }
+                                    MainActivity.getINSTANCE().setLanguage("vi");
+                                    catalog_title.setText("DANH MỤC");
+                                    language_title.setText("Ngôn ngữ");
+                                    btn_login.setText("Đăng nhập");
+
+                                } catch (Exception err) {
                                 }
-                                MainActivity.getINSTANCE().setLanguage("vi");
-                                catalog_title.setText("DANH MỤC");
-                                language_title.setText("Ngôn ngữ");
-                                btn_login.setText("Đăng nhập");
-
-                            } catch (Exception err) {
-                            }
 
 
-                        } else {
-                            editor.putString("language", "en");
-                            editor.commit();
-                            try {
-                                List<Category> list=adapterMenu.getCategories();
-                                for (int i=0; i<list.size(); i++){
-                                    list.get(i).setLanguage_type(1);
+                            } else {
+                                editor.putString("language", "en");
+                                editor.commit();
+                                try {
+                                    List<Category> list = adapterMenu.getCategories();
+                                    for (int i = 0; i < list.size(); i++) {
+                                        list.get(i).setLanguage_type(1);
+                                    }
+                                    MainActivity.getINSTANCE().setLanguage("en");
+                                    catalog_title.setText("CATALOG");
+                                    language_title.setText("Language");
+                                    btn_login.setText("Sign in");
+
+
+                                } catch (Exception err) {
                                 }
-                                MainActivity.getINSTANCE().setLanguage("en");
-                                catalog_title.setText("CATALOG");
-                                language_title.setText("Language");
-                                btn_login.setText("Sign in");
 
-
-                            } catch (Exception err) {
                             }
-
+                            dialog.dismiss();
+                        } catch (Exception err) {
                         }
-                        dialog.dismiss();
-                    }catch (Exception err){}
 
                     }
                 });
@@ -297,10 +307,23 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                     @Override
                     public void onClick(View v) {
 
-                       dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 dialog.show();
+
+
+                final List<Article> list1 = new ArrayList<Article>();
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                editor.putString("catalog", adapterMenu.getCategories().get(position).getId());
+                                editor.commit();
+                                dialog.dismiss();
+                                loadData(0);
+                            }
+                        }));
 
             }
         });
@@ -343,16 +366,45 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(), Common.LOAD_TOP, Integer.parseInt(mAdapter.getArticle(start).getId()), 0, mAdapter, rView, 2, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top);
-                getListArticle.execute();
+                try {
+                    SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    String language = pref.getString("language", null);
+                    String catalog = pref.getString("catalog", null);
+                    if (null == catalog) {
+                        catalog = "";
+                    }
+                    if (null == language) {
+                        language = "vi";
+                    }
+                    mAdapter.setType(1);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 0, language, 0, 0, 0);
+                    getListArticleSearch.execute();
+                } catch (Exception err) {
+
+                }
             }
         }, 1000);
     }
 
     private void loadData(int from) {
-        GetListArticleNew getListArticle = new GetListArticleNew(getContext(), Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top);
-        getListArticle.execute();
+        try {
+            SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
 
+            String language = pref.getString("language", null);
+            String catalog = pref.getString("catalog", null);
+            if (null == catalog) {
+                catalog = "";
+            }
+            if (null == language) {
+                language = "vi";
+            }
+            mAdapter.setType(1);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
+            getListArticleSearch.execute();
+        } catch (Exception err) {
+
+        }
     }
 
     private void showCompleteDialogSearch(Holder holder, int gravity,

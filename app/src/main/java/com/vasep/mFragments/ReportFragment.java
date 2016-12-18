@@ -75,8 +75,8 @@ import com.vasep.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
-        ,SwipeRefreshLayout.OnRefreshListener{
+public class ReportFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener, AdapterItem.OnLoadMoreListener
+        , SwipeRefreshLayout.OnRefreshListener {
     AHBottomNavigation bottomNavigation;
 
     RecyclerView rView;
@@ -84,7 +84,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     Holder holder;
     Toolbar toolbar;
 
-    private AdapterItem mAdapter;
+    private AdapterItem mAdapter,mAdapterNew;
     private SwipeRefreshLayout swipeRefresh;
     View rootView;
 
@@ -92,28 +92,31 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     private static List<Article> list = new ArrayList<>();
 
     private boolean issearch = false;
-    static String category_id,textsearch;
+    static String category_id, textsearch;
+    public int marketID,productID;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.report_fragment, container, false);
-        rView = (RecyclerView)rootView.findViewById(R.id.recycler_report);
+        rView = (RecyclerView) rootView.findViewById(R.id.recycler_report);
         setHasOptionsMenu(true);
-        swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
+        swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
 
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter = new AdapterItem(getContext(), this);
+        mAdapterNew= new AdapterItem(getContext(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
 
-        toolbar = (Toolbar)rootView.findViewById(R.id.toolbar_report);
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_report);
 
-        ((AppCompatActivity)(getActivity())).setSupportActionBar(toolbar);
-        ((AppCompatActivity)(getActivity())).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) (getActivity())).setSupportActionBar(toolbar);
+        ((AppCompatActivity) (getActivity())).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ActionBar actionBar = ((AppCompatActivity)(getActivity())).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) (getActivity())).getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.mipmap.icon_menu);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -123,7 +126,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(getContext(),android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                final Dialog dialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogmenu);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
@@ -132,27 +135,27 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 recyclerView.setLayoutManager(gridview);
                 final AdapterMenu adapterMenu = new AdapterMenu(getContext(), null);
 
-                final TextView catalog_title= (TextView) dialog.findViewById(R.id.calatoge_menu);
+                final TextView catalog_title = (TextView) dialog.findViewById(R.id.calatoge_menu);
                 catalog_title.setText(R.string.catalog);
 
-                final TextView language_title= (TextView) dialog.findViewById(R.id.language_title);
+                final TextView language_title = (TextView) dialog.findViewById(R.id.language_title);
                 language_title.setText(R.string.language);
 
-                final TextView btn_login= (TextView) dialog.findViewById(R.id.btn_login);
+                final TextView btn_login = (TextView) dialog.findViewById(R.id.btn_login);
                 btn_login.setText(R.string.login);
                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
                 String language = pref.getString("language", null);
-                if(adapterMenu.getCategories() != null){
+                if (adapterMenu.getCategories() != null) {
                     if (language == null || language.equals("vi")) {
                         AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
                         recyclerView.setAdapter(adapterMenu1);
-                    }else{
+                    } else {
                         AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
                         recyclerView.setAdapter(adapterMenu1);
                     }
-                }else {
-                    GetAllCategoryMenu getAllCategoryMenu = new GetAllCategoryMenu(getContext(), recyclerView,mAdapter, adapterMenu, 2);
+                } else {
+                    GetAllCategoryMenu getAllCategoryMenu = new GetAllCategoryMenu(getContext(), recyclerView, mAdapter, adapterMenu, 2);
                     getAllCategoryMenu.execute();
                 }
 
@@ -175,7 +178,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                 language_title.setText("Ngôn ngữ");
                                 btn_login.setText("Đăng nhập");
 
-                            } catch (Exception err) {}
+                            } catch (Exception err) {
+                            }
 
 
                         } else {
@@ -186,13 +190,14 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                 catalog_title.setText("CATALOG");
                                 language_title.setText("Language");
                                 btn_login.setText("Sign in");
-                            } catch (Exception err) {}
+                            } catch (Exception err) {
+                            }
 
                         }
                         dialog.dismiss();
                     }
                 });
-                ImageView close_up=(ImageView) dialog.findViewById(R.id.close_up);
+                ImageView close_up = (ImageView) dialog.findViewById(R.id.close_up);
                 close_up.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -201,41 +206,53 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 });
                 dialog.show();
 
+                final List<Article> list1 = new ArrayList<Article>();
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                editor.putString("catalog", adapterMenu.getCategories().get(position).getId());
+                                editor.commit();
+                                dialog.dismiss();
+                                loadData(0);
+                            }
+                        }));
+
             }
         });
 
-        ImageView search = (ImageView)rootView.findViewById(R.id.screen3_search);
+        ImageView search = (ImageView) rootView.findViewById(R.id.screen3_search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
 
-                showCompleteDialogSearch(viewHolder,Gravity.TOP,clickListenersearch,itemClickListenersearch,
-                        dismissListenersearch,cancelListenersearch,false);
+                showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
+                        dismissListenersearch, cancelListenersearch, false);
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         holder = new ViewHolder(R.layout.dialog_report);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCompleteDialog(holder,Gravity.BOTTOM,clickListener,itemClickListener,dismissListener,cancelListener,false);
+                showCompleteDialog(holder, Gravity.BOTTOM, clickListener, itemClickListener, dismissListener, cancelListener, false);
             }
         });
 
         //toolbar bottom
-        bottomNavigation= (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_report);
+        bottomNavigation = (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_report);
         bottomNavigation.setOnTabSelectedListener(this);
         ViewTreeObserver viewTreeObserver = bottomNavigation.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 bottomNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width  = bottomNavigation.getMeasuredWidth();
+                int width = bottomNavigation.getMeasuredWidth();
                 int height = bottomNavigation.getMeasuredHeight();
-                swipeRefresh.setPadding(0,0,0,height);
+                swipeRefresh.setPadding(0, 0, 0, height);
             }
         });
         bottomNavigation.setCurrentItem(2);
@@ -245,12 +262,11 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     }
 
 
-    private void createNavItems()
-    {
+    private void createNavItems() {
         //CREATE ITEMS
-        AHBottomNavigationItem crimeItem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight),R.mipmap.noibat);
-        AHBottomNavigationItem dramaItem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_News),R.mipmap.tintuc);
-        AHBottomNavigationItem docstem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Report),R.mipmap.baocao);
+        AHBottomNavigationItem crimeItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight), R.mipmap.noibat);
+        AHBottomNavigationItem dramaItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_News), R.mipmap.tintuc);
+        AHBottomNavigationItem docstem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Report), R.mipmap.baocao);
 
         //ADD THEM to bar
         bottomNavigation.addItem(crimeItem);
@@ -270,11 +286,9 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     @Override
     public void onTabSelected(int position, boolean wasSelected) {
-        if (position==0)
-        {
+        if (position == 0) {
             callFragment(new SpecialFragment());
-        }else  if (position==1)
-        {
+        } else if (position == 1) {
             callFragment(new NewsFragment());
         }
 
@@ -348,16 +362,17 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     };
 
     private void showCompleteDialogSearch(Holder holder, int gravity,
-                                    OnClickListener clickListener, OnItemClickListener itemClickListener,
-                                    OnDismissListener dismissListener, OnCancelListener cancelListener,
-                                    boolean expanded) {
+                                          OnClickListener clickListener, OnItemClickListener itemClickListener,
+                                          OnDismissListener dismissListener, OnCancelListener cancelListener,
+                                          boolean expanded) {
         final DialogPlus dialog = DialogPlus.newDialog(getContext())
                 .setContentHolder(holder)
                 .setCancelable(true)
                 .setGravity(gravity)
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(new OnItemClickListener() {
-                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
                     }
@@ -367,11 +382,11 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
                 .setOverlayBackgroundResource(android.R.color.transparent)
-                .setMargin(0,toolbar.getHeight(),0,0)
+                .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
-        RecyclerView rv_search = (RecyclerView)dialog.findViewById(R.id.rv_search);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        RecyclerView rv_search = (RecyclerView) dialog.findViewById(R.id.rv_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
         //GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
@@ -391,7 +406,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setGravity(gravity)
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(new OnItemClickListener() {
-                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
                     }
@@ -401,38 +417,72 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
                 .setOverlayBackgroundResource(android.R.color.transparent)
-                .setMargin(0,toolbar.getHeight(),0,0)
+                .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
-        CustomNumberPicker lv=(CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
-        GetAllMarket getAllMarket = new GetAllMarket(getContext(),lv);
+
+        CustomNumberPicker lv = (CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
+        final GetAllMarket getAllMarket = new GetAllMarket(getContext(), lv);
         getAllMarket.execute();
 
         lv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 //Display the newly selected value from picker
-
+                marketID=newVal;
             }
         });
 
 
-        CustomNumberPicker lv_product=(CustomNumberPicker)dialog.findViewById(R.id.lv_product);
-        GetAllProduct getAllProduct = new GetAllProduct(getContext(),lv_product);
+        CustomNumberPicker lv_product = (CustomNumberPicker) dialog.findViewById(R.id.lv_product);
+        final GetAllProduct getAllProduct = new GetAllProduct(getContext(), lv_product);
         getAllProduct.execute();
 
         lv_product.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 //Display the newly selected value from picker
-
+                productID=newVal;
             }
         });
 
-        GetAllType getAllType = new GetAllType(getContext(),dialog);
+        GetAllType getAllType = new GetAllType(getContext(), dialog);
         getAllType.execute();
 
         dialog.show();
+
+        TextView btn_filter=(TextView) dialog.findViewById(R.id.screen10_txt_btn);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    if(marketID==0){
+                        marketID=-1;
+                    }else{
+                        marketID= Integer.parseInt(getAllMarket.getList().get(marketID).getId());
+                    }
+                    if(productID==1){
+                        productID=-1;
+                    }else{
+                        productID= Integer.parseInt(getAllProduct.getList().get(productID).getId());
+                    }
+                    SharedPreferences pref = getContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
+                    int type_report = pref.getInt("type_report", 0);
+                    String language = pref.getString("language", null);
+                    String catalog = pref.getString("catalog", null);
+                    if(type_report==0){
+                        type_report=1;
+                    }
+                    mAdapter.setType(0);
+                    dialog.dismiss();
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);
+                    getListArticleSearch.execute();
+
+                }catch (Exception err){
+
+                }
+            }
+        });
     }
 
     @Override
@@ -444,8 +494,9 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 loadData(0);
 
             }
-        },1000);
+        }, 1000);
     }
+
     @Override
     public void onLoadMore() {
         mAdapter.setProgressMore(true);
@@ -454,22 +505,46 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                if(mAdapter.getList().size() != 0 && !issearch){
-                    GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,2, Common.LOAD_TOP,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
-                    getListArticle.execute();
-                }
-                if(issearch){
-                    GetListArticleSearch getListArticle = new GetListArticleSearch(getContext(),category_id,textsearch,rView,mAdapter,2, Common.LOAD_TOP,Integer.parseInt(mAdapter.getArticle(start).getId()),2);
-                    getListArticle.execute();
+                try {
+                    SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    String language = pref.getString("language", null);
+                    String catalog = pref.getString("catalog", null);
+                    if (null == catalog) {
+                        catalog = "";
+                    }
+                    if (null == language) {
+                        language = "vi";
+                    }
+                    mAdapter.setType(0);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, -1, -1,1);
+                    getListArticleSearch.execute();
+                } catch (Exception err) {
+                    String errs= err.getMessage();
                 }
 
             }
-        },1000);
+        }, 1000);
     }
 
     private void loadData(int from) {
-        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),rView,mAdapter,1, Common.LOAD_TOP,from,2);
-        getListArticle.execute();
+        try {
+            SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+
+            String language = pref.getString("language", null);
+            String catalog = pref.getString("catalog", null);
+            if (null == catalog) {
+                catalog = "";
+            }
+            if (null == language) {
+                language = "vi";
+            }
+            mAdapter.setType(0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, -1, -1, 1);
+            getListArticleSearch.execute();
+        } catch (Exception err) {
+            String errs= err.getMessage();
+        }
 
     }
 }

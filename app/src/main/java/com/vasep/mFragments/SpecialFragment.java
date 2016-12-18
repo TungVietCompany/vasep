@@ -27,6 +27,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -48,9 +49,14 @@ import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
+import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.Common;
+import com.vasep.models.Article;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.vasep.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -58,8 +64,8 @@ import butterknife.Bind;
  * Created by Oclemmy on 5/10/2016 for ProgrammingWizards Channel and http://www.Camposha.com.
  * Fragment shown when crim navigation item is clicked.
  */
-public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
-        ,SwipeRefreshLayout.OnRefreshListener  {
+public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener, AdapterItem.OnLoadMoreListener
+        , SwipeRefreshLayout.OnRefreshListener {
 
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     //MaterialSearchView searchView;
@@ -82,7 +88,9 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
     //@Bind(R.id.screen1_title_top)
     TextView screen1_title_top;
     private SwipeRefreshLayout swipeRefresh;
-    private AdapterItem mAdapter;
+    private AdapterItem mAdapter,mAdapterNew;
+    //@Bind(R.id.screen1_tops)
+    RelativeLayout screen1_tops;
 
 
     @Nullable
@@ -91,17 +99,20 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         View rootView = inflater.inflate(R.layout.crime_fragment, container, false);
 
         /*khai bao*/
-        screen1_image_top = (ImageView)rootView.findViewById(R.id.screen1_image_top);
+        screen1_tops=(RelativeLayout) rootView.findViewById(R.id.screen1_tops);
+        screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
         screen1_title_top = (TextView) rootView.findViewById(R.id.screen1_title_top);
         /*chèn dữ liệu vào recylerview*/
         /*chèn dữ liệu vào recylerview*/
-        swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
+        swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter = new AdapterItem(getContext(), this);
+        mAdapterNew= new AdapterItem(getContext(), this);
+        mAdapter.setType(1);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -111,6 +122,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         ((AppCompatActivity) (getActivity())).setSupportActionBar(toolbar);
         ((AppCompatActivity) (getActivity())).getSupportActionBar().setTitle("Material Search");
         toolbar.setTitleTextColor(Color.parseColor("#0c69d3"));
+
+        toolbar.setCollapsible(false);
 
         ((AppCompatActivity) (getActivity())).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -125,7 +138,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(getContext(),android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                final Dialog dialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogmenu);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
@@ -135,13 +148,13 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 final AdapterMenu adapterMenu = new AdapterMenu(getContext(), null);
 
 
-                final TextView catalog_title= (TextView) dialog.findViewById(R.id.calatoge_menu);
+                final TextView catalog_title = (TextView) dialog.findViewById(R.id.calatoge_menu);
                 catalog_title.setText(R.string.catalog);
 
-                final TextView language_title= (TextView) dialog.findViewById(R.id.language_title);
+                final TextView language_title = (TextView) dialog.findViewById(R.id.language_title);
                 language_title.setText(R.string.language);
 
-                final TextView btn_login= (TextView) dialog.findViewById(R.id.btn_login);
+                final TextView btn_login = (TextView) dialog.findViewById(R.id.btn_login);
                 btn_login.setText(R.string.login);
 
                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
@@ -152,7 +165,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     if (language == null || language.equals("vi")) {
                         AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
                         recyclerView.setAdapter(adapterMenu1);
-                    }else{
+                    } else {
                         AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
                         recyclerView.setAdapter(adapterMenu1);
                     }
@@ -198,7 +211,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
                             }
                             dialog.dismiss();
-                        }catch (Exception err){}
+                        } catch (Exception err) {
+                        }
 
                     }
                 });
@@ -213,6 +227,18 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 });
                 dialog.show();
 
+                final List<Article> list1 = new ArrayList<Article>();
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                editor.putString("catalog", adapterMenu.getCategories().get(position).getId());
+                                editor.commit();
+                                dialog.dismiss();
+                                loadData(0);
+                            }
+                        }));
+
             }
         });
 
@@ -225,9 +251,9 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
             @Override
             public void onGlobalLayout() {
                 bottomNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width  = bottomNavigation.getMeasuredWidth();
+                int width = bottomNavigation.getMeasuredWidth();
                 int height = bottomNavigation.getMeasuredHeight();
-                swipeRefresh.setPadding(0,0,0,height);
+                swipeRefresh.setPadding(0, 0, 0, height);
             }
         });
 
@@ -235,13 +261,13 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         this.createNavItems();
         loadData(0);
 
-        ImageView search = (ImageView)rootView.findViewById(R.id.screen2_search);
+        ImageView search = (ImageView) rootView.findViewById(R.id.screen2_search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
-                showCompleteDialogSearch(viewHolder, Gravity.TOP,clickListenersearch,itemClickListenersearch,
-                        dismissListenersearch,cancelListenersearch,false);
+                showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
+                        dismissListenersearch, cancelListenersearch, false);
             }
         });
 
@@ -250,9 +276,9 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
     private void createNavItems() {
         //CREATE ITEMS
-        AHBottomNavigationItem crimeItem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight),R.mipmap.noibat);
-        AHBottomNavigationItem dramaItem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_News),R.mipmap.tintuc);
-        AHBottomNavigationItem docstem=new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Report),R.mipmap.baocao);
+        AHBottomNavigationItem crimeItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight), R.mipmap.noibat);
+        AHBottomNavigationItem dramaItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_News), R.mipmap.tintuc);
+        AHBottomNavigationItem docstem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Report), R.mipmap.baocao);
 
         //ADD THEM to bar
         bottomNavigation.addItem(crimeItem);
@@ -296,8 +322,9 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 loadData(0);
 
             }
-        },1000);
+        }, 1000);
     }
+
     @Override
     public void onLoadMore() {
         mAdapter.setProgressMore(true);
@@ -306,15 +333,42 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(), Common.LOAD_TOP,Integer.parseInt(mAdapter.getArticle(start).getId()),1,mAdapter,rView,2,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
-                getListArticle.execute();
+                try {
+                    SharedPreferences pref = getContext().getApplicationContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
+                    String language = pref.getString("language", null);
+                    String catalog = pref.getString("catalog", null);
+                    if (null == catalog) {
+                        catalog = "";
+                    }
+                    if (null == language) {
+                        language = "vi";
+                    }
+                    mAdapter.setType(1);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), mAdapterNew,catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 1, language, 0, 0, 0);
+                    getListArticleSearch.execute();
+                } catch (Exception err) {
+                }
             }
-        },1000);
+        }, 1000);
     }
 
     private void loadData(int from) {
-        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),Common.LOAD_TOP,from,1,mAdapter,rView,1,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
-        getListArticle.execute();
+        try {
+            SharedPreferences pref = getContext().getApplicationContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
+            String language = pref.getString("language", null);
+            String catalog = pref.getString("catalog", null);
+            if (null == catalog) {
+                catalog = "";
+            }
+            if (null == language) {
+                language = "vi";
+            }
+            mAdapter.setType(1);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
+            getListArticleSearch.execute();
+        } catch (Exception err) {
+            String errr = err.getMessage();
+        }
 
     }
 
@@ -328,7 +382,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 .setGravity(gravity)
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(new OnItemClickListener() {
-                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
                     }
@@ -338,11 +393,11 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
                 .setOverlayBackgroundResource(android.R.color.transparent)
-                .setMargin(0,toolbar.getHeight(),0,0)
+                .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
-        RecyclerView rv_search = (RecyclerView)dialog.findViewById(R.id.rv_search);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        RecyclerView rv_search = (RecyclerView) dialog.findViewById(R.id.rv_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
         /*GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,0);

@@ -44,13 +44,13 @@
 
     <ImageView
         android:id="@+id/close_up"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="13dp"
         android:layout_marginTop="13dp"
-        app:srcCompat="@drawable/close_popup" />
+        app:srcCompat="@drawable/close_popup"
+        android:layout_height="36dp" />
 
     <TableRow
         android:id="@+id/layout_bottom"
@@ -83,6 +83,7 @@
             android:textOff=""
             android:textOn=""
             android:layout_weight="2.8"
+
             android:gravity="left|center" />
 
         <TextView

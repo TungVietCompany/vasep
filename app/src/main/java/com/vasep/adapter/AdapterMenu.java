@@ -2,6 +2,7 @@ package com.vasep.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,11 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
 
     @Override
     public void onBindViewHolder(ExploreHoder holder, int position) {
-        Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
+        if(position==0) {
+            Picasso.with(mContext).load(R.drawable.app_icon).into(holder.img_menu);
+        }else {
+            Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
+        }
         if(0== categories.get(position).getLanguage_type()) {
             holder.textView.setText(categories.get(position).getName());
         }else{
@@ -80,13 +85,15 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
     public class ExploreHoder extends RecyclerView.ViewHolder{
         ImageView img_menu;
         TextView textView;
+        CardView cardView;
         public ExploreHoder(View itemView) {
             super(itemView);
-            img_menu = (ImageView)itemView.findViewById(R.id.img_menu);
-            int xxx= Resources.getSystem().getDisplayMetrics().widthPixels;
-            img_menu.setMaxHeight((xxx-30)/3);
-            img_menu.setMinimumHeight((xxx-30)/3);
             textView = (TextView)itemView.findViewById(R.id.txt_menu);
+            img_menu = (ImageView)itemView.findViewById(R.id.img_menu);
+            cardView=(CardView) itemView.findViewById(R.id.card);
+            int xxx= Resources.getSystem().getDisplayMetrics().widthPixels;
+            img_menu.setMaxHeight((xxx-60)/3);
+            cardView.setMinimumHeight((xxx-60)/3);
         }
     }
 }
