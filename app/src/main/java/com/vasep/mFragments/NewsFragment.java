@@ -136,9 +136,12 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             editor.putString("firebase_id",session_id);
             editor.commit();
 
-            NotiAsync notiAsync = new NotiAsync(getContext(),"anhye","android");
-            notiAsync.execute();
+
         }
+
+        NotiAsync notiAsync = new NotiAsync(getContext(),session_id,"android");
+        notiAsync.execute();
+
         //Toast.makeText(getContext(),"hs"+session_id,Toast.LENGTH_LONG).show();
         System.out.print("session:"+session_id);
         /*gridLayoutManager = new GridLayoutManager(getContext(), 2);

@@ -19,8 +19,18 @@ public class NotiAsync extends AsyncTask<Void,Void,Boolean> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
     protected Boolean doInBackground(Void... params) {
         NotificationController notificationController = new NotificationController();
         return notificationController.insertNoti(firebase_id,device_type);
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        super.onPostExecute(aBoolean);
     }
 }

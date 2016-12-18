@@ -58,7 +58,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
-        InsertView insert = new InsertView(ReportDetailActivity.this,21);
+        InsertView insert = new InsertView(ReportDetailActivity.this,Integer.valueOf(article.getId()));
         insert.execute();
 
         /*if(article.getIs_buy() == "0"){
