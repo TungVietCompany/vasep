@@ -79,6 +79,8 @@ public class SpecialDetailActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview_newsdetail);
         webView.getSettings().setJavaScriptEnabled(true);
+
+
         webView.loadDataWithBaseURL(
                 "",
                 "<style>img{display: inline;height: auto;max-width: 100%;}"

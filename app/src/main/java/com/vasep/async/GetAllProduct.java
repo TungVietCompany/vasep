@@ -1,6 +1,7 @@
 package com.vasep.async;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.NumberPicker;
@@ -22,6 +23,17 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
 
     Context context;
     NumberPicker lv;
+
+    List<Market> list;
+
+    public List<Market> getList() {
+        return list;
+    }
+
+    public void setList(List<Market> list) {
+        this.list = list;
+    }
+
     public GetAllProduct(Context context, NumberPicker lv){
         this.context = context;
         this.lv = lv;
@@ -44,13 +56,22 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
     protected void onPostExecute(List<Market> categories) {
         try{
             if(categories.size() > 0){
-                int index=0;
-                String[] values=new String[categories.size()];
-                for (int i=0; i<categories.size(); i++){
-                   /* if(categories.get(i).getName().equals("Thuỷ sản"));{
-                        index=i;
-                    }*/
-                    values[i]= categories.get(i).getName();
+
+                setList(categories);
+                String[] values=new String[categories.size()+1];
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                final String language = pref.getString("language", null);
+                if(language==null|language.equals("vi")) {
+                    values[0]="Tất cả";
+                    for (int i = 0; i < categories.size(); i++) {
+                        values[i+1] = categories.get(i).getName();
+                    }
+                }else{
+                    values[0]="All";
+                    for (int i = 0; i < categories.size(); i++) {
+                        values[i+1] = categories.get(i).getEng_name();
+                    }
                 }
                 lv.setMinValue(1);
                 lv.setMaxValue(values.length-1);

@@ -83,8 +83,8 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                             }
                         }catch (Exception e){
                         }
-                        GetListArticleSearch getListArticle = new GetListArticleSearch(context,id,screen10_txt_search.getText().toString(),rview,adapterItem,1, 6,0,2);
-                        getListArticle.execute();
+                        //GetListArticleSearch getListArticle = new GetListArticleSearch(context,id,screen10_txt_search.getText().toString(),rview,adapterItem,1, 6,0,2);
+                        //getListArticle.execute();
                         SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("category_id",id);

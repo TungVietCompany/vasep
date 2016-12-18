@@ -70,7 +70,10 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
     protected void onPostExecute(final List<Category> categories) {
         try{
             if(categories.size() > 0){
-                adapterHome.setCategories(categories);
+                List<Category> list=new ArrayList<>();
+                list.add(new Category("","Tất cả","All","","",false,""));
+                list.addAll(1,categories);
+                adapterHome.setCategories(list);
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
                 String language = pref.getString("language", null);
@@ -78,31 +81,15 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
                     for (int i=0; i<categories.size(); i++){
                         categories.get(i).setLanguage_type(0);
                     }
-                    adapterHome = new AdapterMenu(context, categories);
+                    adapterHome = new AdapterMenu(context, list);
                 }else{
                     for (int i=0; i<categories.size(); i++){
                         categories.get(i).setLanguage_type(1);
                     }
-                    adapterHome = new AdapterMenu(context, categories);
+                    adapterHome = new AdapterMenu(context, list);
                 }
                 rview.setAdapter(adapterHome);
-                final List<Article> list1 = new ArrayList<Article>();
-                rview.addOnItemTouchListener(new RecyclerItemClickListener(context,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
 
-                                String category = categories.get(position).getId();
-                                for(int i=0;i<adapterItem.getList().size();i++){
-                                    if(adapterItem.getList().get(i).getCategory_id().equals(category) && adapterItem.getList().get(i).getLanguage_type().equals(language_type)){
-                                        list1.add(adapterItem.getList().get(i));
-                                    }
-                                }
-
-                                adapterItem.addAll(list1);
-                                adapterItem.notifyDataSetChanged();
-                            }
-                        }));
             }else{
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }

@@ -12,6 +12,7 @@ import com.vasep.activity.ReportDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.controller.ArticleController;
+import com.vasep.controller.Common;
 import com.vasep.controller.ContactController;
 import com.vasep.models.Article;
 import com.vasep.notification.Information;
@@ -28,11 +29,11 @@ public class SearchArticle extends AsyncTask<Void,Void,List<Article>> {
     List<Article> list1;
     Context context;
     ProgressDialog dialog;
-    String categories,title;
+    String categories,title,language_type;
     RecyclerView rview;
     int type;
     AdapterItem adapterItem;
-    public SearchArticle(Context context, String categories, String title,AdapterItem adapterItem, RecyclerView rview,int type){
+    public SearchArticle(Context context, String categories, String title,AdapterItem adapterItem, RecyclerView rview,int type,String language_type){
         this.context = context;
         this.title = title;
         this.categories = categories;
@@ -52,7 +53,8 @@ public class SearchArticle extends AsyncTask<Void,Void,List<Article>> {
     @Override
     protected List<Article> doInBackground(Void... params) {
         ArticleController contactController = new ArticleController();
-        return contactController.searchArticle(categories,title,2,4,0);
+        //return contactController.searchArticle(categories,title,2, Common.LOAD_TOP,0,language_type);
+        return new ArrayList<>();
     }
 
     @Override

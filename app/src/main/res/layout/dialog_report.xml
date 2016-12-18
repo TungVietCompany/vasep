@@ -151,12 +151,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="thị trường"
+                android:text="@string/market"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textAllCaps="true"
                 android:layout_weight="1"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:id="@+id/txt_market" />
             <com.vasep.controller.CustomNumberPicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,11 +171,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="sản phẩm"
+                android:text="@string/product"
                 android:textAllCaps="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:id="@+id/txt_product" />
             <com.vasep.controller.CustomNumberPicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
