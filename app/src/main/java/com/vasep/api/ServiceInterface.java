@@ -49,5 +49,4 @@ public interface ServiceInterface {
     Call<ArticleModel> filterArticle(@Query("market_id") String market_id,@Query("product_id") String product_id,@Query("type_id") int type_id,
                                      @Query("top") int top,@Query("from") int from);
 
-
 }

@@ -26,4 +26,6 @@
 
     <color name="bg_menu">#73000000</color>
 
+    <color name="bg_report">#66ffffff</color>
+
 </resources>
