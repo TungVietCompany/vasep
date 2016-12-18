@@ -1,8 +1,11 @@
 package com.vasep.mFragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -21,8 +24,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -34,15 +40,21 @@ import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.async.GetAllCategory;
+import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
+import com.vasep.controller.Common;
+import com.vasep.models.Category;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.vasep.R;
+
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -50,8 +62,8 @@ import butterknife.Bind;
  * Created by Oclemmy on 5/10/2016 for ProgrammingWizards Channel and http://www.Camposha.com.
  * Fragment shown when crim navigation item is clicked.
  */
-public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener,AdapterItem.OnLoadMoreListener
-        ,SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSelectedListener, AdapterItem.OnLoadMoreListener
+        , SwipeRefreshLayout.OnRefreshListener {
 
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     //MaterialSearchView searchView;
@@ -83,16 +95,16 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         View rootView = inflater.inflate(R.layout.crime_fragment, container, false);
 
         /*khai bao*/
-        screen1_image_top = (ImageView)rootView.findViewById(R.id.screen1_image_top);
+        screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
         screen1_title_top = (TextView) rootView.findViewById(R.id.screen1_title_top);
-        swipeRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefresh);
+        swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
         /*chèn dữ liệu vào recylerview*/
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(),this);
+        mAdapter = new AdapterItem(getContext(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -114,45 +126,33 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
         ActionBar actionBar = ((AppCompatActivity) (getActivity())).getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true); // show or hide the default home button
-        actionBar.setLogo(R.drawable.icon_menu);
-        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setLogo(R.mipmap.icon_menu);
 
-        /*click vào nut home tren toolbar*/
-        View view = toolbar.getChildAt(0);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialogmenu);
-                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
-                GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
-                recyclerView.setLayoutManager(gridview);
-
-//                AdapterMenu adapter = new AdapterMenu(getContext());
-//                recyclerView.setAdapter(adapter);
-
-                //dialog.getWindow().setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
-                dialog.show();
-
-            }
-        });
 
         /*bottom bar*/
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
         bottomNavigation = (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_ID);
+        ViewTreeObserver viewTreeObserver = bottomNavigation.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                bottomNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width  = bottomNavigation.getMeasuredWidth();
+                int height = bottomNavigation.getMeasuredHeight();
+                swipeRefresh.setPadding(0,0,0,height);
+            }
+        });
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
         loadData(0);
 
-        ImageView search = (ImageView)rootView.findViewById(R.id.screen2_search);
+        ImageView search = (ImageView) rootView.findViewById(R.id.screen2_search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
-                showCompleteDialogSearch(viewHolder, Gravity.TOP,clickListenersearch,itemClickListenersearch,
-                        dismissListenersearch,cancelListenersearch,false);
+                showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
+                        dismissListenersearch, cancelListenersearch, false);
             }
         });
 
@@ -161,21 +161,127 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
     private void createNavItems() {
         //CREATE ITEMS
-        AHBottomNavigationItem crimeItem = new AHBottomNavigationItem("Nổi bật", R.drawable.noibat);
-        AHBottomNavigationItem dramaItem = new AHBottomNavigationItem("Tin tức", R.drawable.tintuc);
-        AHBottomNavigationItem docstem = new AHBottomNavigationItem("Báo cáo", R.drawable.baocao);
+        AHBottomNavigationItem crimeItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight), R.mipmap.noibat);
+        AHBottomNavigationItem dramaItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_News), R.mipmap.tintuc);
+        AHBottomNavigationItem docstem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Report), R.mipmap.baocao);
 
         //ADD THEM to bar
         bottomNavigation.addItem(crimeItem);
         bottomNavigation.addItem(dramaItem);
         bottomNavigation.addItem(docstem);
-
         //set properties
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#0c4ca3"));
+        bottomNavigation.setDefaultBackgroundColor(getActivity().getResources().getColor(R.color.background_toolbarsss));
         bottomNavigation.setAccentColor(Color.parseColor("#fefffa"));
+        bottomNavigation.setInactiveColor(R.color.bottom_inactiveColor);
+        bottomNavigation.setBehaviorTranslationEnabled(false);
+        //bottomNavigation.setForceTint(true);
+        //bottomNavigation.setColored(true);
+
         //set current item
         bottomNavigation.setCurrentItem(1);
 
+        View view = toolbar.getChildAt(1);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final Dialog dialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialogmenu);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
+                final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
+                GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
+                recyclerView.setLayoutManager(gridview);
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                final String language = pref.getString("language", null);
+                final AdapterMenu adapterMenu;
+                if (language == null || language.equals("vi")) {
+
+                    adapterMenu = new AdapterMenu(getContext(), null);
+                }
+                else{
+                    adapterMenu = new AdapterMenu(getContext(), null);
+
+                }
+                final TextView catalog_title= (TextView) dialog.findViewById(R.id.calatoge_menu);
+                catalog_title.setText(R.string.catalog);
+
+                final TextView language_title= (TextView) dialog.findViewById(R.id.language_title);
+                language_title.setText(R.string.language);
+
+                final TextView btn_login= (TextView) dialog.findViewById(R.id.btn_login);
+                btn_login.setText(R.string.login);
+                if (adapterMenu.getCategories() != null) {
+                    AdapterMenu adapterMenu1 = new AdapterMenu(getContext(), adapterMenu.getCategories());
+                    recyclerView.setAdapter(adapterMenu1);
+
+                } else {
+                    GetAllCategoryMenu getAllCategoryMenu = new GetAllCategoryMenu(getContext(), recyclerView, mAdapter, adapterMenu, 2);
+                    getAllCategoryMenu.execute();
+                }
+
+                final Switch swtich = (Switch) dialog.findViewById(R.id.switch_menu);
+                if (language == null || language.equals("vi")) {
+                    swtich.setChecked(true);
+                } else {
+                    swtich.setChecked(false);
+                }
+                swtich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    try {
+                        if (isChecked) {
+                            editor.putString("language", "vi");
+                            editor.commit();
+                            try {
+                                List<Category> list=adapterMenu.getCategories();
+                                for (int i=0; i<list.size(); i++){
+                                    list.get(i).setLanguage_type(0);
+                                }
+                                MainActivity.getINSTANCE().setLanguage("vi");
+                                catalog_title.setText("DANH MỤC");
+                                language_title.setText("Ngôn ngữ");
+                                btn_login.setText("Đăng nhập");
+
+                            } catch (Exception err) {
+                            }
+
+
+                        } else {
+                            editor.putString("language", "en");
+                            editor.commit();
+                            try {
+                                List<Category> list=adapterMenu.getCategories();
+                                for (int i=0; i<list.size(); i++){
+                                    list.get(i).setLanguage_type(1);
+                                }
+                                MainActivity.getINSTANCE().setLanguage("en");
+                                catalog_title.setText("CATALOG");
+                                language_title.setText("Language");
+                                btn_login.setText("Sign in");
+
+
+                            } catch (Exception err) {
+                            }
+
+                        }
+                        dialog.dismiss();
+                    }catch (Exception err){}
+
+                    }
+                });
+                ImageView close_up = (ImageView) dialog.findViewById(R.id.close_up);
+                close_up.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                       dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+            }
+        });
     }
 
     @Override
@@ -204,8 +310,9 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 loadData(0);
 
             }
-        },1000);
+        }, 1000);
     }
+
     @Override
     public void onLoadMore() {
         mAdapter.setProgressMore(true);
@@ -214,14 +321,14 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             public void run() {
                 mAdapter.setProgressMore(false);
                 int start = mAdapter.getItemCount();
-                GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,Integer.parseInt(mAdapter.getArticle(start).getId()),0,mAdapter,rView,2,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+                GetListArticleNew getListArticle = new GetListArticleNew(getContext(), Common.LOAD_TOP, Integer.parseInt(mAdapter.getArticle(start).getId()), 0, mAdapter, rView, 2, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top);
                 getListArticle.execute();
             }
-        },1000);
+        }, 1000);
     }
 
     private void loadData(int from) {
-        GetListArticleNew getListArticle = new GetListArticleNew(getContext(),4,from,0,mAdapter,rView,1,screen1_image_top,screen1_date_top,screen1_title_top,screen1_category_top);
+        GetListArticleNew getListArticle = new GetListArticleNew(getContext(), Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top);
         getListArticle.execute();
 
     }
@@ -236,7 +343,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 .setGravity(gravity)
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(new OnItemClickListener() {
-                    @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
                     }
@@ -246,11 +354,11 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
                 .setOverlayBackgroundResource(android.R.color.transparent)
-                .setMargin(0,toolbar.getHeight(),0,0)
+                .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
-        RecyclerView rv_search = (RecyclerView)dialog.findViewById(R.id.rv_search);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
+        RecyclerView rv_search = (RecyclerView) dialog.findViewById(R.id.rv_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
         /*GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,1);

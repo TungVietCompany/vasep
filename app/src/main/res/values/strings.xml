@@ -15,4 +15,46 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--Đa ngôn ngữ-->
+    <string name="bt_Highlight">Nổi bật</string>
+    <string name="bt_News">Tin tức</string>
+    <string name="bt_Report">Báo cáo</string>
+
+    <string name="language">Ngôn ngữ</string>
+    <string name="login">Đăng nhập</string>
+    <string name="market">THỊ TRƯỜNG</string>
+    <string name="product">SẢN PHẨM</string>
+
+    <string name="report_type1">BÁO CÁO XUẤT KHẨU THỦY SẢN VIỆT NAM</string>
+    <string name="report_type2">BÁO CÁO XUẤT KHẨU THỦY SẢN VIỆT NAM (HÀNG QUÝ)</string>
+    <string name="report_type3">BÁO CÁO THỊ TRƯỜNG THỦY SẢN</string>
+
+    <string name="btn_submit">LỌC BÁO CÁO</string>
+    <string name="btn_ssearch">TÌM KIẾM</string>
+    <string name="enter_text">Nhập nội dung tìm kiếm</string>
+    <string name="priview">XEM TRƯỚC</string>
+    <string name="buy">ĐẶT MUA</string>
+    <string name="purchase">THANH TOÁN</string>
+    <string name="detail">CHI TIẾT</string>
+    <string name="unit_price">Đơn giá</string>
+    <string name="discount">Giảm giá</string>
+    <string name="total">Tổng tiền</string>
+    <string name="option_pay">CHỌN HÌNH THỨC THANH TOÁN</string>
+    <string name="bank_transfer">THANH TOÁN QUA NGÂN HÀNG</string>
+
+    <string name="full_name">Họ và tên</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="address">Địa chỉ</string>
+    <string name="note">Ghi chú</string>
+    <string name="send">Gửi</string>>
+    <string name="username">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="forgot_pass">Quên mật khẩu?</string>
+    <string name="retype_password">Nhập lại mật khẩu</string>
+
+    <string name="catalog">DANH MỤC</string>
+<string name="contact">LIÊN HỆ</string>
+
+
 </resources>

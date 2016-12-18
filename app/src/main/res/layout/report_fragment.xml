@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
     >
 
     <android.support.design.widget.AppBarLayout
@@ -18,36 +19,45 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             android:background="@color/background_toolbar"
+            android:layout_marginLeft="-5dp"
             >
-            <RelativeLayout
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/vasep_portal"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="false"
-                    android:cropToPadding="false" />
+                android:weightSum="5"
+                android:layout_marginRight="15dp">
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_search"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    app:srcCompat="@drawable/vasep_report"
+                    android:id="@+id/imageView18"
+                    android:layout_weight="3"
+                    android:layout_gravity="center_vertical|center_horizontal" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/vi"
+                    android:id="@+id/language"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:scaleX="0.95"
+                    android:scaleY="0.95" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@mipmap/ic_lsearch"
                     android:id="@+id/screen3_search"
-                    android:layout_marginRight="@dimen/margin_10dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:padding="@dimen/padding_5dp"
-                    android:layout_marginTop="@dimen/margin_5dp"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
+                    android:scaleX="0.95"
+                    android:layout_weight="1"
                     />
 
-            </RelativeLayout>
-            >
+            </TableRow>
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

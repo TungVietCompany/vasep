@@ -3,6 +3,7 @@ package com.vasep.async;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,14 +40,15 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
     List<Article> list;
     AdapterItem adapterItem;
     String language_type;
-    public GetAllCategoryMenu(Context context, RecyclerView rview,String language_type,AdapterItem adapterItem,AdapterMenu adapterHome, int type){
+
+    public GetAllCategoryMenu(Context context, RecyclerView rview,AdapterItem adapterItem,AdapterMenu adapterHome, int type){
         this.context = context;
         this.rview = rview;
         this.type = type;
         this.adapterHome = adapterHome;
 
         this.adapterItem = adapterItem;
-        this.language_type = language_type;
+
     }
 
 
@@ -70,7 +72,20 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
         try{
             if(categories.size() > 0){
                 adapterHome.setCategories(categories);
-                adapterHome = new AdapterMenu(context,categories);
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                String language = pref.getString("language", null);
+                if(null==language||language.equals("vi")) {
+                    for (int i=0; i<categories.size(); i++){
+                        categories.get(i).setLanguage_type(0);
+                    }
+                    adapterHome = new AdapterMenu(context, categories);
+                }else{
+                    for (int i=0; i<categories.size(); i++){
+                        categories.get(i).setLanguage_type(1);
+                    }
+                    adapterHome = new AdapterMenu(context, categories);
+                }
                 rview.setAdapter(adapterHome);
                 final List<Article> list1 = new ArrayList<Article>();
                 rview.addOnItemTouchListener(new RecyclerItemClickListener(context,

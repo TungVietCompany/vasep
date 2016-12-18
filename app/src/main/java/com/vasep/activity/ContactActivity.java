@@ -2,6 +2,8 @@ package com.vasep.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,22 +12,25 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.akexorcist.localizationactivity.LocalizationActivity;
 import com.vasep.R;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.async.ContactAsync;
 import com.vasep.models.Article;
 
 import java.nio.Buffer;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ContactActivity extends AppCompatActivity {
+public class ContactActivity extends LocalizationActivity {
 
     @Bind(R.id.screen7_fullname)
     EditText screen7_fullname;
@@ -41,11 +46,13 @@ public class ContactActivity extends AppCompatActivity {
 
     @Bind(R.id.screen7_send)
     CardView screen7_send;
-
+    boolean flag=false;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+
 
         ButterKnife.bind(this);
         Intent i = getIntent();
@@ -58,7 +65,7 @@ public class ContactActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Liên hệ");
+        actionBar.setTitle(getResources().getString(R.string.contact));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.btn_back1);
 
@@ -86,7 +93,13 @@ public class ContactActivity extends AppCompatActivity {
                 intent.putExtra("article",article);
                 startActivity(intent);
                 finish();
+
+                // set ngôn ngữ
+
+
             }
         });
+
+
     }
 }

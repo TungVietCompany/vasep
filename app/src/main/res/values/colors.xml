@@ -3,7 +3,10 @@
 
     <color name="primary">#3F51B5</color>
     <color name="primary_dark">#303F9F</color>
-    <color name="background_toolbar">#0c69d3</color>
+    <color name="background_toolbar">#1978D8</color>
+    <color name="background_toolbarsss">#0C69D3</color>
+    <color name="bottom_inactiveColor">#ffffff</color>
+
     <color name="accent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>

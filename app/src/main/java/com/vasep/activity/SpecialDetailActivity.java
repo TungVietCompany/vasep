@@ -69,7 +69,7 @@ public class SpecialDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SpecialDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",1);
+                intent.putExtra("type",2);
                 startActivity(intent);
                 finish();
             }

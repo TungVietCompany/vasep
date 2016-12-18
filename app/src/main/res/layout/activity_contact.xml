@@ -46,7 +46,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Họ và tên"
+                android:hint="@string/full_name"
                 android:layout_gravity="center"
                 android:background="@drawable/custombordercontact"
                 android:padding="10dp"
@@ -63,7 +63,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Số điện thoại"
+                android:hint="@string/phone_number"
                 android:layout_gravity="center"
                 android:background="@drawable/custombordercontact"
                 android:padding="10dp"
@@ -78,7 +78,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Địa chỉ"
+                android:hint="@string/address"
                 android:layout_gravity="center"
                 android:background="@drawable/custombordercontact"
                 android:padding="10dp"
@@ -94,7 +94,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Ghi chú"
+                android:hint="@string/note"
                 android:lines="6"
                 android:gravity="top"
                 android:padding="10dp"
@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Gửi"
+                android:text="@string/send"
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:padding="@dimen/margin_10dp"

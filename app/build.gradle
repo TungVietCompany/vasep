@@ -37,4 +37,6 @@ dependencies {
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
     compile 'com.github.barteksc:android-pdf-viewer:2.3.0'
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
+    compile 'com.akexorcist:localizationactivity:1.0.9'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

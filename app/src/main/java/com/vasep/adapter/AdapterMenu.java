@@ -1,6 +1,7 @@
 package com.vasep.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.vasep.R;
 import com.vasep.models.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,17 +23,27 @@ import java.util.List;
 public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> {
     private Context mContext;
     private List<Category> categories;
+    int type_language;
+
     public AdapterMenu(Context c,List<Category> categories) {
         mContext = c;
         this.categories = categories;
-    }
 
+    }
     public List<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public int getType_language() {
+        return type_language;
+    }
+
+    public void setType_language(int type_language) {
+        this.type_language = type_language;
     }
 
     @Override
@@ -44,8 +56,14 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
     @Override
     public void onBindViewHolder(ExploreHoder holder, int position) {
         Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
-        holder.textView.setText(categories.get(position).getName());
+        if(0== categories.get(position).getLanguage_type()) {
+            holder.textView.setText(categories.get(position).getName());
+        }else{
+            holder.textView.setText(categories.get(position).getEng_name());
+        }
+
     }
+
 
 
     @Override
@@ -65,6 +83,9 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
         public ExploreHoder(View itemView) {
             super(itemView);
             img_menu = (ImageView)itemView.findViewById(R.id.img_menu);
+            int xxx= Resources.getSystem().getDisplayMetrics().widthPixels;
+            img_menu.setMaxHeight((xxx-30)/3);
+            img_menu.setMinimumHeight((xxx-30)/3);
             textView = (TextView)itemView.findViewById(R.id.txt_menu);
         }
     }

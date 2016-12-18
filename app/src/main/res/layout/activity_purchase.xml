@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="chi tiết"
+                android:text="@string/detail"
                 android:id="@+id/textView6"
                 android:textAllCaps="true"
                 android:layout_marginLeft="5dp"
@@ -107,7 +107,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn giá"
+                    android:text="@string/unit_price"
                     android:id="@+id/textView7" />
 
                 <TextView
@@ -128,7 +128,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Giảm giá"
+                    android:text="@string/discount"
                     android:id="@+id/textView9" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tổng tiền"
+                    android:text="@string/total"
                     android:id="@+id/textView11"
                     android:textStyle="bold"/>
                 <TextView
@@ -181,7 +181,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="chọn hình thức thanh toán"
+                android:text="@string/option_pay"
                 android:id="@+id/textView14"
                 android:textAllCaps="true"
                 android:layout_marginLeft="5dp"
@@ -244,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textsize_12sp"
                     android:textColor="@color/colorPrimary"
-                    android:text="Thanh toán qua ngân hàng"
+                    android:text="@string/bank_transfer"
                     android:textAllCaps="true"
                     android:padding="5dp"
                     />
@@ -272,7 +272,7 @@
                     app:layout_collapseMode="parallax"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="thanh toán"
+                    android:text="@string/purchase"
                     android:textAllCaps="true"
                     android:layout_margin="10dp"
                     />
@@ -293,7 +293,7 @@
                     android:layout_marginStart="10dp"
                     app:layout_collapseMode="parallax"
                     android:gravity="center"
-                    android:text="liên hệ"
+                    android:text="@string/contact"
                     android:textAllCaps="true"
                     android:layout_margin="5dp"
                     />

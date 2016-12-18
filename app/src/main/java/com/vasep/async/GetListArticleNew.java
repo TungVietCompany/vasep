@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
@@ -108,7 +110,8 @@ public class GetListArticleNew extends AsyncTask<Void, Void, List<Article>> {
                                 }));
 
                     }else if(type == 1){
-                        Picasso.with(context).load(adapterItem.getList().get(0).getImage()).into(image_top);
+                        //Picasso.with(context).load(adapterItem.getList().get(0).getImage()).into(image_top);
+                        Glide.with(context). load(adapterItem.getList().get(0).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(image_top);
                         txt_date_top.setText(ChangeDate.convertDate(articles.get(0).getCreate_date()));
                         txt_category_top.setText(adapterItem.getList().get(0).getCategory_name() + " | ");
                         txt_title_top.setText(adapterItem.getList().get(0).getTitle());

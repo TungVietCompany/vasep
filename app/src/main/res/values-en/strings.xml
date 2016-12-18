@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Đa ngôn ngữ</string>
+    <string name="change_language">Thay đổi ngôn ngữ</string>
+    <string name="title">Các ứng dụng sẽ thích ứng theo các thiết bị khác nhau</string>
+    <string name="content">Gandalf</string>
+
+    <string name="bt_Highlight">Highlight</string>
+    <string name="bt_News">News</string>
+    <string name="bt_Report">Report</string>
+
+    <string name="language">Language</string>
+    <string name="login">Sign in</string>
+    <string name="market">MARKET</string>
+    <string name="product">PRODUCT</string>
+
+    <string name="report_type1">REPORT ON VIETNAM SEAFOOD EXPORTS</string>
+    <string name="report_type2">REPORT ON VIETNAM SEAFOOD EXPORTS (PER QUARTER)</string>
+    <string name="report_type3">REPORT ON SEAFOOD MARKET</string>
+
+    <string name="btn_submit">SUBMIT</string>
+    <string name="btn_ssearch">SEARCH</string>
+    <string name="enter_text">Enter text</string>
+    <string name="priview">PREVIEW</string>
+    <string name="buy">BUY</string>
+    <string name="purchase">PURCHASE</string>
+
+    <string name="detail">DETAIL</string>
+    <string name="unit_price">Unit price</string>
+    <string name="discount">Discount</string>
+    <string name="total">Total</string>
+    <string name="option_pay">SELECT PAYMENT OPTION</string>
+    <string name="bank_transfer">BANK TRANSFER</string>
+
+    <string name="full_name">Full name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="note">Note</string>
+    <string name="send">Send</string>>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forgot_pass">Forgot password ?</string>
+    <string name="retype_password">Retype password</string>
+    <string name="contact">CONTACT</string>
+
+    <string name="catalog">CATALOG</string>
+</resources>
