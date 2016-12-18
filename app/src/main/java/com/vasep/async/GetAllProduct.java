@@ -52,7 +52,7 @@ public class GetAllProduct extends AsyncTask<Void,Void,List<Market>>{
                     }*/
                     values[i]= categories.get(i).getName();
                 }
-                lv.setMinValue(0);
+                lv.setMinValue(1);
                 lv.setMaxValue(values.length-1);
                 lv.setValue(9);
                 lv.setDisplayedValues(values);

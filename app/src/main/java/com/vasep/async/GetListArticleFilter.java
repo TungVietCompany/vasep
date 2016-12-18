@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by thuyetpham94 on 09/12/2016.
  */
-public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
+public class GetListArticleFilter extends AsyncTask<Void, Void, List<Article>> {
 
     private Context context;
     private int top;
@@ -39,8 +39,8 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     private  int type_load;
     ImageView image_top;
     TextView txt_date_top, txt_title_top, txt_category_top;
-    String category,title;
-    public GetListArticleSearch(Context context,String category,String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type) {
+    String product_id,market_id;
+    public GetListArticleFilter(Context context, String product_id, String market_id, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type) {
         this.context = context;
         this.top = top;
         this.from = from;
@@ -48,11 +48,11 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.adapterItem = adapterItem;
         this.type_load = type_load;
         this.rView=rView;
-        this.category = category;
-        this.title = title;
+        this.product_id = product_id;
+        this.market_id = market_id;
     }
 
-    public GetListArticleSearch(Context context, int top, int from, int type, AdapterItem adapterItem, RecyclerView rView, int type_load, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top) {
+    public GetListArticleFilter(Context context, int top, int from, int type, AdapterItem adapterItem, RecyclerView rView, int type_load, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top) {
         this.context = context;
         this.top = top;
         this.from = from;
@@ -77,17 +77,19 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     @Override
     protected List<Article> doInBackground(Void... voids) {
         ArticleController articleController = new ArticleController();
-        return articleController.searchArticle(category,title,type,top, from);
+        return articleController.filterArticle(market_id,product_id,type,top, from);
     }
 
     @Override
     protected void onPostExecute(final List<Article> articles) {
         try {
                 if (articles.size() > 0) {
+
                     SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean("is_search",true);
+                    editor.putBoolean("is_filter",true);
                     editor.commit();
+
                     if(type_load == 1){
                         adapterItem.addAll(articles);
                         adapterItem.notifyDataSetChanged();
