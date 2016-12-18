@@ -54,7 +54,8 @@
     <string name="retype_password">Nhập lại mật khẩu</string>
 
     <string name="catalog">DANH MỤC</string>
-<string name="contact">LIÊN HỆ</string>
+    <string name="contact">LIÊN HỆ</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

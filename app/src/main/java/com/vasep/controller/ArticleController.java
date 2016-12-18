@@ -7,7 +7,10 @@ import com.vasep.api.ServiceGenerator;
 import com.vasep.api.ServiceInterface;
 import com.vasep.models.Article;
 import com.vasep.models.ArticleModel;
+import com.vasep.models.Result;
+import com.vasep.models.AddView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -90,6 +93,26 @@ public class ArticleController {
         } catch (Exception ex) {
         }
         return null;
+    }
+
+    public Boolean addView(int article_id){
+        HashMap obj = new HashMap();
+        obj.put("article_id",article_id);
+
+        Call<AddView> contact = service.inserView(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            AddView str = contact.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+        }
+        return false;
     }
 
 }

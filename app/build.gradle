@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.vasep"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -21,6 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'es.voghdev.pdfviewpager:library:1.0.1'
+
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
@@ -36,7 +38,11 @@ dependencies {
     compile 'com.android.support:support-v4:23.4.0'
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
     compile 'com.github.barteksc:android-pdf-viewer:2.3.0'
-    compile 'es.voghdev.pdfviewpager:library:1.0.1'
     compile 'com.akexorcist:localizationactivity:1.0.9'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.android.gms:play-services:9.0.0'
+    compile 'com.google.firebase:firebase-core:9.0.0'
+    compile 'com.google.firebase:firebase-messaging:9.0.0'
 }
+
+

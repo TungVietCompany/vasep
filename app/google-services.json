@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "8127512400",
+    "firebase_url": "https://vasep-a710f.firebaseio.com",
+    "project_id": "vasep-a710f",
+    "storage_bucket": "vasep-a710f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8127512400:android:ccfaa0175b78b9aa",
+        "android_client_info": {
+          "package_name": "com.vasep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8127512400-pge5n722ijvobkfns7ea8ms6bs5nb63a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjP7IkxYCbEL_34epKAKWBc8SPQKbrcAE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

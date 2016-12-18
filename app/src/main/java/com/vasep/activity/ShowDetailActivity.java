@@ -2,7 +2,6 @@ package com.vasep.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +10,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.github.barteksc.pdfviewer.PDFView;
 import com.vasep.R;
+import com.vasep.async.InsertView;
 import com.vasep.models.Article;
 
 import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
@@ -34,6 +33,8 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
+//        InsertView insert = new InsertView(ShowDetailActivity.this,article.getId());
+//        insert.execute();
 
         if (Build.VERSION.SDK_INT >= 21) {
             remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.async.InsertView;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 
@@ -46,6 +47,10 @@ public class SpecialDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent i = getIntent();
         Article article = (Article)i.getSerializableExtra("article");
+
+//        InsertView insert = new InsertView(SpecialDetailActivity.this,article.getId());
+//        insert.execute();
+
         Picasso.with(SpecialDetailActivity.this).load(article.getImage()).into(screen2_image_top);
         screen2_category_top.setText(article.getCategory_name()+" | ");
         screen2_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));

@@ -2,7 +2,6 @@ package com.vasep.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -14,10 +13,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.async.InsertView;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 
@@ -59,6 +58,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
+        InsertView insert = new InsertView(ReportDetailActivity.this,21);
+        insert.execute();
 
         /*if(article.getIs_buy() == "0"){
             screen4_money_item.setText(article.getPrice() +" vnđ");
@@ -76,6 +77,13 @@ public class ReportDetailActivity extends AppCompatActivity {
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
         screen4_money_item.setText(article.getPrice() +" vnđ");
+        webview_reportdetail.getSettings().setJavaScriptEnabled(true);
+        webview_reportdetail.loadDataWithBaseURL(
+                "",
+                "<style>img{display: inline;height: auto;max-width: 100%;}"
+                        + " p {font-family:\"Tangerine\", \"Sans-serif\",  \"Serif\" font-size: 48px} </style>"
+                        + article.getContent(), "text/html", "UTF-8", "");
+
 
         screen4_read.setOnClickListener(new View.OnClickListener() {
             @Override

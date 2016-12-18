@@ -6,6 +6,7 @@ import com.vasep.models.MarketResult;
 import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
 import com.vasep.models.TypeModel;
+import com.vasep.models.AddView;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -45,9 +46,13 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getAllType")
     Call<TypeModel> getAllType();
 
+    @POST("rest_vasep/rest/increaseViewNumber")
+    Call<AddView> inserView(@Body Object article_id);
+
     @GET("rest_vasep/rest/filterArticle")
     Call<ArticleModel> filterArticle(@Query("market_id") String market_id,@Query("product_id") String product_id,@Query("type_id") int type_id,
                                      @Query("top") int top,@Query("from") int from);
 
-
+    @POST("rest_vasep/rest/insertNotification")
+    Call<Result> noti(@Body Object noti);
 }

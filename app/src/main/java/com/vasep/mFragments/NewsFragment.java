@@ -30,9 +30,11 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.OnCancelListener;
@@ -42,6 +44,7 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
+import com.vasep.activity.ReportDetailActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
@@ -49,6 +52,8 @@ import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
+import com.vasep.async.InsertView;
+import com.vasep.async.NotiAsync;
 import com.vasep.controller.Common;
 import com.vasep.models.Category;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
@@ -109,6 +114,23 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
 
+        //InsertView insert = new InsertView(getContext(),1);
+        //insert.execute();
+
+        String session_id = FirebaseInstanceId.getInstance().getToken().toString();
+
+        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+
+        if(pref.getString("firebase_id", null) == null){
+            editor.putString("firebase_id",session_id);
+            editor.commit();
+
+            NotiAsync notiAsync = new NotiAsync(getContext(),"anhye","android");
+            notiAsync.execute();
+        }
+        //Toast.makeText(getContext(),"hs"+session_id,Toast.LENGTH_LONG).show();
+        System.out.print("session:"+session_id);
         /*gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
