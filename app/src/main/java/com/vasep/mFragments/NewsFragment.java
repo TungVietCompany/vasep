@@ -53,7 +53,6 @@ import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
-import com.vasep.async.InsertView;
 import com.vasep.async.NotiAsync;
 import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.Common;
@@ -129,7 +128,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
         String session_id = FirebaseInstanceId.getInstance().getToken().toString();
 
-        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+        final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
 
         if(pref.getString("firebase_id", null) == null){
@@ -188,6 +187,37 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
                 showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
                         dismissListenersearch, cancelListenersearch, false);
+            }
+        });
+
+        final ImageView img_language = (ImageView) rootView.findViewById(R.id.language);
+        final String languages = pref.getString("language", null);
+
+        if (languages == null || languages.equals("vi")) {
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.vi));
+        }else{
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.en));
+        }
+        img_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String languagess = pref.getString("language", null);
+                if (languagess == null || languagess.equals("vi")) {
+                    editor.putString("language", "en");
+                    editor.commit();
+                    MainActivity.types=2;
+                    MainActivity.getINSTANCE().setLanguage("en");
+
+                }else{
+                    editor.putString("language", "vi");
+                    editor.commit();
+                    MainActivity.types=2;
+                    MainActivity.getINSTANCE().setLanguage("vi");
+
+
+                }
+
+
             }
         });
 
@@ -272,6 +302,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                                     for (int i = 0; i < list.size(); i++) {
                                         list.get(i).setLanguage_type(0);
                                     }
+                                    MainActivity.types=2;
                                     MainActivity.getINSTANCE().setLanguage("vi");
                                     catalog_title.setText("DANH MỤC");
                                     language_title.setText("Ngôn ngữ");
@@ -289,6 +320,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                                     for (int i = 0; i < list.size(); i++) {
                                         list.get(i).setLanguage_type(1);
                                     }
+                                    MainActivity.types=2;
                                     MainActivity.getINSTANCE().setLanguage("en");
                                     catalog_title.setText("CATALOG");
                                     language_title.setText("Language");

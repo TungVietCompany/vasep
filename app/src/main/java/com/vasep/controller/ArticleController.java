@@ -3,6 +3,8 @@ package com.vasep.controller;
 import android.app.Activity;
 import android.os.StrictMode;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.vasep.api.ServiceGenerator;
 import com.vasep.api.ServiceInterface;
 import com.vasep.models.Article;
@@ -11,6 +13,7 @@ import com.vasep.models.Result;
 import com.vasep.models.AddView;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -62,7 +65,13 @@ public class ArticleController {
     }
 
     public List<Article> searchArticle(String categories,String title,int type,int top,int from,String language_type,int market_id,int product_id,int type_id){
-        Call<ArticleModel> search = service.searchArticle(categories,title,type,top,from,language_type,market_id,product_id,type_id);
+        int type_lang=0;
+        if(language_type.equals("en")){
+            type_lang=1;
+        }else{
+            type_lang=0;
+        }
+        Call<ArticleModel> search = service.searchArticle(categories,title,type,top,from,type_lang,market_id,product_id,type_id);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
@@ -96,9 +105,11 @@ public class ArticleController {
     }
 
     public Boolean addView(int article_id){
-        HashMap obj = new HashMap();
-        obj.put("article_id",article_id);
+        Hashtable obj = new Hashtable();
+        obj.put("article_id",article_id+"");
 
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
         Call<AddView> contact = service.inserView(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {

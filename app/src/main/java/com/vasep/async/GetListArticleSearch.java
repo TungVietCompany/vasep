@@ -166,12 +166,22 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
                     txt_category_top.setText(article.getCategory_name() + " | ");
                     txt_title_top.setText(article.getTitle());
+                    final Article tmp= article;
+                    image_top.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, SpecialDetailActivity.class);
+                            intent.putExtra("article", tmp);
+                            context.startActivity(intent);
+                        }
+                    });
+
                         /*bắt sự kiện click vào item*/
                     rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(context, NewsDetailActivity.class);
+                                    Intent intent = new Intent(context, SpecialDetailActivity.class);
                                     intent.putExtra("article", adapterItem.getList().get(position));
                                     context.startActivity(intent);
                                 }
@@ -182,12 +192,22 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
                     txt_category_top.setText(article.getCategory_name() + " | ");
                     txt_title_top.setText(article.getTitle());
+
+                    final Article tmp= article;
+                    image_top.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, NewsDetailActivity.class);
+                            intent.putExtra("article", tmp);
+                            context.startActivity(intent);
+                        }
+                    });
                         /*bắt sự kiện click vào item*/
                     rView.addOnItemTouchListener(new RecyclerItemClickListener(context,
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                    Intent intent = new Intent(context, NewsDetailActivity.class);
                                     intent.putExtra("article", adapterItem.getList().get(position));
                                     context.startActivity(intent);
                                 }

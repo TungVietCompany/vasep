@@ -45,6 +45,7 @@ public class MainActivity extends LocalizationActivity {
     //MaterialSearchView searchView;
     public static MainActivity INSTANCE;
     public int type;
+    public static int types;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +55,28 @@ public class MainActivity extends LocalizationActivity {
         type = i.getIntExtra("type",0);
         Log.d("sa",type+"");
         if(type == 0){
-            callFragment(new SpecialFragment());
+            try {
+                if (types == 1){
+                    callFragment(new SpecialFragment());
+                }else if(types==2){
+                    callFragment(new NewsFragment());
+                }else{
+                    callFragment(new ReportFragment());
+                }
+            }catch (Exception err){
+                callFragment(new SpecialFragment());
+            }
+
         }else if(type == 3){
+            type=0;
             callFragment(new ReportFragment());
         }
         else if(type == 2){
+            type=0;
             callFragment(new NewsFragment());
         }else if(type == 1){
             callFragment(new SpecialFragment());
+            type=0;
         }
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         String language = pref.getString("language", null);
@@ -79,12 +94,12 @@ public class MainActivity extends LocalizationActivity {
         transaction.commit();
     }
 
-    public int getType() {
-        return type;
+    public static int getType() {
+        return types;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public static void setType(int type) {
+        MainActivity.types = types;
     }
 
     public static MainActivity getINSTANCE() {

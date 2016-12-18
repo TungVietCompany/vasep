@@ -1,7 +1,9 @@
 package com.vasep.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 import com.squareup.picasso.Picasso;
@@ -49,7 +54,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent i = getIntent();
         Article article = (Article)i.getSerializableExtra("article");
-        Picasso.with(NewsDetailActivity.this).load(article.getImage()).into(screen2_image_top);
+
+        IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(NewsDetailActivity.this,Integer.parseInt(article.getId()));
+        increaseViewAsync.execute();
+
+        //Picasso.with(NewsDetailActivity.this).load(article.getImage()).into(screen2_image_top);
+        Glide.with(NewsDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen2_image_top);
         screen2_category_top.setText(article.getCategory_name()+" | ");
         screen2_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen1_title_item.setText(article.getTitle());
@@ -72,7 +82,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewsDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",1);
+                intent.putExtra("type",2);
                 startActivity(intent);
                 finish();
             }
@@ -100,4 +110,34 @@ public class NewsDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public class IncreaseViewAsync extends AsyncTask<Void,Void,Boolean> {
+        Context context;
+        int article_id;
+        public IncreaseViewAsync(Context context, int article_id) {
+            this.context = context;
+            this.article_id = article_id;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArticleController notificationController = new ArticleController();
+            return notificationController.addView(article_id);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+
+            }else{
+
+            }
+        }
+    }
 }

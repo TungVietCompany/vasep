@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
 import com.vasep.controller.ChangeDate;
@@ -36,13 +38,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean isMoreLoading = false;
     private int visibleThreshold = 2;
     private Context context;
-    private int type=1;
+    private int type = 1;
     int lastVisibleItem, visibleItemCount, totalItemCount;
 
     public interface OnLoadMoreListener {
         void onLoadMore();
     }
-
 
 
     public AdapterItem(Context context, OnLoadMoreListener onLoadMoreListener) {
@@ -133,12 +134,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsHoder) {
 
-                    Article article = (Article) itemList.get(position);
-                    Picasso.with(context).load(article.getImage()).into(((NewsHoder) holder).imageView);
-                    ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
-                    ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
-                    ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
-
+            Article article = itemList.get(position);
+            Glide.with(context). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder)holder).imageView);
+            ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
+            ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
+            ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
 
         }
     }
@@ -150,7 +150,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
 
-            return itemList.size();
+        return itemList.size();
 
     }
 

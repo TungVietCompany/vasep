@@ -27,20 +27,18 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
 
     Context context;
     AdapterRecylerSearch adapterRecylerSearch;
-    RecyclerView rview,rviewarticle;
+    RecyclerView rview;
     ProgressDialog dialog;
     DialogPlus dialogPlus;
-    int type;
 
-    AdapterItem adapterItem;
 
-    public GetAllCategory(Context context, RecyclerView rview,RecyclerView rviewarticle,AdapterItem adapterItem, DialogPlus dialogPlus,int type){
+
+    public GetAllCategory(Context context, RecyclerView rview, DialogPlus dialogPlus){
         this.context = context;
         this.rview = rview;
         this.dialogPlus = dialogPlus;
-        this.rviewarticle = rviewarticle;
-        this.type = type;
-        this.adapterItem = adapterItem;
+
+
     }
 
 

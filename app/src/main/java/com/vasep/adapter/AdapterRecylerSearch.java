@@ -50,7 +50,7 @@ public class AdapterRecylerSearch extends RecyclerView.Adapter<AdapterRecylerSea
     @Override
     public void onBindViewHolder(final SearchHoder holder, final int position) {
         holder.screen10_txt_category.setText(categories.get(position).getName());
-        holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.close));
+        holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_x));
         categories.get(position).setIscheck(false);
 
         holder.linear_search.setOnClickListener(new View.OnClickListener() {
@@ -59,12 +59,12 @@ public class AdapterRecylerSearch extends RecyclerView.Adapter<AdapterRecylerSea
                 if(categories.get(position).ischeck() == false){
                     categories.get(position).setIscheck(true);
                     holder.linear_search.setBackground(context.getResources().getDrawable(R.drawable.border_rv_search_active));
-                    holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.tick));
+                    holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_v));
 
                 }else{
                     categories.get(position).setIscheck(false);
                     holder.linear_search.setBackground(context.getResources().getDrawable(R.drawable.border_rv_search));
-                    holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.close));
+                    holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_x));
 
                 }
             }

@@ -91,7 +91,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
     private AdapterItem mAdapter,mAdapterNew;
     //@Bind(R.id.screen1_tops)
     RelativeLayout screen1_tops;
-
+    boolean flag=false;
 
     @Nullable
     @Override
@@ -189,6 +189,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                                 editor.putString("language", "vi");
                                 editor.commit();
                                 try {
+                                    MainActivity.types=1;
                                     MainActivity.getINSTANCE().setLanguage("vi");
                                     catalog_title.setText("DANH MỤC");
                                     language_title.setText("Ngôn ngữ");
@@ -202,6 +203,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                                 editor.putString("language", "en");
                                 editor.commit();
                                 try {
+                                    MainActivity.types=1;
                                     MainActivity.getINSTANCE().setLanguage("en");
                                     catalog_title.setText("CATALOG");
                                     language_title.setText("Language");
@@ -259,7 +261,10 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
 
         this.createNavItems();
-        loadData(0);
+        if(!flag) {
+            loadData(0);
+            flag=true;
+        }
 
         ImageView search = (ImageView) rootView.findViewById(R.id.screen2_search);
         search.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +273,37 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
                 showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
                         dismissListenersearch, cancelListenersearch, false);
+            }
+        });
+
+
+        final ImageView img_language = (ImageView) rootView.findViewById(R.id.language);
+        final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        final String languages = pref.getString("language", null);
+
+        if (languages == null || languages.equals("vi")) {
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.vi));
+        }else{
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.en));
+        }
+        img_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String languagess = pref.getString("language", null);
+                if (languagess == null || languagess.equals("vi")) {
+                    editor.putString("language", "en");
+                    editor.commit();
+                    MainActivity.types=1;
+                    MainActivity.getINSTANCE().setLanguage("en");
+
+                }else{
+                    editor.putString("language", "vi");
+                    editor.commit();
+                    MainActivity.types=1;
+                    MainActivity.getINSTANCE().setLanguage("vi");
+
+                }
             }
         });
 

@@ -1,7 +1,9 @@
 package com.vasep.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -14,9 +16,12 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
-import com.vasep.async.InsertView;
+
+import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 
@@ -58,8 +63,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
-        InsertView insert = new InsertView(ReportDetailActivity.this,Integer.valueOf(article.getId()));
-        insert.execute();
+        IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(ReportDetailActivity.this,Integer.parseInt(article.getId()));
+        increaseViewAsync.execute();
 
         /*if(article.getIs_buy() == "0"){
             screen4_money_item.setText(article.getPrice() +" vnđ");
@@ -72,7 +77,8 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         }*/
 
-        Picasso.with(ReportDetailActivity.this).load(article.getImage()).into(screen4_image_item);
+        //Picasso.with(ReportDetailActivity.this).load(article.getImage()).into(screen4_image_item);
+        Glide.with(ReportDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen4_image_item);
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
@@ -135,5 +141,36 @@ public class ReportDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public class IncreaseViewAsync extends AsyncTask<Void,Void,Boolean> {
+        Context context;
+        int article_id;
+        public IncreaseViewAsync(Context context, int article_id) {
+            this.context = context;
+            this.article_id = article_id;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArticleController notificationController = new ArticleController();
+            return notificationController.addView(article_id);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+
+            }else{
+
+            }
+        }
     }
 }

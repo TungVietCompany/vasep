@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="3"
-            android:hint="Nhập nội dung tìm kiếm"
+            android:hint="@string/enter_text"
             android:gravity="bottom"
             android:layout_margin="@dimen/margin_10dp"
             android:background="@drawable/customborderpay"
@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="tìm kiếm"
+                android:text="@string/btn_ssearch"
                 android:textAllCaps="true"
                 android:gravity="center"
                 android:padding="@dimen/margin_10dp"
@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cataloge"
+            android:text="@string/catalog"
             android:textAllCaps="true"
             android:padding="@dimen/margin_10dp"
             android:textColor="@color/background_toolbar"

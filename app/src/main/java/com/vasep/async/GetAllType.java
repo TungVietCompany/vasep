@@ -32,20 +32,15 @@ public class GetAllType extends AsyncTask<Void, Void, List<Type>> {
     Context context;
     DialogPlus dialogPlus;
 
-
     public GetAllType(Context context, DialogPlus dialogPlus) {
         this.context = context;
         this.dialogPlus = dialogPlus;
 
     }
-
-
     @Override
     protected void onPreExecute() {
 
     }
-
-
     @Override
     protected List<Type> doInBackground(Void... params) {
         TypeController categoryController = new TypeController();

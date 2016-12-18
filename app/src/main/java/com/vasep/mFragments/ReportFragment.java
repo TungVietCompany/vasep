@@ -122,7 +122,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         actionBar.setDisplayUseLogoEnabled(true);
 
         /*click vào nut home tren toolbar*/
-        View view = toolbar.getChildAt(1);
+        final View view = toolbar.getChildAt(1);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +173,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                             editor.putString("language", "vi");
                             editor.commit();
                             try {
+                                MainActivity.types=3;
                                 MainActivity.getINSTANCE().setLanguage("vi");
                                 catalog_title.setText("DANH MỤC");
                                 language_title.setText("Ngôn ngữ");
@@ -186,6 +187,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                             editor.putString("language", "en");
                             editor.commit();
                             try {
+                                MainActivity.types=3;
                                 MainActivity.getINSTANCE().setLanguage("en");
                                 catalog_title.setText("CATALOG");
                                 language_title.setText("Language");
@@ -221,12 +223,44 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             }
         });
 
+        final ImageView img_language = (ImageView) rootView.findViewById(R.id.language);
+        final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        final String languages = pref.getString("language", null);
+
+        if (languages == null || languages.equals("vi")) {
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.vi));
+        }else{
+            img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.en));
+        }
+        img_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String languagess = pref.getString("language", null);
+                if (languagess == null || languagess.equals("vi")) {
+                    editor.putString("language", "en");
+                    editor.commit();
+                    MainActivity.types=3;
+                    MainActivity.getINSTANCE().setLanguage("en");
+
+                }else{
+                    editor.putString("language", "vi");
+                    editor.commit();
+                    MainActivity.types=3;
+                    MainActivity.getINSTANCE().setLanguage("vi");
+
+                }
+
+
+            }
+        });
+
+
         ImageView search = (ImageView) rootView.findViewById(R.id.screen3_search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
-
                 showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
                         dismissListenersearch, cancelListenersearch, false);
             }
@@ -258,6 +292,9 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         bottomNavigation.setCurrentItem(2);
         this.createNavItems();
         loadData(0);
+
+
+
         return rootView;
     }
 
@@ -389,8 +426,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        //GetAllCategory getAllCategory = new GetAllCategory(getContext(),issearch,category_id,textsearch,rv_search,rView,mAdapter,dialog,2);
-        //getAllCategory.execute();
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog);
+        getAllCategory.execute();
 
         dialog.show();
     }
@@ -467,12 +504,16 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                         productID= Integer.parseInt(getAllProduct.getList().get(productID).getId());
                     }
                     SharedPreferences pref = getContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
-                    int type_report = pref.getInt("type_report", 0);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putInt("marketID", marketID);
+                    editor.putInt("productID", productID);
+                    editor.commit();
+                    int type_report = pref.getInt("type_report", 1);
                     String language = pref.getString("language", null);
                     String catalog = pref.getString("catalog", null);
-                    if(type_report==0){
-                        type_report=1;
-                    }
+
+                    marketID= pref.getInt("marketID",-1);
+                    productID= pref.getInt("productID",-1);
                     mAdapter.setType(0);
                     dialog.dismiss();
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);
@@ -516,8 +557,11 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     if (null == language) {
                         language = "vi";
                     }
+                    int type_report = pref.getInt("type_report", 1);
+                    marketID= pref.getInt("marketID",-1);
+                    productID= pref.getInt("productID",-1);
                     mAdapter.setType(0);
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, -1, -1,1);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID,type_report);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
                     String errs= err.getMessage();
@@ -539,8 +583,11 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             if (null == language) {
                 language = "vi";
             }
+            int type_report = pref.getInt("type_report", 1);
+            marketID= pref.getInt("marketID",-1);
+            productID= pref.getInt("productID",-1);
             mAdapter.setType(0);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, -1, -1, 1);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, marketID, productID,type_report);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errs= err.getMessage();

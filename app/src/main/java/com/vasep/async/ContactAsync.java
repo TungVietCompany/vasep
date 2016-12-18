@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.vasep.controller.ArticleController;
 import com.vasep.controller.ContactController;
 import com.vasep.notification.Information;
 
@@ -53,4 +54,6 @@ public class ContactAsync extends AsyncTask<Void,Void,Boolean> {
         dialog.dismiss();
 
     }
+
+
 }

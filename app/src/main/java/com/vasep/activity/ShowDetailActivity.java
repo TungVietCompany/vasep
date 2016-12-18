@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.vasep.R;
-import com.vasep.async.InsertView;
 import com.vasep.models.Article;
 
 import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
