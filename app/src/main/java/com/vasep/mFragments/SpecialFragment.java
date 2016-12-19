@@ -27,6 +27,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -92,12 +93,14 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
     //@Bind(R.id.screen1_tops)
     RelativeLayout screen1_tops;
     boolean flag=false;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.crime_fragment, container, false);
 
+        progressBar = (ProgressBar)rootView.findViewById(R.id.pBar);
         /*khai bao*/
         screen1_tops=(RelativeLayout) rootView.findViewById(R.id.screen1_tops);
         screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
@@ -380,7 +383,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                         language = "vi";
                     }
                     mAdapter.setType(1);
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), mAdapterNew,catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 1, language, 0, 0, 0);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar, mAdapterNew,catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 1, language, 0, 0, 0);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
                 }
@@ -400,7 +403,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 language = "vi";
             }
             mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errr = err.getMessage();

@@ -28,6 +28,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -101,12 +102,16 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
     private SwipeRefreshLayout swipeRefresh;
     private AdapterItem mAdapter,mAdapterNew;
+    View rootView;
+
+    public ProgressBar pBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.crime_fragment, container, false);
+        rootView = inflater.inflate(R.layout.crime_fragment, container, false);
 
+        pBar = (ProgressBar)rootView.findViewById(R.id.pBar);
         /*khai bao*/
         screen1_tops = (RelativeLayout) rootView.findViewById(R.id.screen1_tops);
         screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
@@ -216,11 +221,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                     editor.commit();
                     MainActivity.types=2;
                     MainActivity.getINSTANCE().setLanguage("vi");
-
-
                 }
-
-
             }
         });
 
@@ -416,7 +417,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                         language = "vi";
                     }
                     mAdapter.setType(1);
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 0, language, 0, 0, 0);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),pBar,mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 0, language, 0, 0, 0);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
 
@@ -428,7 +429,6 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
     private void loadData(int from) {
         try {
             SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-
             String language = pref.getString("language", null);
             String catalog = pref.getString("catalog", null);
             if (null == catalog) {
@@ -438,7 +438,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 language = "vi";
             }
             mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),pBar, Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
 
