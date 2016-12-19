@@ -12,11 +12,11 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="3"
             android:hint="@string/enter_text"
             android:gravity="bottom"
             android:layout_margin="@dimen/margin_10dp"
             android:background="@drawable/customborderpay"
+            android:textColorHint="#c8c8c8"
             android:padding="@dimen/padding_10dp"
             android:id="@+id/screen10_txt_search"
             />

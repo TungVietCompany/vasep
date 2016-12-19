@@ -431,7 +431,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 .setExpanded(expanded)
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
-                .setOverlayBackgroundResource(android.R.color.transparent)
+                .setOverlayBackgroundResource(R.color.bg_trans)
                 .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 

@@ -14,13 +14,25 @@
             android:layout_height="match_parent"
             app:contentScrim="@color/background_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:fitsSystemWindows="true"
-                android:id="@+id/screen2_image_top"
-                app:layout_collapseMode="parallax" />
+                android:background="@drawable/gradient_top"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:fitsSystemWindows="true"
+                    android:id="@+id/screen2_image_top"
+                    app:layout_collapseMode="parallax" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_top"/>
+
+            </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_newsdetail"
                 android:layout_width="match_parent"
@@ -83,7 +95,9 @@
                     android:id="@+id/screen2_date_top"
                     />
             </LinearLayout>
+
             <WebView
+
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
