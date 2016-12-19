@@ -36,6 +36,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -95,10 +96,15 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     static String category_id, textsearch;
     public int marketID,productID;
 
+    ProgressBar progressBar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.report_fragment, container, false);
+
+        progressBar = (ProgressBar)rootView .findViewById(R.id.pBar);
+
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_report);
         setHasOptionsMenu(true);
         swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
@@ -561,7 +567,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     marketID= pref.getInt("marketID",-1);
                     productID= pref.getInt("productID",-1);
                     mAdapter.setType(0);
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID,type_report);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID,type_report);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
                     String errs= err.getMessage();
@@ -587,7 +593,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             marketID= pref.getInt("marketID",-1);
             productID= pref.getInt("productID",-1);
             mAdapter.setType(0);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, marketID, productID,type_report);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, marketID, productID,type_report);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errs= err.getMessage();

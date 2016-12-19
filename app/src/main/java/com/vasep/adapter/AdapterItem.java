@@ -96,11 +96,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_ITEM) {
+ //       if (viewType == VIEW_ITEM) {
             return new NewsHoder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dapter_recyclerview, parent, false));
-        } else {
-            return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
-        }
+//        } else {
+//            return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
+//        }
 
     }
 
@@ -187,12 +187,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    static class ProgressViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar pBar;
-
-        public ProgressViewHolder(View v) {
-            super(v);
-            pBar = (ProgressBar) v.findViewById(R.id.pBar);
-        }
-    }
+//    static class ProgressViewHolder extends RecyclerView.ViewHolder {
+//        public ProgressBar pBar;
+//
+//        public ProgressViewHolder(View v) {
+//            super(v);
+//            pBar = (ProgressBar) v.findViewById(R.id.pBar);
+//        }
+//    }
 }

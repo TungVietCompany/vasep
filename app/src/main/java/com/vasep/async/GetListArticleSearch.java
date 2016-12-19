@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     RelativeLayout screen1_tops;
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
+    ProgressBar progressBar;
+
 
     public GetListArticleSearch(Context context,AdapterItem adapterItemNew, String category, String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type, String language_type, int market_id, int product_id, int type_id) {
         this.context = context;
@@ -67,7 +70,11 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.adapterItemNew = adapterItemNew;
     }
 
-    public GetListArticleSearch(Context context, int top, int from, int type, AdapterItem adapterItem, RecyclerView rView, int type_load, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top, RelativeLayout screen1_tops, AdapterItem adapterItemNew, String language_type, String category, String title, int market_id, int product_id, int type_id) {
+    public GetListArticleSearch(Context context, int top, int from, int type, AdapterItem adapterItem,
+                                RecyclerView rView, int type_load, ImageView image_top,
+                                TextView txt_date_top, TextView txt_title_top, TextView txt_category_top,
+                                RelativeLayout screen1_tops, AdapterItem adapterItemNew, String language_type,
+                                String category, String title, int market_id, int product_id, int type_id) {
         this.context = context;
         this.top = top;
         this.from = from;
@@ -90,9 +97,54 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
 
     }
 
+    public GetListArticleSearch(Context context,ProgressBar progressBar,AdapterItem adapterItemNew, String category, String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type, String language_type, int market_id, int product_id, int type_id) {
+        this.context = context;
+        this.top = top;
+        this.from = from;
+        this.type = type;
+        this.adapterItem = adapterItem;
+        this.type_load = type_load;
+        this.rView = rView;
+        this.category = category;
+        this.title = title;
+        this.language_type = language_type;
+        this.market_id = market_id;
+        this.product_id = product_id;
+        this.type_id = type_id;
+        this.adapterItemNew = adapterItemNew;
+        this.progressBar = progressBar;
+    }
+
+    public GetListArticleSearch(Context context,ProgressBar progressBar, int top, int from, int type, AdapterItem adapterItem,
+                                RecyclerView rView, int type_load, ImageView image_top,
+                                TextView txt_date_top, TextView txt_title_top, TextView txt_category_top,
+                                RelativeLayout screen1_tops, AdapterItem adapterItemNew, String language_type,
+                                String category, String title, int market_id, int product_id, int type_id) {
+        this.context = context;
+        this.top = top;
+        this.from = from;
+        this.type = type;
+        this.adapterItem = adapterItem;
+        this.rView = rView;
+        this.type_load = type_load;
+        this.image_top = image_top;
+        this.txt_date_top = txt_date_top;
+        this.txt_title_top = txt_title_top;
+        this.txt_category_top = txt_category_top;
+        this.language_type = language_type;
+        this.category = category;
+        this.title = title;
+        this.market_id = market_id;
+        this.product_id = product_id;
+        this.type_id = type_id;
+        this.screen1_tops = screen1_tops;
+        this.adapterItemNew = adapterItemNew;
+        this.progressBar = progressBar;
+    }
+
     @Override
     protected void onPreExecute() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -103,6 +155,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
 
     @Override
     protected void onPostExecute(final List<Article> articles) {
+        progressBar.setVisibility(View.GONE);
         try {
             if (articles.size() > 0) {
 
