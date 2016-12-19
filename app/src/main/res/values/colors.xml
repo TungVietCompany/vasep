@@ -27,6 +27,7 @@
     <color name="bg_menu">#73000000</color>
 
     <color name="bg_report">#66ffffff</color>
+    <color name="bg_color_hint">#d1d1d1</color>
 
 
     <color name="translucent_scrim_top">#26000000</color>

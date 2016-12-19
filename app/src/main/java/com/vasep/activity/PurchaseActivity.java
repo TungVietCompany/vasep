@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.controller.money;
 import com.vasep.models.Article;
 
 import butterknife.Bind;
@@ -48,7 +49,7 @@ public class PurchaseActivity extends AppCompatActivity {
 
         Picasso.with(PurchaseActivity.this).load(article.getImage()).into(screen6_image);
         screen6_title.setText(article.getTitle());
-        screen6_price.setText(article.getPrice()+" vnđ");
+        screen6_price.setText( article.getPrice()+" vnđ");
         screen6_discount.setText((Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100 +" vnđ");
         float sum_money = Float.parseFloat(article.getPrice())-(Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100;
         screen6_summoney.setText(sum_money+" vnđ");
@@ -61,8 +62,9 @@ public class PurchaseActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle(getResources().getString(R.string.purchase));
         actionBar.setIcon(R.drawable.btn_back1);
-        actionBar.setDisplayUseLogoEnabled(true);
+
 
         screen6_contact.setOnClickListener(new View.OnClickListener() {
             @Override

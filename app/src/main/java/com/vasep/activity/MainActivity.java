@@ -22,10 +22,12 @@ import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.LocalizationActivity;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterRecylerSearch;
 import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetArticleAsync;
+import com.vasep.async.NotiAsync;
 import com.vasep.mFragments.NewsFragment;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.Holder;
@@ -51,6 +53,22 @@ public class MainActivity extends LocalizationActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //firebase
+  //              String session_id = FirebaseInstanceId.getInstance().getToken().toString();
+//
+//        SharedPreferences pref = MainActivity.this.getSharedPreferences("MyPref", MainActivity.this.MODE_PRIVATE);
+//        final SharedPreferences.Editor editor = pref.edit();
+//
+//        if(pref.getString("firebase_id", null) == null){
+//            editor.putString("firebase_id",session_id);
+//            editor.commit();
+//            NotiAsync notiAsync = new NotiAsync(MainActivity.this,session_id,"android");
+//            notiAsync.execute();
+//
+//        }
+        //end
+
         INSTANCE= this;
         Intent i = getIntent();
         type = i.getIntExtra("type",0);

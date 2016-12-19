@@ -63,9 +63,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
-        IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(ReportDetailActivity.this,Integer.parseInt(article.getId()));
-        increaseViewAsync.execute();
-
         /*if(article.getIs_buy() == "0"){
             screen4_money_item.setText(article.getPrice() +" vnđ");
         }else{
@@ -141,36 +138,5 @@ public class ReportDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-    }
-
-    public class IncreaseViewAsync extends AsyncTask<Void,Void,Boolean> {
-        Context context;
-        int article_id;
-        public IncreaseViewAsync(Context context, int article_id) {
-            this.context = context;
-            this.article_id = article_id;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            ArticleController notificationController = new ArticleController();
-            return notificationController.addView(article_id);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean){
-
-            }else{
-
-            }
-        }
     }
 }

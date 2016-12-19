@@ -1,17 +1,27 @@
 package com.vasep.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.vasep.R;
+import com.vasep.async.AddView;
 import com.vasep.models.Article;
+import com.vasep.notification.Information;
 
 import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
 import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
@@ -24,13 +34,49 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
     Button btnDownload;
     PDFPagerAdapter adapter;
     LinearLayout root;
+
+    //private ProgressBar progress;
+    WebView webview;
+
+    ProgressDialog dialog;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
+
+        dialog = new ProgressDialog(this);
+
         root = (LinearLayout) findViewById(R.id.remote_pdf_root);
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_showdetail);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Material Search");
+        toolbar.setTitleTextColor(Color.parseColor("#0c69d3"));
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.btn_back1);
+        actionBar.setDisplayUseLogoEnabled(true);
+
+         /*click vào nut home tren toolbar*/
+        View view = toolbar.getChildAt(0);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowDetailActivity.this,ReportDetailActivity.class);
+                intent.putExtra("article",article);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        AddView insert = new AddView(ShowDetailActivity.this,article.getId());
+        insert.execute();
 
 //        InsertView insert = new InsertView(ShowDetailActivity.this,article.getId());
 //        insert.execute();
@@ -39,13 +85,38 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
             remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
             remotePDFViewPager.setId(R.id.pdfViewPager);
         } else {
-            WebView webview = (WebView) findViewById(R.id.pdfView);
+            webview = (WebView) findViewById(R.id.pdfView);
             webview.getSettings().setJavaScriptEnabled(true);
+            //progress.setProgress(0);
             String pdf = "http://103.237.147.54/Webtin/public/templates/upload/report_full/1481397968.pdf";
             webview.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf+"&overridemobile=true");
             WebSettings webSettings = webview.getSettings();
             //webSettings.setBuiltInZoomControls(true);
             webSettings.setSupportZoom(true);
+            webview.setWebViewClient(new MyWebViewClient());
+        }
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            dialog.dismiss();
+            //progress.setProgress(100);
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            dialog.setMessage(Information.loading);
+            dialog.show();
+            //progress.setProgress(0);
+            super.onPageStarted(view, url, favicon);
         }
     }
 

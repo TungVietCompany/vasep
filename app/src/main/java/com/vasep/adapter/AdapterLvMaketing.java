@@ -22,6 +22,7 @@ public class AdapterLvMaketing extends BaseAdapter {
     private Context mContext;
     List<Market> list;
 
+
     public AdapterLvMaketing(Context c, List<Market> list) {
         mContext = c;
         this.list=list;

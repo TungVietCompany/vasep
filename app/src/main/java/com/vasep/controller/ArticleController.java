@@ -104,13 +104,13 @@ public class ArticleController {
         return null;
     }
 
-    public Boolean addView(int article_id){
-        Hashtable obj = new Hashtable();
-        obj.put("article_id",article_id+"");
-
-        Gson gson = new Gson();
-        String json = gson.toJson(obj);
-        Call<AddView> contact = service.inserView(obj);
+    public Boolean addView(String article_id){
+//        Hashtable obj = new Hashtable();
+//        obj.put("article_id",article_id+"");
+//
+//        Gson gson = new Gson();
+//        String json = gson.toJson(obj);
+        Call<AddView> contact = service.inserView(article_id);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

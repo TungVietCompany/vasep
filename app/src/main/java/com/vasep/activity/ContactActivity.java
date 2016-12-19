@@ -17,15 +17,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akexorcist.localizationactivity.LocalizationActivity;
 import com.vasep.R;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.async.ContactAsync;
 import com.vasep.models.Article;
+import com.vasep.notification.Information;
 
 import java.nio.Buffer;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +50,7 @@ public class ContactActivity extends LocalizationActivity {
     @Bind(R.id.screen7_send)
     CardView screen7_send;
     boolean flag=false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,15 +89,29 @@ public class ContactActivity extends LocalizationActivity {
         screen7_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContactAsync contactAsync = new ContactAsync(ContactActivity.this,screen7_fullname.getText().toString(),
-                        screen7_phone.getText().toString(),screen7_address.getText().toString(),screen7_note.getText().toString());
-                contactAsync.execute();
+                if(screen7_fullname.getText().toString().trim().length()==0){
+                    Toast.makeText(ContactActivity.this, Information.check_name,Toast.LENGTH_SHORT).show();
+                }
+                else if(!isValidMobile(screen7_phone.getText().toString())){
+                    Toast.makeText(ContactActivity.this, Information.check_phone,Toast.LENGTH_SHORT).show();
+                }
+                else if(screen7_address.getText().toString().trim().length()==0){
+                    Toast.makeText(ContactActivity.this, Information.check_address,Toast.LENGTH_SHORT).show();
+                }
 
-                Intent intent = new Intent(ContactActivity.this,PurchaseActivity.class);
-                intent.putExtra("article",article);
-                startActivity(intent);
-                finish();
+                else if(screen7_note.getText().toString().trim().length()==0){
+                    Toast.makeText(ContactActivity.this, Information.check_note,Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ContactAsync contactAsync = new ContactAsync(ContactActivity.this, screen7_fullname.getText().toString(),
+                            screen7_phone.getText().toString(), screen7_address.getText().toString(), screen7_note.getText().toString());
+                    contactAsync.execute();
 
+                    Intent intent = new Intent(ContactActivity.this, PurchaseActivity.class);
+                    intent.putExtra("article", article);
+                    startActivity(intent);
+                    finish();
+                }
                 // set ngôn ngữ
 
 
@@ -101,5 +119,26 @@ public class ContactActivity extends LocalizationActivity {
         });
 
 
+    }
+
+    private boolean isValidMobile(String phone2)
+    {
+        boolean check=false;
+        if(!Pattern.matches("[a-zA-Z]+", phone2))
+        {
+            if(phone2.length() < 6 || phone2.length() > 13)
+            {
+                check = false;
+            }
+            else
+            {
+                check = true;
+            }
+        }
+        else
+        {
+            check=false;
+        }
+        return check;
     }
 }
