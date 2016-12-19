@@ -81,7 +81,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
-        screen4_money_item.setText( new DecimalFormat("#,###.00").format(Double.parseDouble(article.getPrice())) +" vnđ");
+        screen4_money_item.setText( new DecimalFormat("#,###.##").format(Double.parseDouble(article.getPrice())) +" vnđ");
         webview_reportdetail.getSettings().setJavaScriptEnabled(true);
         webview_reportdetail.loadDataWithBaseURL(
                 "",

@@ -51,10 +51,10 @@ public class PurchaseActivity extends AppCompatActivity {
 
         Picasso.with(PurchaseActivity.this).load(article.getImage()).into(screen6_image);
         screen6_title.setText(article.getTitle());
-        screen6_price.setText( new DecimalFormat("#,###.00").format(Double.parseDouble(article.getPrice()))+" vnđ");
-        screen6_discount.setText(new DecimalFormat("#,###.00").format(Double.parseDouble((Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100+"")) +" vnđ");
+        screen6_price.setText( new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice()))+" vnđ");
+        screen6_discount.setText(new DecimalFormat("#,###.#").format(Double.parseDouble((Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100+"")) +" vnđ");
         float sum_money = Float.parseFloat(article.getPrice())-(Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100;
-        screen6_summoney.setText( new DecimalFormat("#,###.00").format(Double.parseDouble(sum_money+"")) +" vnđ");
+        screen6_summoney.setText( new DecimalFormat("#,###.#").format(Double.parseDouble(sum_money+"")) +" vnđ");
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_purchase);
         setSupportActionBar(toolbar);
