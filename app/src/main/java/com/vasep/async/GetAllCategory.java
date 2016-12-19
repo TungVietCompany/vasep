@@ -105,19 +105,19 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                         int type_report = pref.getInt("type_report", 1);
                         String language = pref.getString("language", null);
                         String catalog = pref.getString("catalog", null);
-                        String title = pref.getString("title", null);
+                        String title = pref.getString("title", "");
                         int marketID= pref.getInt("marketID",-1);
                         int productID= pref.getInt("productID",-1);
                         if(type_article==0){
                             mAdapter.setType(1);
-                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 0, mAdapter, recyclerView, 1,  image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, "", 0, 0, 0);
+                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 0, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, title, 0, 0, 0);
                             getListArticleSearch.execute();
                         }
                         if(type_article==1){
                             mAdapter.setType(1);
-                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 1, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, "", 0, 0, 0);
+                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 1, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, title, 0, 0, 0);
                             getListArticleSearch.execute();
-                        }else {
+                        }else if(type_article==2) {
                             mAdapter.setType(0);
                             GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, mAdapterNew, catalog, title, recyclerView, mAdapter, 1, Common.LOAD_TOP, 0, 2, language, marketID, productID, type_report);
                             getListArticleSearch.execute();
