@@ -92,10 +92,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
 
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setMessage(Information.loading);
-        dialog.setIndeterminate(true);
-        dialog.show();
+
     }
 
     @Override
@@ -225,7 +222,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         } catch (Exception e) {
 
         }
-        dialog.dismiss();
+
     }
 
 

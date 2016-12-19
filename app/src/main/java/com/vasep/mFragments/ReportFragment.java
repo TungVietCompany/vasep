@@ -540,7 +540,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     @Override
     public void onLoadMore() {
-        mAdapter.setProgressMore(true);
+        //mAdapter.setProgressMore(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

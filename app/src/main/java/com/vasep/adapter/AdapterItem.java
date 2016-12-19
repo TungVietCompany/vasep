@@ -133,12 +133,15 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsHoder) {
+            try {
+                Article article = itemList.get(position);
+                Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView);
+                ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
+                ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
+                ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
+            }catch (Exception err){
 
-            Article article = itemList.get(position);
-            Glide.with(context). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder)holder).imageView);
-            ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
-            ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
-            ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
+            }
 
         }
     }

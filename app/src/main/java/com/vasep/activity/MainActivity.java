@@ -69,8 +69,10 @@ public class MainActivity extends LocalizationActivity {
                     callFragment(new SpecialFragment());
                 }else if(types==2){
                     callFragment(new NewsFragment());
-                }else{
+                }else if(types==3){
                     callFragment(new ReportFragment());
+                }else{
+                    callFragment(new SpecialFragment());
                 }
             }catch (Exception err){
                 callFragment(new SpecialFragment());
