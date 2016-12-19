@@ -53,7 +53,7 @@ import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
 import com.vasep.async.GetListArticleNew;
-import com.vasep.async.InsertView;
+
 import com.vasep.async.NotiAsync;
 import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.Common;
@@ -473,8 +473,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        /*GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,1);
-        getAllCategory.execute();*/
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,0,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops);
+        getAllCategory.execute();
 
         dialog.show();
     }

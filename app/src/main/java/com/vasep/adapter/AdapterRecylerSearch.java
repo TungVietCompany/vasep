@@ -1,6 +1,7 @@
 package com.vasep.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,8 +51,27 @@ public class AdapterRecylerSearch extends RecyclerView.Adapter<AdapterRecylerSea
     @Override
     public void onBindViewHolder(final SearchHoder holder, final int position) {
         holder.screen10_txt_category.setText(categories.get(position).getName());
-        holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_x));
-        categories.get(position).setIscheck(false);
+        SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+        String catalog = pref.getString("catalog", null);
+        try{
+            if(catalog==null|| catalog.trim().length()==0){
+                holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_x));
+                categories.get(position).setIscheck(false);
+            }
+            else {
+                String[] list= catalog.split(",");
+                for(int i=0; i<list.length; i++){
+                    if(categories.get(position).getId().equals(list[i])){
+                        categories.get(position).setIscheck(true);
+                        holder.linear_search.setBackground(context.getResources().getDrawable(R.drawable.border_rv_search_active));
+                        holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_v));
+                    }
+                }
+            }
+        }catch (Exception err){
+
+        }
+
 
         holder.linear_search.setOnClickListener(new View.OnClickListener() {
             @Override

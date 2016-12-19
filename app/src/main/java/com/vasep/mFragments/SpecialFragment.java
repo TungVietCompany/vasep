@@ -436,8 +436,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        /*GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,rView,mAdapter,dialog,0);
-        getAllCategory.execute();*/
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,1,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops);
+        getAllCategory.execute();
 
         dialog.show();
     }
