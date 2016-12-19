@@ -56,12 +56,8 @@ public class MainActivity extends LocalizationActivity {
 
         //firebase
         String session_id = FirebaseInstanceId.getInstance().getToken().toString();
-
         SharedPreferences pref = MainActivity.this.getSharedPreferences("MyPref", MainActivity.this.MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
-
-
-
         if(pref.getString("firebase_id", null) == null){
             editor.putString("firebase_id",session_id);
             editor.commit();

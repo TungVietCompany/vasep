@@ -25,6 +25,8 @@ import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 
+import java.text.DecimalFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -79,7 +81,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
-        screen4_money_item.setText(article.getPrice() +" vnđ");
+        screen4_money_item.setText( new DecimalFormat("#,###.00").format(Double.parseDouble(article.getPrice())) +" vnđ");
         webview_reportdetail.getSettings().setJavaScriptEnabled(true);
         webview_reportdetail.loadDataWithBaseURL(
                 "",

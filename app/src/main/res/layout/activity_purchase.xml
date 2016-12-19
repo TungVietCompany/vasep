@@ -55,13 +55,25 @@
             android:layout_margin="5dp"
             android:background="@drawable/customborder"
             >
-            <ImageView
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:id="@+id/screen6_image"
-                />
+                android:background="@drawable/gradient_top"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/screen6_image"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_top"/>
+
+            </RelativeLayout>
             <TextView
                 android:id="@+id/screen6_title"
                 android:layout_width="match_parent"
