@@ -161,7 +161,9 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     protected void onPostExecute(final List<Article> articles) {
 
         try {
-            progressBar.setVisibility(View.GONE);
+            if(null!=progressBar) {
+                progressBar.setVisibility(View.GONE);
+            }
             if (articles.size() > 0) {
 
                 Article article = new Article();
@@ -171,7 +173,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                 editor.commit();
                 if (type_load == 1) {
 
-                    if (adapterItem.getType() == 1) {
+                    if (type == 0||type==1) {
                         image_top.setVisibility(View.VISIBLE);
                         screen1_tops.setVisibility(View.VISIBLE);
                         if (articles.size() > 1) {
