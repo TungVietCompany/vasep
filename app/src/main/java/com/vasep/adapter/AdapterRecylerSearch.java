@@ -53,6 +53,13 @@ public class AdapterRecylerSearch extends RecyclerView.Adapter<AdapterRecylerSea
         holder.screen10_txt_category.setText(categories.get(position).getName());
         SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
         String catalog = pref.getString("catalog", null);
+        String language= pref.getString("language", null);
+        if(language== null|| language.equals("vi")){
+            holder.screen10_txt_category.setText(categories.get(position).getName());
+        }
+        else {
+            holder.screen10_txt_category.setText(categories.get(position).getEng_name());
+        }
         try{
             if(catalog==null|| catalog.trim().length()==0){
                 holder.screen10_image_category.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_x));

@@ -220,7 +220,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                 } else if (type == 1) {
 
                     Picasso.with(context).load(article.getImage()).into(image_top);
-                    txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
+                    txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()).trim());
                     txt_category_top.setText(article.getCategory_name() + " | ");
                     txt_title_top.setText(article.getTitle());
                     final Article tmp= article;
@@ -246,7 +246,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                 } else {
 
                     Picasso.with(context).load(article.getImage()).into(image_top);
-                    txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
+                    txt_date_top.setText(ChangeDate.convertDate(article.getCreate_date()).trim());
                     txt_category_top.setText(article.getCategory_name() + " | ");
                     txt_title_top.setText(article.getTitle());
 
