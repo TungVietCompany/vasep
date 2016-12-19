@@ -55,18 +55,20 @@ public class MainActivity extends LocalizationActivity {
         setContentView(R.layout.activity_main);
 
         //firebase
-  //              String session_id = FirebaseInstanceId.getInstance().getToken().toString();
-//
-//        SharedPreferences pref = MainActivity.this.getSharedPreferences("MyPref", MainActivity.this.MODE_PRIVATE);
-//        final SharedPreferences.Editor editor = pref.edit();
-//
-//        if(pref.getString("firebase_id", null) == null){
-//            editor.putString("firebase_id",session_id);
-//            editor.commit();
-//            NotiAsync notiAsync = new NotiAsync(MainActivity.this,session_id,"android");
-//            notiAsync.execute();
-//
-//        }
+        String session_id = FirebaseInstanceId.getInstance().getToken().toString();
+
+        SharedPreferences pref = MainActivity.this.getSharedPreferences("MyPref", MainActivity.this.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+
+
+
+        if(pref.getString("firebase_id", null) == null){
+            editor.putString("firebase_id",session_id);
+            editor.commit();
+            NotiAsync notiAsync = new NotiAsync(MainActivity.this,session_id,"android");
+            notiAsync.execute();
+
+        }
         //end
 
         INSTANCE= this;
@@ -107,7 +109,6 @@ public class MainActivity extends LocalizationActivity {
             callFragment(new SpecialFragment());
             type=0;
         }
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         String language = pref.getString("language", null);
         if(language!=null){
             setLanguage(language);
