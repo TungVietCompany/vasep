@@ -25,6 +25,7 @@
     <color name="screen_background_contact">#046403</color>
 
     <color name="bg_menu">#73000000</color>
+    <color name="bg_trans">#66000000</color>
 
     <color name="bg_report">#66ffffff</color>
 

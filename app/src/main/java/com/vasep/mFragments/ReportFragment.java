@@ -138,6 +138,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.bg_menu)));
                 final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recylerview_menu);
                 GridLayoutManager gridview = new GridLayoutManager(getContext(), 3);
+                rView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(gridview);
                 final AdapterMenu adapterMenu = new AdapterMenu(getContext(), null);
 
@@ -424,7 +425,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setExpanded(expanded)
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnCancelListener(cancelListener)
-                .setOverlayBackgroundResource(android.R.color.transparent)
+                .setOverlayBackgroundResource(R.color.bg_trans)
                 .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
@@ -514,7 +515,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     editor.putInt("marketID", marketID);
                     editor.putInt("productID", productID);
                     editor.commit();
-                    int type_report = pref.getInt("type_report", 1);
+                    int type_report = pref.getInt("type_report", -1);
                     String language = pref.getString("language", null);
                     String catalog = pref.getString("catalog", null);
 
@@ -546,7 +547,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     @Override
     public void onLoadMore() {
-        //mAdapter.setProgressMore(true);
+        mAdapter.setProgressMore(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -563,7 +564,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     if (null == language) {
                         language = "vi";
                     }
-                    int type_report = pref.getInt("type_report", 1);
+                    int type_report = pref.getInt("type_report", -1);
                     marketID= pref.getInt("marketID",-1);
                     productID= pref.getInt("productID",-1);
                     mAdapter.setType(0);
@@ -589,7 +590,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             if (null == language) {
                 language = "vi";
             }
-            int type_report = pref.getInt("type_report", 1);
+            int type_report = pref.getInt("type_report", -1);
             marketID= pref.getInt("marketID",-1);
             productID= pref.getInt("productID",-1);
             mAdapter.setType(0);

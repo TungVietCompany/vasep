@@ -94,6 +94,8 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
             int xxx= Resources.getSystem().getDisplayMetrics().widthPixels;
             img_menu.setMaxHeight((xxx-60)/3);
             cardView.setMinimumHeight((xxx-60)/3);
+            
+
         }
     }
 }

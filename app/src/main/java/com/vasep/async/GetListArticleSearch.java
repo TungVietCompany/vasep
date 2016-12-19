@@ -144,7 +144,11 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
 
     @Override
     protected void onPreExecute() {
-        progressBar.setVisibility(View.VISIBLE);
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+        }catch (Exception err){
+
+        }
     }
 
     @Override
@@ -155,8 +159,9 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
 
     @Override
     protected void onPostExecute(final List<Article> articles) {
-        progressBar.setVisibility(View.GONE);
+
         try {
+            progressBar.setVisibility(View.GONE);
             if (articles.size() > 0) {
 
                 Article article = new Article();
