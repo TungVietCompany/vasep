@@ -14,15 +14,27 @@
             android:id="@+id/collapsing_toolbar_reportdetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/background_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:fitsSystemWindows="true"
-                android:id="@+id/screen4_image_item"
-                app:layout_collapseMode="parallax" />
+                android:background="@drawable/gradient_top"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:fitsSystemWindows="true"
+                    android:id="@+id/screen4_image_item"
+                    app:layout_collapseMode="parallax" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_top"/>
+
+            </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_reportdetail"
                 android:layout_width="match_parent"

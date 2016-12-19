@@ -43,6 +43,8 @@ dependencies {
    
     compile 'com.google.firebase:firebase-core:9.0.0'
     compile 'com.google.firebase:firebase-messaging:9.0.0'
+
+    compile 'org.sufficientlysecure:html-textview:3.1'
 }
 
 

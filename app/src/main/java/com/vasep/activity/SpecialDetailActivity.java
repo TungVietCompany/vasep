@@ -2,6 +2,7 @@ package com.vasep.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,10 +10,13 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +29,9 @@ import com.vasep.adapter.AdapterItem;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
+
+import org.sufficientlysecure.htmltextview.HtmlResImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,14 +52,14 @@ public class SpecialDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.screen1_title_item)
     TextView screen1_title_item;
-
+    Article article;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         ButterKnife.bind(this);
         Intent i = getIntent();
-        Article article = (Article)i.getSerializableExtra("article");
+         article = (Article)i.getSerializableExtra("article");
 
         IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(SpecialDetailActivity.this,Integer.parseInt(article.getId()));
         increaseViewAsync.execute();
@@ -94,13 +101,12 @@ public class SpecialDetailActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview_newsdetail);
         webView.getSettings().setJavaScriptEnabled(true);
-
-
         webView.loadDataWithBaseURL(
                 "",
-                "<style>img{display: inline;height: auto;max-width: 100%;}"
+                "<style>img{display: inline;height: 100%;max-width: 100%;}"
                         + " p {font-family:\"Tangerine\", \"Sans-serif\",  \"Serif\" font-size: 48px} </style>"
-                        + article.getContent(), "text/html", "UTF-8", "");
+                        + article.getContent(), "text/html", "UTF-8",null);
+
 
     }
 
