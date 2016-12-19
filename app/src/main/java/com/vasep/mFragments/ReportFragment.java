@@ -468,6 +468,16 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
 
         CustomNumberPicker lv = (CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
+        lv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                Toast.makeText(picker.getContext(),""+oldVal,Toast.LENGTH_SHORT).show();
+                Toast.makeText(picker.getContext(),""+newVal,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        lv.setScrollBarSize(90);
+
         final GetAllMarket getAllMarket = new GetAllMarket(getContext(), lv);
         getAllMarket.execute();
 

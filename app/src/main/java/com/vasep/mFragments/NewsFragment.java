@@ -132,18 +132,6 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         //InsertView insert = new InsertView(getContext(),1);
         //insert.execute();
 
-//        String session_id = FirebaseInstanceId.getInstance().getToken().toString();
-//
-//        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
-//        final SharedPreferences.Editor editor = pref.edit();
-//
-//        if(pref.getString("firebase_id", null) == null){
-//            editor.putString("firebase_id",session_id);
-//            editor.commit();
-//            NotiAsync notiAsync = new NotiAsync(getContext(),session_id,"android");
-//            notiAsync.execute();
-//
-//        }
 
         final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
