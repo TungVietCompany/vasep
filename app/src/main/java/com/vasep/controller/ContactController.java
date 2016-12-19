@@ -23,13 +23,13 @@ public class ContactController {
 
     public Boolean insertContact(String fullname,String phone,String address,String note){
 
-        Hashtable obj = new Hashtable();
-        obj.put("fullname",fullname);
-        obj.put("phone",phone);
-        obj.put("address",address);
-        obj.put("note",note);
+//        Hashtable obj = new Hashtable();
+//        obj.put("fullname",fullname);
+//        obj.put("phone",phone);
+//        obj.put("address",address);
+//        obj.put("note",note);
 
-        Call<Result> contact = service.insertContact(obj);
+        Call<Result> contact = service.insertContact(fullname,phone,address,note);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

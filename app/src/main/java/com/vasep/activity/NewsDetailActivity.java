@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.vasep.async.AddView;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
@@ -55,8 +56,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         Article article = (Article)i.getSerializableExtra("article");
 
-        IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(NewsDetailActivity.this,Integer.parseInt(article.getId()));
-        increaseViewAsync.execute();
+        AddView insert = new AddView(NewsDetailActivity.this,article.getId());
+        insert.execute();
 
         //Picasso.with(NewsDetailActivity.this).load(article.getImage()).into(screen2_image_top);
         Glide.with(NewsDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen2_image_top);
@@ -110,34 +111,4 @@ public class NewsDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class IncreaseViewAsync extends AsyncTask<Void,Void,Boolean> {
-        Context context;
-        int article_id;
-        public IncreaseViewAsync(Context context, int article_id) {
-            this.context = context;
-            this.article_id = article_id;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            ArticleController notificationController = new ArticleController();
-            return notificationController.addView(article_id);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean){
-
-            }else{
-
-            }
-        }
-    }
 }

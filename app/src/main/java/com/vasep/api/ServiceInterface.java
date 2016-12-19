@@ -24,8 +24,11 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getTopArticle")
     Call<ArticleModel> getArticle(@Query("top") int top,@Query("from") int from,@Query("type") int type);
 
-    @POST("rest_vasep/rest/insertContact")
-    Call<Result> insertContact(@Body Object contact);
+    @GET("rest_vasep/rest/insertContact_GET")
+    Call<Result> insertContact(@Query("fullname") String fullname,
+                               @Query("phone") String phone,@Query("address") String address,
+                               @Query("note") String note
+                               );
 
     @GET("rest_vasep/rest/getAllCategory")
     Call<CategoryResult> allCategory();
@@ -46,15 +49,15 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getAllType")
     Call<TypeModel> getAllType();
 
-    @POST("rest_vasep/rest/increaseViewNumber")
-    Call<AddView> inserView(@Body Object article_id);
+    @GET("rest_vasep/rest/increaseViewNumber_GET")
+    Call<AddView> inserView(@Query("article_id") String article_id );
 
     @GET("rest_vasep/rest/filterArticle")
     Call<ArticleModel> filterArticle(@Query("market_id") String market_id,@Query("product_id") String product_id,@Query("type_id") int type_id,
                                      @Query("top") int top,@Query("from") int from);
 
-//    @POST("rest_vasep/rest/insertNotification")
-//    Call<Result> noti(@Body Object noti);
+    @GET("rest_vasep/rest/insertNotification_GET")
+    Call<Result> noti(@Query("firebase_id") String firebase_id,@Query("device_type") String device_type);
 
     @GET("rest_vasep/rest/getArticleById")
     Call<ArticleModel> getById(@Query("id") String id);

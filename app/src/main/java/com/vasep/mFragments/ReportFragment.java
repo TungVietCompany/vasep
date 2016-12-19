@@ -103,6 +103,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.report_fragment, container, false);
 
+
+
         progressBar = (ProgressBar)rootView .findViewById(R.id.pBar);
 
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_report);

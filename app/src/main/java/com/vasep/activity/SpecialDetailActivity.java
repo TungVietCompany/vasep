@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import com.vasep.R;
 
 import com.vasep.adapter.AdapterItem;
+import com.vasep.async.AddView;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
@@ -59,11 +60,8 @@ public class SpecialDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
          article = (Article)i.getSerializableExtra("article");
 
-        IncreaseViewAsync increaseViewAsync= new IncreaseViewAsync(SpecialDetailActivity.this,Integer.parseInt(article.getId()));
-        increaseViewAsync.execute();
-
-//        InsertView insert = new InsertView(SpecialDetailActivity.this,article.getId());
-//        insert.execute();
+        AddView insert = new AddView(SpecialDetailActivity.this,article.getId());
+        insert.execute();
 
         //Picasso.with(SpecialDetailActivity.this).load(article.getImage()).into(screen2_image_top);
         Glide.with(SpecialDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen2_image_top);
@@ -116,37 +114,6 @@ public class SpecialDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
-    }
-
-    public class IncreaseViewAsync extends AsyncTask<Void,Void,Boolean> {
-        Context context;
-        int article_id;
-        public IncreaseViewAsync(Context context, int article_id) {
-            this.context = context;
-            this.article_id = article_id;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            ArticleController notificationController = new ArticleController();
-            return notificationController.addView(article_id);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean){
-
-            }else{
-
-            }
-        }
     }
 
 }
