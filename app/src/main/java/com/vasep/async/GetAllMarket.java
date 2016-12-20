@@ -66,9 +66,8 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
                 String[] values=new String[categories.size()+1];
                 setList(categories);
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                final SharedPreferences.Editor editor = pref.edit();
-                final String language = pref.getString("language", null);
-                if(language==null|language.equals("vi")) {
+                final String language = pref.getString("language", "vi");
+                if(language.equals("vi")) {
                     values[0]="Tất cả";
                     for (int i = 0; i < categories.size(); i++) {
                         values[i+1] = categories.get(i).getName();

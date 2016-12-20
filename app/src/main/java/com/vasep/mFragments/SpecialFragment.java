@@ -8,7 +8,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -91,9 +93,10 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
     private SwipeRefreshLayout swipeRefresh;
     private AdapterItem mAdapter,mAdapterNew;
     //@Bind(R.id.screen1_tops)
-    RelativeLayout screen1_tops;
+    RelativeLayout screen1_tops,relative_crime;
     boolean flag=false;
     ProgressBar progressBar;
+    AppBarLayout appBarLayout;
 
     @Nullable
     @Override
@@ -103,12 +106,13 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         progressBar = (ProgressBar)rootView.findViewById(R.id.pBar);
         /*khai bao*/
         screen1_tops=(RelativeLayout) rootView.findViewById(R.id.screen1_tops);
+        relative_crime=(RelativeLayout) rootView.findViewById(R.id.relative_crime);
         screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
         screen1_title_top = (TextView) rootView.findViewById(R.id.screen1_title_top);
         /*chèn dữ liệu vào recylerview*/
-        /*chèn dữ liệu vào recylerview*/
+
         swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -120,21 +124,21 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
 
+        /*khơi tạo xxx*/
+        appBarLayout=(AppBarLayout) rootView.findViewById(R.id.appBarLayout);
         /*khởi tạo toolbar*/
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) (getActivity())).setSupportActionBar(toolbar);
         ((AppCompatActivity) (getActivity())).getSupportActionBar().setTitle("Material Search");
         toolbar.setTitleTextColor(Color.parseColor("#0c69d3"));
-
         toolbar.setCollapsible(false);
-
         ((AppCompatActivity) (getActivity())).getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         ActionBar actionBar = ((AppCompatActivity) (getActivity())).getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true); // show or hide the default home button
         actionBar.setLogo(R.mipmap.icon_menu);
-
         actionBar.setDisplayUseLogoEnabled(true);
+
+
 
         /*click vào nut home tren toolbar*/
         View view = toolbar.getChildAt(1);
@@ -249,6 +253,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
         /*bottom bar*/
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
+
+
         bottomNavigation = (AHBottomNavigation) rootView.findViewById(R.id.myBottomNavigation_ID);
         bottomNavigation.setOnTabSelectedListener(this);
         ViewTreeObserver viewTreeObserver = bottomNavigation.getViewTreeObserver();
@@ -403,7 +409,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 language = "vi";
             }
             mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errr = err.getMessage();
@@ -439,7 +445,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,1,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,1,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
         getAllCategory.execute();
 
         dialog.show();

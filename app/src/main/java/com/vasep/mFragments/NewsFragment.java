@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -97,8 +98,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
     TextView screen1_title_top;
 
     //@Bind(R.id.screen1_tops)
-    RelativeLayout screen1_tops;
-
+    RelativeLayout screen1_tops,relative_crime;
+    AppBarLayout appBarLayout;
 
     private SwipeRefreshLayout swipeRefresh;
     private AdapterItem mAdapter,mAdapterNew;
@@ -113,7 +114,10 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
         pBar = (ProgressBar)rootView.findViewById(R.id.pBar);
         /*khai bao*/
-        screen1_tops = (RelativeLayout) rootView.findViewById(R.id.screen1_tops);
+        screen1_tops=(RelativeLayout) rootView.findViewById(R.id.screen1_tops);
+        relative_crime=(RelativeLayout) rootView.findViewById(R.id.relative_crime);
+
+
         screen1_image_top = (ImageView) rootView.findViewById(R.id.screen1_image_top);
         screen1_category_top = (TextView) rootView.findViewById(R.id.screen1_category_top);
         screen1_date_top = (TextView) rootView.findViewById(R.id.screen1_date_top);
@@ -129,24 +133,11 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
 
-        //InsertView insert = new InsertView(getContext(),1);
-        //insert.execute();
-
-
         final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
 
-
-        //Toast.makeText(getContext(),"hs"+session_id,Toast.LENGTH_LONG).show();
-       // System.out.print("session:"+session_id);
-        /*gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        rView.setLayoutManager(gridLayoutManager);
-        GetListArticle getListArticle = new GetListArticle(getContext(), 2, 0,1, rView,screen1_image_top,
-                screen1_date_top,screen1_category_top,screen1_title_top);
-        getListArticle.execute();*/
-
-
+        /*khơi tạo xxx*/
+        appBarLayout=(AppBarLayout) rootView.findViewById(R.id.appBarLayout);
         /*khởi tạo toolbar*/
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) (getActivity())).setSupportActionBar(toolbar);
@@ -426,7 +417,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 language = "vi";
             }
             mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),pBar, Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),pBar, Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
 
@@ -461,7 +452,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,0,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,0,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
         getAllCategory.execute();
 
         dialog.show();

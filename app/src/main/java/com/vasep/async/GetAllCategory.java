@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,8 +40,10 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
     RecyclerView recyclerView;
     RelativeLayout screen1_tops;
     int type_article;
+    RelativeLayout relative_crime;
+    AppBarLayout appBarLayout;
 
-    public GetAllCategory(Context context, RecyclerView rview, DialogPlus dialogPlus, AdapterItem mAdapter, AdapterItem mAdapterNew, RecyclerView recyclerView, int type_article, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top, RelativeLayout screen1_tops){
+    public GetAllCategory(Context context, RecyclerView rview, DialogPlus dialogPlus, AdapterItem mAdapter, AdapterItem mAdapterNew, RecyclerView recyclerView, int type_article, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top, RelativeLayout screen1_tops,RelativeLayout relative_crime,AppBarLayout appBarLayout){
         this.context = context;
         this.rview = rview;
         this.dialogPlus = dialogPlus;
@@ -53,6 +56,8 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
         this.txt_title_top = txt_title_top;
         this.txt_category_top = txt_category_top;
         this.screen1_tops = screen1_tops;
+        this.relative_crime= relative_crime;
+        this.appBarLayout= appBarLayout;
     }
 
 
@@ -102,20 +107,20 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                         }
                         editor.putString("catalog",id);
                         editor.commit();
-                        int type_report = pref.getInt("type_report", 1);
-                        String language = pref.getString("language", null);
-                        String catalog = pref.getString("catalog", null);
+                        int type_report = pref.getInt("type_report", -1);
+                        String language = pref.getString("language", "vi");
+                        String catalog = pref.getString("catalog", "");
                         String title = pref.getString("title", "");
                         int marketID= pref.getInt("marketID",-1);
                         int productID= pref.getInt("productID",-1);
                         if(type_article==0){
                             mAdapter.setType(1);
-                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 0, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, title, 0, 0, 0);
+                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 0, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,relative_crime,appBarLayout,mAdapterNew, language, catalog, title, 0, 0, 0);
                             getListArticleSearch.execute();
                         }
                         if(type_article==1){
                             mAdapter.setType(1);
-                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 1, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,mAdapterNew, language, catalog, title, 0, 0, 0);
+                            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(context, Common.LOAD_TOP, 0, 1, mAdapter, recyclerView, 1, image_top,  txt_date_top,  txt_title_top,  txt_category_top, screen1_tops,relative_crime,appBarLayout,mAdapterNew, language, catalog, title, 0, 0, 0);
                             getListArticleSearch.execute();
                         }else if(type_article==2) {
                             mAdapter.setType(0);

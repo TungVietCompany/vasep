@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -51,7 +53,8 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
     ProgressBar progressBar;
-
+    RelativeLayout relative_crime;
+    AppBarLayout appBarLayout;
 
     public GetListArticleSearch(Context context,AdapterItem adapterItemNew, String category, String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type, String language_type, int market_id, int product_id, int type_id) {
         this.context = context;
@@ -68,12 +71,13 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.product_id = product_id;
         this.type_id = type_id;
         this.adapterItemNew = adapterItemNew;
+
     }
 
     public GetListArticleSearch(Context context, int top, int from, int type, AdapterItem adapterItem,
                                 RecyclerView rView, int type_load, ImageView image_top,
                                 TextView txt_date_top, TextView txt_title_top, TextView txt_category_top,
-                                RelativeLayout screen1_tops, AdapterItem adapterItemNew, String language_type,
+                                RelativeLayout screen1_tops,RelativeLayout relative_crime, AppBarLayout appBarLayout, AdapterItem adapterItemNew, String language_type,
                                 String category, String title, int market_id, int product_id, int type_id) {
         this.context = context;
         this.top = top;
@@ -94,7 +98,8 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.type_id = type_id;
         this.screen1_tops = screen1_tops;
         this.adapterItemNew = adapterItemNew;
-
+        this.relative_crime= relative_crime;
+        this.appBarLayout= appBarLayout;
     }
 
     public GetListArticleSearch(Context context,ProgressBar progressBar,AdapterItem adapterItemNew, String category, String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type, String language_type, int market_id, int product_id, int type_id) {
@@ -118,7 +123,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     public GetListArticleSearch(Context context,ProgressBar progressBar, int top, int from, int type, AdapterItem adapterItem,
                                 RecyclerView rView, int type_load, ImageView image_top,
                                 TextView txt_date_top, TextView txt_title_top, TextView txt_category_top,
-                                RelativeLayout screen1_tops, AdapterItem adapterItemNew, String language_type,
+                                RelativeLayout screen1_tops,RelativeLayout relative_crime, AppBarLayout appBarLayout, AdapterItem adapterItemNew, String language_type,
                                 String category, String title, int market_id, int product_id, int type_id) {
         this.context = context;
         this.top = top;
@@ -140,6 +145,8 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.screen1_tops = screen1_tops;
         this.adapterItemNew = adapterItemNew;
         this.progressBar = progressBar;
+        this.relative_crime= relative_crime;
+        this.appBarLayout= appBarLayout;
     }
 
     @Override
@@ -176,6 +183,10 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     if (type == 0||type==1) {
                         image_top.setVisibility(View.VISIBLE);
                         screen1_tops.setVisibility(View.VISIBLE);
+                        relative_crime.setVisibility(View.VISIBLE);
+                        ViewGroup.LayoutParams params = appBarLayout.getLayoutParams();
+                        params.height = 500;
+                        appBarLayout.setLayoutParams(params);
                         if (articles.size() > 1) {
                             article = articles.get(0);
                             adapterItem.addAll(articles.subList(1, articles.size()));
@@ -275,6 +286,10 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     rView.setAdapter(adapterItemNew);
                     Toast.makeText(context,context.getResources().getString(R.string.nodata),Toast.LENGTH_SHORT).show();
                 }
+                ViewGroup.LayoutParams params = appBarLayout.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                appBarLayout.setLayoutParams(params);
+                relative_crime.setVisibility(View.GONE);
                 image_top.setVisibility(View.GONE);
                 screen1_tops.setVisibility(View.GONE);
             }

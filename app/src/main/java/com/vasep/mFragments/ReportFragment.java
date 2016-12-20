@@ -94,7 +94,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     private boolean issearch = false;
     static String category_id, textsearch;
-    public int marketID,productID;
+    public int marketID=-1,productID=-1;
 
     ProgressBar progressBar;
 
@@ -435,7 +435,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,2,null, null, null, null,null);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,2,null, null, null, null,null,null,null);
         getAllCategory.execute();
 
         dialog.show();
@@ -446,6 +446,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                     OnClickListener clickListener, OnItemClickListener itemClickListener,
                                     OnDismissListener dismissListener, OnCancelListener cancelListener,
                                     boolean expanded) {
+        marketID=-1;
+        productID=-1;
         final DialogPlus dialog = DialogPlus.newDialog(getContext())
                 .setContentHolder(holder)
                 .setCancelable(true)
@@ -521,11 +523,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     editor.putInt("productID", productID);
                     editor.commit();
                     int type_report = pref.getInt("type_report", -1);
-                    String language = pref.getString("language", null);
-                    String catalog = pref.getString("catalog", null);
-
-                    marketID= pref.getInt("marketID",-1);
-                    productID= pref.getInt("productID",-1);
+                    String language = pref.getString("language", "vi");
+                    String catalog = pref.getString("catalog", "");
                     mAdapter.setType(0);
                     dialog.dismiss();
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);

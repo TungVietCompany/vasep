@@ -21,9 +21,9 @@
             <ImageView
                 android:id="@+id/screen1_image_item"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/screen1_title_item"
