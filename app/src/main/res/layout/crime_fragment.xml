@@ -98,7 +98,7 @@
                             android:id="@+id/screen1_category_top"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Cá tra | "
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/background_toolbar"
                             android:textSize="@dimen/screen1_date_top" />
@@ -107,7 +107,7 @@
                             android:id="@+id/screen1_date_top"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="28/11/2016"
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/screen1_date_top" />
@@ -117,7 +117,7 @@
                         android:id="@+id/screen1_title_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="cá chết huhu hihia hsiahi hsaii"
+                        android:text=""
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/screen1_title_top"
