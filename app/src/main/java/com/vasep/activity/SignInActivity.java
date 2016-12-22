@@ -54,7 +54,9 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                onBackPressed();
+                Intent intent = getIntent();
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +133,9 @@ public class SignInActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             try{
                 if(aBoolean == true){
-                    onBackPressed();
-
+                    Intent intent = getIntent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
                 }

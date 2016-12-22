@@ -83,7 +83,7 @@ public interface ServiceInterface {
 
     @FormUrlEncoded
     @POST("rest_vasep/rest/changePassword")
-    Call<User> changePass(@Field("user_id") String user_id, @Field("password") String password);
+    Call<User> changePass(@Field("user_id") String user_id, @Field("password") String password,@Field("old_password") String old_password);
 
     @GET("rest_vasep/rest/getAllPayment")
     Call<PaymentResult> getAllPayment();

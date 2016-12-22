@@ -79,4 +79,6 @@
     <string name="internet_banking">Thanh toán qua \nNgân hàng</string>
 
     <string name="view_report">Xem báo cáo</string>
+
+    <string name="toast_choose_purchase">Chọn hình thức thanh toán</string>
 </resources>

@@ -132,51 +132,56 @@ public class PurchaseActivity extends AppCompatActivity {
                 select_type = 2;
             }
         });
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+        String user_id = pref.getString("user_id", "");
 
-        btn_pays.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(select_type!=0){
-                    final Dialog dialog = new Dialog(PurchaseActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.dialog_list_payment);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
-                    final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_payment);
-                    LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
-                    recyclerView.setLayoutManager(gridview);
+            btn_pays.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(select_type!=0){
+                        final Dialog dialog = new Dialog(PurchaseActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_list_payment);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
+                        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_payment);
+                        LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
+                        recyclerView.setLayoutManager(gridview);
 
-                    AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,article,0);
+                        AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,article,0);
 
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
-                    String user_id = pref.getString("user_id", "");
-                    if(user_id.equals("")){
-                        Toast.makeText(PurchaseActivity.this,"Please Sign In Apps",Toast.LENGTH_SHORT).show();
-                    }else {
+
                         GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseActivity.this, recyclerView, adapterMenu, article,select_type);
                         getPaymentAsync.execute();
+
+                        dialog.show();
+
+                        ImageView img_close_dialog_payment= (ImageView) dialog.findViewById(R.id.img_close_dialog_payment);
+                        img_close_dialog_payment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+
+                                Intent intent = getIntent();
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+
+
+                    }else{
+                        Toast.makeText(PurchaseActivity.this,"Chọn phương thức thanh toán",Toast.LENGTH_SHORT).show();
                     }
-                    dialog.show();
-
-                    ImageView img_close_dialog_payment= (ImageView) dialog.findViewById(R.id.img_close_dialog_payment);
-                    img_close_dialog_payment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                            finish();
-                            startActivity(getIntent());
-                        }
-                    });
-
-
-                }else{
-
                 }
-            }
-        });
+            });
+
 
     }
     @Override
-    public void onBackPressed() {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            finish();
 
+        }
     }
+
 }

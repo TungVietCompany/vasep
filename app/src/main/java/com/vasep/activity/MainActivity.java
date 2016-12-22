@@ -49,6 +49,7 @@ public class MainActivity extends LocalizationActivity {
     public static MainActivity INSTANCE;
     public int type;
     public static int types;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,68 +67,63 @@ public class MainActivity extends LocalizationActivity {
 
             }
             //end
-        }catch (Exception er){
+        } catch (Exception er) {
 
         }
 
-        INSTANCE= this;
+        INSTANCE = this;
         Intent i = getIntent();
-        type = i.getIntExtra("type",0);
+        type = i.getIntExtra("type", 0);
 
         String id_type = i.getStringExtra("id_type");
-        if(id_type != null){
+        if (id_type != null) {
             String[] arr = id_type.split("_");
-            GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this,arr[0],arr[1]);
+            GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
             getArticleAsync.execute();
         }
 
-        Log.d("sa",type+"");
-        if(type == 0){
+        Log.d("sa", type + "");
+        if (type == 0) {
             try {
-                if (types == 1){
+                if (types == 1) {
                     callFragment(new SpecialFragment());
-                }else if(types==2){
+                } else if (types == 2) {
                     callFragment(new NewsFragment());
-                }else if(types==3){
+                } else if (types == 3) {
                     callFragment(new ReportFragment());
-                }else{
+                } else {
                     callFragment(new SpecialFragment());
                 }
-            }catch (Exception err){
+            } catch (Exception err) {
                 callFragment(new SpecialFragment());
             }
 
-        }else if(type == 3){
-            type=0;
+        } else if (type == 3) {
+            type = 0;
             callFragment(new ReportFragment());
-        }
-        else if(type == 2){
-            type=0;
+        } else if (type == 2) {
+            type = 0;
             callFragment(new NewsFragment());
-        }else if(type == 1){
+        } else if (type == 1) {
             callFragment(new SpecialFragment());
-            type=0;
+            type = 0;
         }
         String language = pref.getString("language", null);
-        if(language!=null){
+        if (language != null) {
             setLanguage(language);
-        }else{
+        } else {
             setLanguage("vi");
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if(resultCode==RESULT_OK && requestCode==1){
-            Bundle MBuddle = data.getExtras();
-            int MMessage = MBuddle.getInt("result");
-            if(MMessage==1){
-
-            }
-            String sss="";
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            finish();
+            startActivity(getIntent());
         }
     }
+
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -151,4 +147,6 @@ public class MainActivity extends LocalizationActivity {
     public static void setINSTANCE(MainActivity INSTANCE) {
         MainActivity.INSTANCE = INSTANCE;
     }
+
+
 }

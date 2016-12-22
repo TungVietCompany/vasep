@@ -66,4 +66,7 @@
     <string name="internet_banking">Internet Banking Purchase</string>
 
     <string name="view_report">View Report</string>
+
+    <string name="toast_choose_purchase">Choose Payment Option</string>
+
 </resources>

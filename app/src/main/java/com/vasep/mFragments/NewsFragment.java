@@ -357,7 +357,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
-                        getContext().startActivity(intent);
+                        getActivity().startActivityForResult(intent,1);
                         if(!user_id.equals("")) {
                             editor.putString("user_id","");
                             editor.putString("pass","");

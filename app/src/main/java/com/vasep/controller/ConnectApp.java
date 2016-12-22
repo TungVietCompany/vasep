@@ -95,8 +95,8 @@ public class ConnectApp {
         return false;
     }
 
-    public Boolean ChangePass(String user_id,String password){
-        Call<User> contact = service.changePass(user_id,password);
+    public Boolean ChangePass(String user_id,String password,String old_password){
+        Call<User> contact = service.changePass(user_id,password,old_password);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

@@ -86,7 +86,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
         String user_id = pref.getString("user_id", "");
 
-        CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
+
+        CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this,ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
         checkExpireAsync.execute();
 
 
@@ -141,5 +142,12 @@ public class ReportDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            finish();
+            startActivity(getIntent());
+        }
     }
 }

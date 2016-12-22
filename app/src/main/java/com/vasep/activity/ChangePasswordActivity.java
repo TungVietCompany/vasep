@@ -43,9 +43,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 } else {
                     if(edit_old.getText().toString().trim().equals(pass_old)) {
                         if(edit_retype_new.getText().toString().trim().equals(edit_new.getText().toString().trim())) {
-                            ChangePassAsync changePassAsync = new ChangePassAsync(ChangePasswordActivity.this, user_id,edit_new.getText().toString().trim());
+                            ChangePassAsync changePassAsync = new ChangePassAsync(ChangePasswordActivity.this, user_id,edit_new.getText().toString().trim(),edit_old.getText().toString().trim());
                             changePassAsync.execute();
                         }
+                        else
                         {
                             Toast.makeText(ChangePasswordActivity.this,"Mật khẩu mới với nhập lại mật khẩu mới không khớp",Toast.LENGTH_SHORT).show();
                         }
@@ -81,12 +82,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         Context context;
         ProgressDialog dialog;
-        String user_id,password;
-        public ChangePassAsync(Context context,String user_id, String password){
+        String user_id,password,old_password;
+        public ChangePassAsync(Context context,String user_id, String password,String old_password){
             this.context = context;
             this.user_id = user_id;
             this.password= password;
-
+            this.old_password=old_password;
         }
 
         @Override
@@ -100,7 +101,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             ConnectApp contactController = new ConnectApp(context);
-            return contactController.ChangePass(user_id,password);
+            return contactController.ChangePass(user_id,password,old_password);
         }
 
         @Override

@@ -265,8 +265,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
-
-                        startActivity(intent);
+                        getActivity().startActivityForResult(intent,1);
                         dialog.dismiss();
                         if(!user_id.equals("")) {
                             editor.putString("user_id","");

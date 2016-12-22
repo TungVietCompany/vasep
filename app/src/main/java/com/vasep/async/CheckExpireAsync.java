@@ -1,5 +1,6 @@
 package com.vasep.async;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.vasep.R;
 import com.vasep.activity.PurchaseActivity;
 import com.vasep.activity.ReportDetailActivity;
 import com.vasep.activity.ShowDetailActivity;
+import com.vasep.activity.SignInActivity;
 import com.vasep.controller.ConnectApp;
 import com.vasep.controller.ContactController;
 import com.vasep.models.Article;
@@ -30,7 +32,8 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
     CardView review,buy;
     Article article;
     TextView btn_review;
-    public CheckExpireAsync(Context context, String user_id, String report_id, CardView review, CardView buy, Article article,TextView btn_review){
+    Activity activity;
+    public CheckExpireAsync(Activity mActivity,Context context, String user_id, String report_id, CardView review, CardView buy, Article article,TextView btn_review){
         this.context = context;
         this.user_id = user_id;
         this.report_id = report_id;
@@ -38,6 +41,7 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
         this.buy=buy;
         this.article=article;
         this.btn_review=btn_review;
+        this.activity=mActivity;
     }
 
     @Override
@@ -51,7 +55,11 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         ConnectApp connectApp = new ConnectApp(context);
-        return connectApp.CheckUserExpire(Integer.parseInt(user_id),Integer.parseInt(report_id));
+        if(user_id.equals("")){
+            return false;
+        }else {
+            return connectApp.CheckUserExpire(Integer.parseInt(user_id), Integer.parseInt(report_id));
+        }
     }
 
     @Override
@@ -85,9 +93,14 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
                 buy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1 = new Intent(context,PurchaseActivity.class);
-                        intent1.putExtra("article",article);
-                        context.startActivity(intent1);
+                        if(user_id.equals("")){
+                            Intent intent=new Intent(activity, SignInActivity.class);
+                            activity.startActivityForResult(intent,1);
+                        }else {
+                            Intent intent1 = new Intent(context, PurchaseActivity.class);
+                            intent1.putExtra("article", article);
+                            activity.startActivityForResult(intent1, 1);
+                        }
                     }
                 });
             }
