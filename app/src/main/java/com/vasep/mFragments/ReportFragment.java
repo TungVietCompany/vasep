@@ -48,6 +48,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterLvMaketing;
@@ -228,7 +229,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                 loadData(0);
                             }
                         }));
-
+                btn_login.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(getActivity(), SignInActivity.class);
+                        getContext().startActivity(intent);
+                    }
+                });
             }
         });
 

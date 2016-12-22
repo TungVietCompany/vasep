@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_sign_in"
+                android:id="@+id/toolbar_forgot"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/background_toolbar"
@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
+                android:text="@string/forgot"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/toolbar_title"
@@ -71,7 +71,12 @@
                 android:background="@drawable/custombordercontact"
                 android:padding="10dp"
                 android:textColorHint="@color/bg_color_hint"
-                android:id="@+id/screen_pass_send" />
+                android:id="@+id/screen_email_send"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+
+                />
         </LinearLayout>
 
         <android.support.v7.widget.CardView

@@ -44,25 +44,6 @@ public class LoginAsync extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-
-        OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "password=h&username=hp");
-        Request request = new Request.Builder()
-                .url("http://103.237.147.54/rest_vasep/rest/login?password=h&username=hp")
-                .post(body)
-                .addHeader("content-type", "application/x-www-form-urlencoded")
-                .addHeader("cache-control", "no-cache")
-                .addHeader("postman-token", "d1463fe6-c60e-66c1-c945-6f4abab78853")
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         ConnectApp contactController = new ConnectApp(context);
         return contactController.Login(username,pass);
     }

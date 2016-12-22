@@ -60,9 +60,13 @@
     <string name="contact">LIÊN HỆ</string>
     <string name="Purchare">THANH TOÁN</string>
     <string name="nodata">Không có dữ liệu</string>
-
+    <string name="forgot">Lấy lại mật khẩu</string>
     <string name="title_forgot">Nhập Email</string>
 
     <string name="login_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
+    <string name="signup_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
+    <string name="signup_pas">Mật khẩu xác nhận không đúng</string>
+
+    <string name="email_err">Email không đúng</string>
 
 </resources>

@@ -45,9 +45,12 @@
     <string name="forgot_pass">Forgot password ?</string>
     <string name="retype_password">Retype password</string>
     <string name="contact">CONTACT</string>
-
+    <string name="forgot">Get Password</string>
     <string name="catalog">CATALOG</string>
     <string name="nodata">No data found</string>
     <string name="title_forgot">Enter Email</string>
     <string name="login_err">Invalid Username/Password</string>
+    <string name="signup_err">Invalid Username or Username exist!</string>
+    <string name="signup_pas">InValid Retype password</string>
+    <string name="email_err">InValid Email</string>
 </resources>

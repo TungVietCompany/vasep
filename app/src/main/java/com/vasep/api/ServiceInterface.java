@@ -13,6 +13,7 @@ import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -64,7 +65,17 @@ public interface ServiceInterface {
     @GET("rest_vasep/rest/getArticleById")
     Call<ArticleModel> getById(@Query("id") String id);
 
-
+    @FormUrlEncoded
     @POST("rest_vasep/rest/login")
-    Call<User> login(@Body Object signin);
+    Call<User> login(@Field("username") String username, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("rest_vasep/rest/forgotPassword")
+    Call<Result> forgotPass(@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("rest_vasep/rest/insertUser")
+    Call<User> signUp(@Field("username") String username, @Field("password") String password,@Field("fullname") String fullname,@Field("email") String email);
+
+
 }

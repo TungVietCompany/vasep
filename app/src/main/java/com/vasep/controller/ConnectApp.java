@@ -28,12 +28,47 @@ public class ConnectApp {
 
     public Boolean Login(String username,String password){
 
-        Hashtable obj = new Hashtable();
-        obj.put("username",username);
-        obj.put("password",password);
+        Call<User> contact = service.login(username,password);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            User str = contact.execute().body();
+            if (str.getCode() == 200){
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                editor.putString("user_id",str.getUser_id());
+                editor.commit();
+                return true;
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return false;
+    }
 
+    public Boolean Forgot(String email){
+        Call<Result> contact = service.forgotPass(email);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = contact.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return false;
+    }
 
-        Call<User> contact = service.login(obj);
+    public Boolean SignUp(String username,String password, String fullName,String email){
+        Call<User> contact = service.signUp(username,password,fullName,email);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

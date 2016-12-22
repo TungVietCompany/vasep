@@ -48,6 +48,7 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
@@ -251,7 +252,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
 
                 }
                 final TextView catalog_title = (TextView) dialog.findViewById(R.id.calatoge_menu);
-                catalog_title.setText(R.string.catalog);
+                //catalog_title.setText(R.string.catalog);
 
                 final TextView language_title = (TextView) dialog.findViewById(R.id.language_title);
                 language_title.setText(R.string.language);
@@ -342,7 +343,13 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                                 loadData(0);
                             }
                         }));
-
+                btn_login.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(getActivity(), SignInActivity.class);
+                        getContext().startActivity(intent);
+                    }
+                });
             }
         });
     }
