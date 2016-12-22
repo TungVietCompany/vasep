@@ -115,6 +115,19 @@ public class MainActivity extends LocalizationActivity {
             setLanguage("vi");
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode==RESULT_OK && requestCode==1){
+            Bundle MBuddle = data.getExtras();
+            int MMessage = MBuddle.getInt("result");
+            if(MMessage==1){
+
+            }
+            String sss="";
+        }
+    }
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

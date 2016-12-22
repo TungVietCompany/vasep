@@ -29,13 +29,18 @@ public class SignInActivity extends AppCompatActivity {
     EditText txt_username,password;
     CardView btn_sign_in;
     TextView txt_forgot,txt_sign_up;
-
+    int key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
         Init();
+        try{
+            key=getIntent().getExtras().getInt("key");
+        }catch (Exception err){
+
+        }
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_sign_in);
         setSupportActionBar(toolbar);
@@ -53,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onBackPressed();
             }
         });
@@ -124,7 +130,11 @@ public class SignInActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             try{
                 if(aBoolean == true){
-                    onBackPressed();
+                    //onBackPressed();
+                    Intent intent = getIntent();
+                    intent.putExtra("result",key);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
                 }

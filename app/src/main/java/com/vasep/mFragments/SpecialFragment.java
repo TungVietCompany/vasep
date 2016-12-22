@@ -265,11 +265,13 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
-                        getContext().startActivity(intent);
+                        intent.putExtra("key",1);
+                        getActivity().startActivityForResult(intent,1);
                         if(!user_id.equals("")) {
                             editor.putString("user_id","");
                             editor.putString("pass","");
                             editor.commit();
+
                         }
                     }
                 });
@@ -355,7 +357,10 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
 
         return rootView;
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // In fragment class callback
+    }
     private void createNavItems() {
         //CREATE ITEMS
         AHBottomNavigationItem crimeItem = new AHBottomNavigationItem(getActivity().getResources().getString(R.string.bt_Highlight), R.mipmap.noibat);
