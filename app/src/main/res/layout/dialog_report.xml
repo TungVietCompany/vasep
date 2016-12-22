@@ -1,138 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="3"
-    android:background="#f8f2f2">
+    android:background="#f8f2f2"
+    android:orientation="vertical"
+    android:weightSum="3">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        >
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3"
             android:paddingTop="5dp"
-            >
+            android:weightSum="3">
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:layout_margin="@dimen/margin_5dp"
                 android:id="@+id/screen10_report1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
                 android:weightSum="1">
+
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:src="@drawable/baocao_filter"
-                    android:paddingTop="@dimen/margin_5dp"
                     android:id="@+id/image_rp1"
-                    android:layout_height="40dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="@dimen/margin_5dp"
+                    android:src="@drawable/baocao_filter" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="10sp"
                     android:id="@+id/screen10_txt_report1"
-                    />
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="italic"
+                    android:textAllCaps="true"
                     android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/screen10_number_report1"
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:layout_margin="@dimen/margin_5dp"
 
+            <LinearLayout
                 android:id="@+id/screen10_report2"
-                >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:src="@drawable/baocao_filter"
-
-                    android:paddingTop="@dimen/margin_5dp"
-                    android:id="@+id/image_rp2" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:textSize="10sp"
-                    android:id="@+id/screen10_txt_report2"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorPrimary"
-                    android:id="@+id/screen10_number_report2"
-                    />
-            </LinearLayout>
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:layout_margin="@dimen/margin_5dp"
-                android:id="@+id/screen10_report3"
-                >
+
+                android:paddingBottom="10dp">
+
                 <ImageView
+                    android:id="@+id/image_rp2"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:src="@drawable/baocao_filter"
+
                     android:paddingTop="@dimen/margin_5dp"
-                    android:id="@+id/image_rp3" />
+                    android:src="@drawable/baocao_filter" />
+
                 <TextView
+                    android:id="@+id/screen10_txt_report2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
                     android:gravity="center"
+                    android:textAllCaps="true"
                     android:textSize="10sp"
-                    android:id="@+id/screen10_txt_report3"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:id="@+id/screen10_number_report2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/screen10_report3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/image_rp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="@dimen/margin_5dp"
+                    android:src="@drawable/baocao_filter" />
+
+                <TextView
+                    android:id="@+id/screen10_txt_report3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textAllCaps="true"
                     android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/screen10_number_report3"
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -140,78 +143,92 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        >
+        android:layout_weight="1">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="98dp"
-            android:weightSum="4"
             android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/market"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textAllCaps="true"
-                android:layout_weight="1"
-                android:textSize="12sp"
-                android:id="@+id/txt_market" />
-            <com.vasep.controller.CustomNumberPicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/lv_maketing"
-                android:scaleX="0.85"
-                android:scaleY="0.85"
+            xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+            android:weightSum="4">
 
-                >
-            </com.vasep.controller.CustomNumberPicker>
             <TextView
+                android:id="@+id/txt_market"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/market"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:textSize="11sp" />
+
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:background="@drawable/customnoborderpay"
+                android:id="@+id/lv_market"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                aigestudio:wheel_atmospheric="true"
+                aigestudio:wheel_curved="true"
+                aigestudio:wheel_item_align="left"
+                aigestudio:wheel_item_text_color="#A7A7DB"
+                aigestudio:wheel_selected_item_text_color="@color/background_toolbar"
+                android:layout_marginLeft="-5dp" />
+
+            <TextView
+                android:id="@+id/txt_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
+                android:layout_weight="1.1"
+                android:gravity="center"
                 android:text="@string/product"
                 android:textAllCaps="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:id="@+id/txt_product" />
-            <com.vasep.controller.CustomNumberPicker
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:background="@drawable/customnoborderpay"
+                android:id="@+id/lv_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleX="0.85"
-                android:scaleY="0.85"
-                android:id="@+id/lv_product"
-                >
-            </com.vasep.controller.CustomNumberPicker>
+                android:layout_weight="0.9"
+                aigestudio:wheel_atmospheric="true"
+                aigestudio:wheel_curved="true"
+                aigestudio:wheel_cyclic="false"
+                aigestudio:wheel_item_align="left"
+                aigestudio:wheel_item_text_color="#A7A7DB"
+                aigestudio:wheel_selected_item_text_color="@color/background_toolbar"
+                android:layout_marginLeft="@dimen/margin_3dp" />
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        app:cardBackgroundColor="@color/background_toolbar"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginBottom="15dp"
-        android:id="@+id/card_report"
-        >
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0.3"
+        app:cardBackgroundColor="@color/background_toolbar">
 
         <TextView
+            android:id="@+id/screen10_txt_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="lọc báo cáo"
-            android:textAllCaps="true"
             android:gravity="center"
             android:padding="10dp"
-            android:id="@+id/screen10_txt_btn"
-            />
+            android:text="lọc báo cáo"
+            android:textAllCaps="true" />
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

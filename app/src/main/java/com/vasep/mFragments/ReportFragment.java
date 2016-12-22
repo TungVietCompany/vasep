@@ -42,6 +42,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aigestudio.wheelpicker.WheelPicker;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.vasep.activity.MainActivity;
@@ -85,7 +86,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
     Holder holder;
     Toolbar toolbar;
 
-    private AdapterItem mAdapter,mAdapterNew;
+    private AdapterItem mAdapter, mAdapterNew;
     private SwipeRefreshLayout swipeRefresh;
     View rootView;
 
@@ -94,7 +95,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
     private boolean issearch = false;
     static String category_id, textsearch;
-    public int marketID=-1,productID=-1;
+    public int marketID = -1, productID = -1;
 
     ProgressBar progressBar;
 
@@ -104,8 +105,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         rootView = inflater.inflate(R.layout.report_fragment, container, false);
 
 
-
-        progressBar = (ProgressBar)rootView .findViewById(R.id.pBar);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.pBar);
 
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_report);
         setHasOptionsMenu(true);
@@ -114,7 +114,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         rView.setLayoutManager(mLayoutManager);
         mAdapter = new AdapterItem(getContext(), this);
-        mAdapterNew= new AdapterItem(getContext(), this);
+        mAdapterNew = new AdapterItem(getContext(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -182,7 +182,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                             editor.putString("language", "vi");
                             editor.commit();
                             try {
-                                MainActivity.types=3;
+                                MainActivity.types = 3;
                                 MainActivity.getINSTANCE().setLanguage("vi");
                                 catalog_title.setText("DANH MỤC");
                                 language_title.setText("Ngôn ngữ");
@@ -196,7 +196,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                             editor.putString("language", "en");
                             editor.commit();
                             try {
-                                MainActivity.types=3;
+                                MainActivity.types = 3;
                                 MainActivity.getINSTANCE().setLanguage("en");
                                 catalog_title.setText("CATALOG");
                                 language_title.setText("Language");
@@ -239,7 +239,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
         if (languages == null || languages.equals("vi")) {
             img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.vi));
-        }else{
+        } else {
             img_language.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.en));
         }
         img_language.setOnClickListener(new View.OnClickListener() {
@@ -249,13 +249,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 if (languagess == null || languagess.equals("vi")) {
                     editor.putString("language", "en");
                     editor.commit();
-                    MainActivity.types=3;
+                    MainActivity.types = 3;
                     MainActivity.getINSTANCE().setLanguage("en");
 
-                }else{
+                } else {
                     editor.putString("language", "vi");
                     editor.commit();
-                    MainActivity.types=3;
+                    MainActivity.types = 3;
                     MainActivity.getINSTANCE().setLanguage("vi");
 
                 }
@@ -301,7 +301,6 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         bottomNavigation.setCurrentItem(2);
         this.createNavItems();
         loadData(0);
-
 
 
         return rootView;
@@ -435,7 +434,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,2,null, null, null, null,null,null,null);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),getActivity(), rv_search, dialog, mAdapter, mAdapterNew, rView, 2, null, null, null, null, null, null, null);
         getAllCategory.execute();
 
         dialog.show();
@@ -446,8 +445,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                     OnClickListener clickListener, OnItemClickListener itemClickListener,
                                     OnDismissListener dismissListener, OnCancelListener cancelListener,
                                     boolean expanded) {
-        marketID=-1;
-        productID=-1;
+        marketID = -1;
+        productID = -1;
         final DialogPlus dialog = DialogPlus.newDialog(getContext())
                 .setContentHolder(holder)
                 .setCancelable(true)
@@ -468,32 +467,38 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 .setMargin(0, toolbar.getHeight(), 0, 0)
                 .create();
 
-
-        CustomNumberPicker lv = (CustomNumberPicker) dialog.findViewById(R.id.lv_maketing);
-
-        //lv.setScrollBarSize(90);
-
-        final GetAllMarket getAllMarket = new GetAllMarket(getContext(), lv);
+        List<String> lst= new ArrayList<>();
+        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+        String languages = pref.getString("language", "vi");
+        if(languages.equals("vi")) {
+            lst.add("Tất cả");
+        }else {
+            lst.add("All");
+        }
+        WheelPicker wheelLeft = (WheelPicker) dialog.findViewById(R.id.lv_market);
+        wheelLeft.setData(lst);
+        final GetAllMarket getAllMarket = new GetAllMarket(getContext(), wheelLeft);
         getAllMarket.execute();
-
-        lv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        wheelLeft.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                //Display the newly selected value from picker
-                marketID=newVal;
+            public void onItemSelected(WheelPicker picker, Object data, int position) {
+
+                marketID = position;
+
             }
         });
 
-
-        CustomNumberPicker lv_product = (CustomNumberPicker) dialog.findViewById(R.id.lv_product);
-        final GetAllProduct getAllProduct = new GetAllProduct(getContext(), lv_product);
+        WheelPicker wheelLefts = (WheelPicker) dialog.findViewById(R.id.lv_product);
+        wheelLefts.setData(lst);
+        final GetAllProduct getAllProduct = new GetAllProduct(getContext(), wheelLefts);
         getAllProduct.execute();
 
-        lv_product.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        wheelLefts.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                //Display the newly selected value from picker
-                productID=newVal;
+            public void onItemSelected(WheelPicker picker, Object data, int position) {
+
+                productID = position;
+
             }
         });
 
@@ -502,20 +507,20 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
         dialog.show();
 
-        TextView btn_filter=(TextView) dialog.findViewById(R.id.screen10_txt_btn);
+        TextView btn_filter = (TextView) dialog.findViewById(R.id.screen10_txt_btn);
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    if(marketID==0|| marketID==-1){
-                        marketID=-1;
-                    }else{
-                        marketID= Integer.parseInt(getAllMarket.getList().get(marketID).getId());
+                try {
+                    if (marketID == 0 || marketID == -1) {
+                        marketID = -1;
+                    } else {
+                        marketID = Integer.parseInt(getAllMarket.getList().get(marketID-1).getId());
                     }
-                    if(productID==0||productID==-1){
-                        productID=-1;
-                    }else{
-                        productID= Integer.parseInt(getAllProduct.getList().get(productID).getId());
+                    if (productID == 0 || productID == -1) {
+                        productID = -1;
+                    } else {
+                        productID = Integer.parseInt(getAllProduct.getList().get(productID-1).getId());
                     }
                     SharedPreferences pref = getContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
@@ -527,10 +532,10 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     String catalog = pref.getString("catalog", "");
                     mAdapter.setType(0);
                     dialog.dismiss();
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,0, 2, language, marketID, productID,type_report);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP, 0, 2, language, marketID, productID, type_report);
                     getListArticleSearch.execute();
 
-                }catch (Exception err){
+                } catch (Exception err) {
 
                 }
             }
@@ -569,13 +574,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                         language = "vi";
                     }
                     int type_report = pref.getInt("type_report", -1);
-                    marketID= pref.getInt("marketID",-1);
-                    productID= pref.getInt("productID",-1);
+                    marketID = pref.getInt("marketID", -1);
+                    productID = pref.getInt("productID", -1);
                     mAdapter.setType(0);
-                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID,type_report);
+                    GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), progressBar, mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID, type_report);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
-                    String errs= err.getMessage();
+                    String errs = err.getMessage();
                 }
 
             }
@@ -595,13 +600,13 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                 language = "vi";
             }
             int type_report = pref.getInt("type_report", -1);
-            marketID= pref.getInt("marketID",-1);
-            productID= pref.getInt("productID",-1);
+            marketID = pref.getInt("marketID", -1);
+            productID = pref.getInt("productID", -1);
             mAdapter.setType(0);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar,new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP,from, 2, language, marketID, productID,type_report);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), progressBar, new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP, from, 2, language, marketID, productID, type_report);
             getListArticleSearch.execute();
         } catch (Exception err) {
-            String errs= err.getMessage();
+            String errs = err.getMessage();
         }
 
     }

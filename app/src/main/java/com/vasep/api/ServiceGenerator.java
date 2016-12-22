@@ -19,7 +19,8 @@ public class ServiceGenerator {
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
+                    .addConverterFactory(GsonConverterFactory.create()
+                    );
 
     public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass, null, null);
@@ -39,9 +40,11 @@ public class ServiceGenerator {
                     Request.Builder requestBuilder = original.newBuilder()
                             .header("Authorization", basic)
                             .header("Accept", "application/json")
+
                             .method(original.method(), original.body());
 
-                    Request request = requestBuilder.build();
+                    Request request = requestBuilder
+                            .build();
                     return chain.proceed(request);
                 }
             });

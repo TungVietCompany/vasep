@@ -452,7 +452,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,0,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),getActivity(),rv_search,dialog,mAdapter,mAdapterNew,rView,0,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
         getAllCategory.execute();
 
         dialog.show();

@@ -78,13 +78,13 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
                 final SharedPreferences.Editor editor = pref.edit();
                 String language = pref.getString("language", null);
                 if(null==language||language.equals("vi")) {
-                    for (int i=0; i<categories.size(); i++){
-                        categories.get(i).setLanguage_type(0);
+                    for (int i=0; i<list.size(); i++){
+                        list.get(i).setLanguage_type(0);
                     }
                     adapterHome = new AdapterMenu(context, list);
                 }else{
-                    for (int i=0; i<categories.size(); i++){
-                        categories.get(i).setLanguage_type(1);
+                    for (int i=0; i<list.size(); i++){
+                        list.get(i).setLanguage_type(1);
                     }
                     adapterHome = new AdapterMenu(context, list);
                 }

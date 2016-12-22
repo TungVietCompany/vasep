@@ -22,8 +22,8 @@
 
     <string name="language">Ngôn ngữ</string>
     <string name="login">Đăng nhập</string>
-    <string name="market">THỊ TRƯỜNG</string>
-    <string name="product">SẢN PHẨM</string>
+    <string name="market">THỊ TRƯỜNG:</string>
+    <string name="product">SẢN PHẨM:</string>
 
     <string name="report_type1">BÁO CÁO XUẤT KHẨU THỦY SẢN VIỆT NAM</string>
     <string name="report_type2">BÁO CÁO XUẤT KHẨU THỦY SẢN VIỆT NAM (HÀNG QUÝ)</string>
@@ -43,13 +43,16 @@
     <string name="bank_transfer">THANH TOÁN QUA NGÂN HÀNG</string>
 
     <string name="full_name">Họ và tên</string>
+    <string name="email">Email</string>
+    <string name="rep_pass">Nhập lại mật khẩu</string>
     <string name="phone_number">Số điện thoại</string>
     <string name="address">Địa chỉ</string>
     <string name="note">Ghi chú</string>
     <string name="send">Gửi</string>>
     <string name="username">Tên đăng nhập</string>
     <string name="password">Mật khẩu</string>
-    <string name="sign_up">Đăng ký</string>
+    <string name="title_sign_up">Đăng ký</string>
+    <string name="sign_up">Đăng ký tài khoản</string>
     <string name="forgot_pass">Quên mật khẩu?</string>
     <string name="retype_password">Nhập lại mật khẩu</string>
 
@@ -58,5 +61,8 @@
     <string name="Purchare">THANH TOÁN</string>
     <string name="nodata">Không có dữ liệu</string>
 
+    <string name="title_forgot">Nhập Email</string>
+
+    <string name="login_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
 
 </resources>

@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -45,6 +46,7 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
+import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
@@ -62,6 +64,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * Created by Oclemmy on 5/10/2016 for ProgrammingWizards Channel and http://www.Camposha.com.
@@ -247,6 +251,13 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                                 loadData(0);
                             }
                         }));
+                btn_login.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(getActivity(), SignInActivity.class);
+                        getContext().startActivity(intent);
+                    }
+                });
 
             }
         });
@@ -282,6 +293,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 Holder viewHolder = new ViewHolder(R.layout.dialog_search);
                 showCompleteDialogSearch(viewHolder, Gravity.TOP, clickListenersearch, itemClickListenersearch,
                         dismissListenersearch, cancelListenersearch, false);
+
+
             }
         });
 
@@ -445,8 +458,10 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rv_search.setLayoutManager(gridLayoutManager);
 
-        GetAllCategory getAllCategory = new GetAllCategory(getContext(),rv_search,dialog,mAdapter,mAdapterNew,rView,1,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
+        GetAllCategory getAllCategory = new GetAllCategory(getContext(),getActivity(),rv_search,dialog,mAdapter,mAdapterNew,rView,1,screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout);
         getAllCategory.execute();
+
+
 
         dialog.show();
     }

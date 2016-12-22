@@ -11,8 +11,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aigestudio.wheelpicker.WheelPicker;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.vasep.R;
 import com.vasep.adapter.AdapterLvMaketing;
 import com.vasep.adapter.AdapterRecylerSearch;
 import com.vasep.controller.CategoryController;
@@ -21,16 +21,17 @@ import com.vasep.models.Category;
 import com.vasep.models.Market;
 import com.vasep.notification.Information;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by thuyetpham94 on 13/12/2016.
  */
 
-public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
+public class GetAllMarket extends AsyncTask<Void, Void, List<Market>> {
 
     Context context;
-    NumberPicker lv;
+    WheelPicker wheelLeft;
     List<Market> list;
 
     public List<Market> getList() {
@@ -41,9 +42,9 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
         this.list = list;
     }
 
-    public GetAllMarket(Context context, NumberPicker lv){
+    public GetAllMarket(Context context, WheelPicker lv) {
         this.context = context;
-        this.lv = lv;
+        this.wheelLeft = lv;
     }
 
 
@@ -61,32 +62,31 @@ public class GetAllMarket extends AsyncTask<Void,Void,List<Market>>{
 
     @Override
     protected void onPostExecute(List<Market> categories) {
-        try{
-            if(categories.size() > 0){
-                String[] values=new String[categories.size()+1];
+        try {
+            if (categories.size() > 0) {
+                List<String> list = new ArrayList<>();
                 setList(categories);
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final String language = pref.getString("language", "vi");
-                if(language.equals("vi")) {
-                    values[0]="Tất cả";
+                if (language.equals("vi")) {
+                    list.add("Tất cả");
                     for (int i = 0; i < categories.size(); i++) {
-                        values[i+1] = categories.get(i).getName();
+                        list.add(categories.get(i).getName());
                     }
-                }else{
-                    values[0]="All";
+                } else {
+                    list.add("All");
                     for (int i = 0; i < categories.size(); i++) {
-                        values[i+1] = categories.get(i).getEng_name();
+                        list.add(categories.get(i).getEng_name());
+
                     }
                 }
-                lv.setMinValue(0);
-                lv.setMaxValue(values.length-1);
-                lv.setValue(0);
-                lv.setDisplayedValues(values);
-                lv.setWrapSelectorWheel(false);
-            }else{
+                wheelLeft.setData(list);
+                wheelLeft.setItemTextSize(45);
+                wheelLeft.setCyclic(true);
+            } else {
                 Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
 

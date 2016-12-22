@@ -185,7 +185,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                         screen1_tops.setVisibility(View.VISIBLE);
                         relative_crime.setVisibility(View.VISIBLE);
                         ViewGroup.LayoutParams params = appBarLayout.getLayoutParams();
-                        params.height = 500;
+                        params.height = (int) context.getResources().getDimension(R.dimen.imageview_width);;
                         appBarLayout.setLayoutParams(params);
                         if (articles.size() > 1) {
                             article = articles.get(0);

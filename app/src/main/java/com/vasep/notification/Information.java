@@ -15,4 +15,5 @@ public class Information {
     public final static String check_note = "Vui lòng nhập ghi chú";
 
 
+
 }

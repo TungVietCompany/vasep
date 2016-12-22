@@ -1,5 +1,6 @@
 package com.vasep.async;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ import com.vasep.notification.Information;
 
 import java.util.List;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 /**
  * Created by thuyetpham94 on 13/12/2016.
  */
@@ -30,6 +34,7 @@ import java.util.List;
 public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
 
     Context context;
+    Activity activity;
     AdapterRecylerSearch adapterRecylerSearch;
     RecyclerView rview;
     ProgressDialog dialog;
@@ -59,7 +64,23 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
         this.relative_crime= relative_crime;
         this.appBarLayout= appBarLayout;
     }
-
+    public GetAllCategory(Context context,Activity activity, RecyclerView rview, DialogPlus dialogPlus, AdapterItem mAdapter, AdapterItem mAdapterNew, RecyclerView recyclerView, int type_article, ImageView image_top, TextView txt_date_top, TextView txt_title_top, TextView txt_category_top, RelativeLayout screen1_tops,RelativeLayout relative_crime,AppBarLayout appBarLayout){
+        this.activity= activity;
+        this.context = context;
+        this.rview = rview;
+        this.dialogPlus = dialogPlus;
+        this.mAdapter=mAdapter;
+        this.mAdapterNew= mAdapterNew;
+        this.recyclerView=recyclerView;
+        this.type_article=type_article;
+        this.image_top = image_top;
+        this.txt_date_top = txt_date_top;
+        this.txt_title_top = txt_title_top;
+        this.txt_category_top = txt_category_top;
+        this.screen1_tops = screen1_tops;
+        this.relative_crime= relative_crime;
+        this.appBarLayout= appBarLayout;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -88,6 +109,10 @@ public class GetAllCategory extends AsyncTask<Void,Void,List<Category>>{
                 txt_search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        InputMethodManager imm = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+
                         SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
 

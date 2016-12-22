@@ -10,8 +10,8 @@
 
     <string name="language">Language</string>
     <string name="login">Sign in</string>
-    <string name="market">MARKET</string>
-    <string name="product">PRODUCT</string>
+    <string name="market">MARKET:</string>
+    <string name="product">PRODUCT:</string>
 
     <string name="report_type1">REPORT ON VIETNAM SEAFOOD EXPORTS</string>
     <string name="report_type2">REPORT ON VIETNAM SEAFOOD EXPORTS (PER QUARTER)</string>
@@ -32,17 +32,22 @@
     <string name="bank_transfer">BANK TRANSFER</string>
 
     <string name="full_name">Full name</string>
+    <string name="email">Email</string>
+    <string name="rep_pass">Retype password</string>
     <string name="phone_number">Phone Number</string>
     <string name="address">Address</string>
     <string name="note">Note</string>
     <string name="send">Send</string>>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="sign_up">Sign up</string>
+    <string name="title_sign_up">Sign up</string>
+    <string name="sign_up">Sign up account</string>
     <string name="forgot_pass">Forgot password ?</string>
     <string name="retype_password">Retype password</string>
     <string name="contact">CONTACT</string>
 
     <string name="catalog">CATALOG</string>
     <string name="nodata">No data found</string>
+    <string name="title_forgot">Enter Email</string>
+    <string name="login_err">Invalid Username/Password</string>
 </resources>

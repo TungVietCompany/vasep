@@ -68,6 +68,11 @@
             android:name=".activity.ShowDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".activity.SignInActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
 
         <service android:name=".firabase.FireBaseService">
             <intent-filter>

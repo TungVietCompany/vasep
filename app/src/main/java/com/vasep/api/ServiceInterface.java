@@ -7,11 +7,13 @@ import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
 import com.vasep.models.TypeModel;
 import com.vasep.models.AddView;
+import com.vasep.models.User;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -61,4 +63,8 @@ public interface ServiceInterface {
 
     @GET("rest_vasep/rest/getArticleById")
     Call<ArticleModel> getById(@Query("id") String id);
+
+
+    @POST("rest_vasep/rest/login")
+    Call<User> login(@Body Object signin);
 }
