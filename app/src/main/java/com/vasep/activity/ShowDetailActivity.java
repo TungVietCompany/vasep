@@ -50,6 +50,7 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
         root = (LinearLayout) findViewById(R.id.remote_pdf_root);
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
+        int key_view= i.getExtras().getInt("key_view");
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_showdetail);
         setSupportActionBar(toolbar);
@@ -82,13 +83,26 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
 //        insert.execute();
 
         if (Build.VERSION.SDK_INT >= 21) {
-            remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
-            remotePDFViewPager.setId(R.id.pdfViewPager);
+            if(key_view==1){
+                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getContent(), this);
+                remotePDFViewPager.setId(R.id.pdfViewPager);
+            }else{
+                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
+                remotePDFViewPager.setId(R.id.pdfViewPager);
+            }
+
         } else {
             webview = (WebView) findViewById(R.id.pdfView);
             webview.getSettings().setJavaScriptEnabled(true);
             //progress.setProgress(0);
-            String pdf = "http://103.237.147.54/Webtin/public/templates/upload/report_full/1481397968.pdf";
+            //String pdf = "http://103.237.147.54/Webtin/public/templates/upload/report_full/1481397968.pdf";
+            String pdf="";
+            // demo
+            if(key_view==1){
+                pdf=article.getContent();
+            }else{
+                pdf=article.getReport();
+            }
             webview.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf+"&overridemobile=true");
             WebSettings webSettings = webview.getSettings();
             //webSettings.setBuiltInZoomControls(true);

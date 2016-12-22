@@ -236,7 +236,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     btn_login.setText(R.string.login);
                     btn_changePass.setVisibility(View.GONE);
                 }else{
-                    btn_login.setText(R.string.logout);
+                    btn_login.setText(R.string.log_out);
                     btn_changePass.setVisibility(View.VISIBLE);
                 }
                 btn_login.setOnClickListener(new View.OnClickListener() {

@@ -1,8 +1,11 @@
 package com.vasep.api;
 
 import com.vasep.models.ArticleModel;
+import com.vasep.models.BankingAppotaAPI;
 import com.vasep.models.CategoryResult;
+import com.vasep.models.Expire;
 import com.vasep.models.MarketResult;
+import com.vasep.models.PaymentResult;
 import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
 import com.vasep.models.TypeModel;
@@ -82,5 +85,22 @@ public interface ServiceInterface {
     @POST("rest_vasep/rest/changePassword")
     Call<User> changePass(@Field("user_id") String user_id, @Field("password") String password);
 
+    @GET("rest_vasep/rest/getAllPayment")
+    Call<PaymentResult> getAllPayment();
+
+    @FormUrlEncoded
+    @POST("rest_vasep/rest/insertTransaction")
+    Call<Result> insertTransaction(@Field("article_id") int article_id, @Field("user_id") int user_id, @Field("payment_id") int payment_id, @Field("status") int status, @Field("error_code") int error_code,@Field("message") String message,@Field("transaction_id") String transaction_id,@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("currency") String currency,@Field("url") String url,@Field("bank") String bank);
+
+    @GET("rest_vasep/rest/checkUserExpire")
+    Call<Expire> checkUserExpire(@Query("user_id") int user_id,@Query("report_id") int report_id);
+
+    @FormUrlEncoded
+    @POST("api_key=A180290-E5I9CK-A695AA44C9449619&lang=vi")
+    Call<BankingAppotaAPI>callAPI_VI(@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("state") String state,@Field("success_url") String success_url,@Field("error_url") String error_url);
+
+    @FormUrlEncoded
+    @POST("api_key=A180290-E5I9CK-A695AA44C9449619&lang=en")
+    Call<BankingAppotaAPI> callAPI_EN(@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("state") String state,@Field("success_url") String success_url,@Field("error_url") String error_url);
 
 }

@@ -153,7 +153,7 @@
                 android:textAllCaps="true"
                 android:padding="@dimen/screen4_padding_view"
 
-                />
+                android:id="@+id/btn_preview" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -162,6 +162,7 @@
             app:cardBackgroundColor="@color/screen4_book_buy"
             android:layout_marginTop="@dimen/screen4_margin_view"
             android:id="@+id/screen4_book"
+            android:visibility="invisible"
             >
             <TextView
                 android:layout_width="match_parent"

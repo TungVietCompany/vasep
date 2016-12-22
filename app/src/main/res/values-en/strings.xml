@@ -60,5 +60,10 @@
     <string name="pass_new">Password New</string>
     <string name="pass_retype_new">Retype Password New</string>
 
-    <string name="logout">Log out</string>
+    <string name="log_out">Log out</string>
+
+    <string name="visa_mastercard">Visa-Master Car Purchase</string>
+    <string name="internet_banking">Internet Banking Purchase</string>
+
+    <string name="view_report">View Report</string>
 </resources>

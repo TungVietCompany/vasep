@@ -22,7 +22,7 @@
 
     <string name="language">Ngôn ngữ</string>
     <string name="login">Đăng nhập</string>
-    <string name="logout">Đăng xuất</string>
+    <string name="log_out">Đăng xuất</string>
     <string name="change_pass">Đổi mật khẩu</string>
     <string name="market">THỊ TRƯỜNG:</string>
     <string name="product">SẢN PHẨM:</string>
@@ -75,4 +75,8 @@
     <string name="pass_new">Mật khẩu mới</string>
     <string name="pass_retype_new">Nhập lại mật khẩu mới</string>
 
+    <string name="visa_mastercard">Thanh toán qua \nVisa-Master card</string>
+    <string name="internet_banking">Thanh toán qua \nNgân hàng</string>
+
+    <string name="view_report">Xem báo cáo</string>
 </resources>

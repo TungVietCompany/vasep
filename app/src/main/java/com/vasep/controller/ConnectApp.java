@@ -6,9 +6,13 @@ import android.os.StrictMode;
 
 import com.vasep.api.ServiceGenerator;
 import com.vasep.api.ServiceInterface;
+import com.vasep.models.Expire;
+import com.vasep.models.Payment;
+import com.vasep.models.PaymentResult;
 import com.vasep.models.Result;
 import com.vasep.models.User;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import retrofit2.Call;
@@ -111,5 +115,63 @@ public class ConnectApp {
             String err= ex.getMessage();
         }
         return false;
+    }
+
+    public Boolean CheckUserExpire(int user_id,int report_id){
+        Call<Expire> contact = service.checkUserExpire(user_id,report_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Expire str = contact.execute().body();
+            if (str.getCode() == 200){
+                if(Integer.parseInt(str.getDate())>0) {
+                    return true;
+                }
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return false;
+    }
+
+    public Boolean InserTransaction(int article_id,int user_id,int payment_id,int status,int error_code,String message,String transaction_id,String developer_trans_id,String amount,String currency,String url,String bank){
+        Call<Result> contact = service.insertTransaction(article_id, user_id, payment_id, status, error_code, message, transaction_id, developer_trans_id, amount, currency, url,bank);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = contact.execute().body();
+            if (str.getCode() == 200){
+
+                return true;
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return false;
+    }
+
+    public ArrayList<Payment> GetPayment(){
+        Call<PaymentResult> contact = service.getAllPayment();
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            PaymentResult str = contact.execute().body();
+            if (str.getCode() == 200){
+
+                return str.getPayments();
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return new ArrayList<Payment>();
     }
 }

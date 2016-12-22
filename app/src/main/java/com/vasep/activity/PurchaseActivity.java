@@ -1,18 +1,30 @@
 package com.vasep.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.adapter.AdapterMenu;
+import com.vasep.adapter.AdapterPayment;
+import com.vasep.async.GetPaymentAsync;
 import com.vasep.controller.money;
 import com.vasep.models.Article;
 
@@ -41,22 +53,35 @@ public class PurchaseActivity extends AppCompatActivity {
     @Bind(R.id.screen6_contact)
     CardView screen6_contact;
 
+    @Bind(R.id.btn_visa)
+    LinearLayout btn_visa;
+
+    @Bind(R.id.btn_bank)
+    LinearLayout btn_bank;
+
+    @Bind(R.id.btn_pays)
+    CardView btn_pays;
+
+    int select_type = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
         ButterKnife.bind(this);
         Intent i = getIntent();
-        final Article article = (Article)i.getSerializableExtra("article");
+        final Article article = (Article) i.getSerializableExtra("article");
+
 
         Picasso.with(PurchaseActivity.this).load(article.getImage()).into(screen6_image);
         screen6_title.setText(article.getTitle());
-        screen6_price.setText( new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice()))+" vnđ");
-        screen6_discount.setText(new DecimalFormat("#,###.#").format(Double.parseDouble((Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100+"")) +" vnđ");
-        float sum_money = Float.parseFloat(article.getPrice())-(Float.parseFloat(article.getPrice())*Float.parseFloat(article.getDiscount()))/100;
-        screen6_summoney.setText( new DecimalFormat("#,###.#").format(Double.parseDouble(sum_money+"")) +" vnđ");
+        screen6_price.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice())) + " vnđ");
+        screen6_discount.setText(new DecimalFormat("#,###.#").format(Double.parseDouble((Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100 + "")) + " vnđ");
+        float sum_money = Float.parseFloat(article.getPrice()) - (Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100;
+        screen6_summoney.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(sum_money + "")) + " vnđ");
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_purchase);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_purchase);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.btn_back);
 
@@ -71,8 +96,8 @@ public class PurchaseActivity extends AppCompatActivity {
         screen6_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PurchaseActivity.this,ContactActivity.class);
-                intent.putExtra("article",article);
+                Intent intent = new Intent(PurchaseActivity.this, ContactActivity.class);
+                intent.putExtra("article", article);
                 startActivity(intent);
                 finish();
             }
@@ -83,12 +108,75 @@ public class PurchaseActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PurchaseActivity.this,ReportDetailActivity.class);
-                intent.putExtra("article",article);
+                Intent intent = new Intent(PurchaseActivity.this, ReportDetailActivity.class);
+                intent.putExtra("article", article);
                 startActivity(intent);
                 finish();
             }
         });
+
+        btn_bank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_bank.setBackground(getResources().getDrawable(R.drawable.customborderpay));
+                btn_visa.setBackground(getResources().getDrawable(R.drawable.customnoborderpay));
+                select_type = 1;
+            }
+        });
+
+        btn_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_bank.setBackground(getResources().getDrawable(R.drawable.customnoborderpay));
+                btn_visa.setBackground(getResources().getDrawable(R.drawable.customborderpay));
+                select_type = 2;
+            }
+        });
+
+        btn_pays.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(select_type!=0){
+                    final Dialog dialog = new Dialog(PurchaseActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_list_payment);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
+                    final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_payment);
+                    LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
+                    recyclerView.setLayoutManager(gridview);
+
+                    AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,article,0);
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+                    String user_id = pref.getString("user_id", "");
+                    if(user_id.equals("")){
+                        Toast.makeText(PurchaseActivity.this,"Please Sign In Apps",Toast.LENGTH_SHORT).show();
+                    }else {
+                        GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseActivity.this, recyclerView, adapterMenu, article,select_type);
+                        getPaymentAsync.execute();
+                    }
+                    dialog.show();
+
+                    ImageView img_close_dialog_payment= (ImageView) dialog.findViewById(R.id.img_close_dialog_payment);
+                    img_close_dialog_payment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    });
+
+
+                }else{
+
+                }
+            }
+        });
+
+    }
+    @Override
+    public void onBackPressed() {
 
     }
 }

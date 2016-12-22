@@ -2,6 +2,7 @@ package com.vasep.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
@@ -15,12 +16,14 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
 
+import com.vasep.async.CheckExpireAsync;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
@@ -56,6 +59,8 @@ public class ReportDetailActivity extends AppCompatActivity {
     @Bind(R.id.screen4_read)
     CardView screen4_read;
 
+    @Bind(R.id.btn_preview)
+    TextView btn_review;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +70,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
-        /*if(article.getIs_buy() == "0"){
-            screen4_money_item.setText(article.getPrice() +" vnđ");
-        }else{
-            screen4_money_item.setText("Đã mua");
-            screen4_money_item.setTextColor(getResources().getColor(R.color.screen1_category));
 
-            screen4_read.setVisibility(View.GONE);
-            screen4_book.setVisibility(View.GONE);
-
-        }*/
-
-        //Picasso.with(ReportDetailActivity.this).load(article.getImage()).into(screen4_image_item);
         Glide.with(ReportDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen4_image_item);
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
@@ -89,12 +83,19 @@ public class ReportDetailActivity extends AppCompatActivity {
                         + " p {font-family:\"Tangerine\", \"Sans-serif\",  \"Serif\" font-size: 48px} </style>"
                         + article.getContent(), "text/html", "UTF-8", "");
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+        String user_id = pref.getString("user_id", "");
 
-        screen4_read.setOnClickListener(new View.OnClickListener() {
+        CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
+        checkExpireAsync.execute();
+
+
+        /*screen4_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(ReportDetailActivity.this,ShowDetailActivity.class);
-                intent1.putExtra("article",article);
+                Intent intent1 = new Intent(ReportDetailActivity.this, ShowDetailActivity.class);
+                intent1.putExtra("article", article);
+                intent1.putExtra("key_view", 1);
                 startActivity(intent1);
             }
         });
@@ -102,11 +103,11 @@ public class ReportDetailActivity extends AppCompatActivity {
         screen4_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(ReportDetailActivity.this,PurchaseActivity.class);
-                intent1.putExtra("article",article);
+                Intent intent1 = new Intent(ReportDetailActivity.this, PurchaseActivity.class);
+                intent1.putExtra("article", article);
                 startActivity(intent1);
             }
-        });
+        });*/
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_reportdetail);
         setSupportActionBar(toolbar);
