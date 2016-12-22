@@ -40,6 +40,7 @@ public class ConnectApp {
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
                 editor.putString("user_id",str.getUser_id());
+                editor.putString("pass",password);
                 editor.commit();
                 return true;
             }
@@ -80,6 +81,29 @@ public class ConnectApp {
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
                 editor.putString("user_id",str.getUser_id());
+                editor.putString("pass",password);
+                editor.commit();
+                return true;
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return false;
+    }
+
+    public Boolean ChangePass(String user_id,String password){
+        Call<User> contact = service.changePass(user_id,password);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            User str = contact.execute().body();
+            if (str.getCode() == 200){
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                editor.putString("pass",password);
                 editor.commit();
                 return true;
             }

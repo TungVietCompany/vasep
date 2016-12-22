@@ -259,6 +259,14 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     }
                 });
 
+                TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);
+                btn_changePass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
             }
         });
 

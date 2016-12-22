@@ -22,6 +22,7 @@
 
     <string name="language">Ngôn ngữ</string>
     <string name="login">Đăng nhập</string>
+    <string name="change_pass">Đổi mật khẩu</string>
     <string name="market">THỊ TRƯỜNG:</string>
     <string name="product">SẢN PHẨM:</string>
 
@@ -52,6 +53,7 @@
     <string name="username">Tên đăng nhập</string>
     <string name="password">Mật khẩu</string>
     <string name="title_sign_up">Đăng ký</string>
+    <string name="title_change_pass">Đổi mật khẩu</string>
     <string name="sign_up">Đăng ký tài khoản</string>
     <string name="forgot_pass">Quên mật khẩu?</string>
     <string name="retype_password">Nhập lại mật khẩu</string>
@@ -66,7 +68,10 @@
     <string name="login_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
     <string name="signup_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
     <string name="signup_pas">Mật khẩu xác nhận không đúng</string>
-
     <string name="email_err">Email không đúng</string>
+
+    <string name="pass_old">Mật khẩu cũ</string>
+    <string name="pass_new">Mật khẩu mới</string>
+    <string name="pass_retype_new">Nhập lại mật khẩu mới</string>
 
 </resources>

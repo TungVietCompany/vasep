@@ -53,4 +53,10 @@
     <string name="signup_err">Invalid Username or Username exist!</string>
     <string name="signup_pas">InValid Retype password</string>
     <string name="email_err">InValid Email</string>
+    <string name="title_change_pass">Change Password</string>
+    <string name="change_pass">Change password</string>
+
+    <string name="pass_old">Password Old</string>
+    <string name="email_new">Password New</string>
+    <string name="email_retype_new">Retype Password New</string>
 </resources>

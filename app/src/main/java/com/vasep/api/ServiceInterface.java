@@ -78,4 +78,9 @@ public interface ServiceInterface {
     Call<User> signUp(@Field("username") String username, @Field("password") String password,@Field("fullname") String fullname,@Field("email") String email);
 
 
+    @FormUrlEncoded
+    @POST("rest_vasep/rest/changePassword")
+    Call<User> changePass(@Field("user_id") String user_id, @Field("password") String password);
+
+
 }
