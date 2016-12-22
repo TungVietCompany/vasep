@@ -44,6 +44,7 @@ import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.vasep.activity.ChangePasswordActivity;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.SignInActivity;
@@ -168,7 +169,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 final TextView btn_login = (TextView) dialog.findViewById(R.id.btn_login);
                 btn_login.setText(R.string.login);
 
-                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                final SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
                 final String language = pref.getString("language", null);
                 String language_type;
@@ -251,19 +252,34 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                                 loadData(0);
                             }
                         }));
+                TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);
+                final String user_id = pref.getString("user_id", "");
+                if(user_id.equals("")){
+                    btn_login.setText(R.string.login);
+                    btn_changePass.setVisibility(View.GONE);
+                }else{
+                    btn_login.setText(R.string.logout);
+                    btn_changePass.setVisibility(View.VISIBLE);
+                }
                 btn_login.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
                         getContext().startActivity(intent);
+                        if(!user_id.equals("")) {
+                            editor.putString("user_id","");
+                            editor.putString("pass","");
+                            editor.commit();
+                        }
                     }
                 });
 
-                TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);
+
                 btn_changePass.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
+                        getContext().startActivity(intent);
                     }
                 });
 

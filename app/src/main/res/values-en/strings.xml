@@ -59,4 +59,6 @@
     <string name="pass_old">Password Old</string>
     <string name="email_new">Password New</string>
     <string name="email_retype_new">Retype Password New</string>
+
+    <string name="logout">Log out</string>
 </resources>

@@ -22,6 +22,7 @@
 
     <string name="language">Ngôn ngữ</string>
     <string name="login">Đăng nhập</string>
+    <string name="logout">Đăng xuất</string>
     <string name="change_pass">Đổi mật khẩu</string>
     <string name="market">THỊ TRƯỜNG:</string>
     <string name="product">SẢN PHẨM:</string>

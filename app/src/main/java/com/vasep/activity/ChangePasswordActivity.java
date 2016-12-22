@@ -39,6 +39,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 String user_id= pref.getString("user_id","");
                 String pass_old= pref.getString("pass","");
                 if (edit_old.getText().toString().trim().equals("")||edit_new.getText().toString().trim().equals("")||edit_retype_new.getText().toString().trim().equals("")) {
+                    Toast.makeText(ChangePasswordActivity.this,"Dữ liệu rỗng",Toast.LENGTH_SHORT).show();
+                } else {
                     if(edit_old.getText().toString().trim().equals(pass_old)) {
                         if(edit_retype_new.getText().toString().trim().equals(edit_new.getText().toString().trim())) {
                             ChangePassAsync changePassAsync = new ChangePassAsync(ChangePasswordActivity.this, user_id,edit_new.getText().toString().trim());
@@ -51,8 +53,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Toast.makeText(ChangePasswordActivity.this,"Mật khẩu cũ không đúng",Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(ChangePasswordActivity.this,"Dữ liệu rỗng",Toast.LENGTH_SHORT).show();
                 }
             }
         });

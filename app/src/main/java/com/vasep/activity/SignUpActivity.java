@@ -58,8 +58,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if(screen7_pass.getText().toString().equals(screen_rep_pass_signup.getText().toString()))
                 {
                     if(!checkEmail(screen_email_signup.getText().toString().trim())) {
-                        SignUpAsync signUpAsync = new SignUpAsync(SignUpActivity.this, screen_user_signup.getText().toString(), screen7_pass.getText().toString(), screen_fullname_signup.getText().toString(), screen_email_signup.getText().toString());
-                        signUpAsync.execute();
+                        if(!screen_user_signup.getText().toString().trim().equals("")) {
+                            SignUpAsync signUpAsync = new SignUpAsync(SignUpActivity.this, screen_user_signup.getText().toString(), screen7_pass.getText().toString(), screen_fullname_signup.getText().toString(), screen_email_signup.getText().toString());
+                            signUpAsync.execute();
+                        }
                     }else{
                         Toast.makeText(SignUpActivity.this,getResources().getString(R.string.email_err),Toast.LENGTH_SHORT).show();
                     }

@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.vasep.activity.ChangePasswordActivity;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
 import com.vasep.activity.ReportDetailActivity;
@@ -229,10 +230,33 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                                 loadData(0);
                             }
                         }));
+                TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);
+                final String user_id = pref.getString("user_id", "");
+                if(user_id.equals("")){
+                    btn_login.setText(R.string.login);
+                    btn_changePass.setVisibility(View.GONE);
+                }else{
+                    btn_login.setText(R.string.logout);
+                    btn_changePass.setVisibility(View.VISIBLE);
+                }
                 btn_login.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
+                        getContext().startActivity(intent);
+                        if(!user_id.equals("")) {
+                            editor.putString("user_id","");
+                            editor.putString("pass","");
+                            editor.commit();
+                        }
+                    }
+                });
+
+
+                btn_changePass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
                         getContext().startActivity(intent);
                     }
                 });

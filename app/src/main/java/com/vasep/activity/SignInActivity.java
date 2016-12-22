@@ -60,10 +60,11 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(txt_username.getText().toString().trim().equals("")||password.getText().toString().trim().equals("")) {
+                    Toast.makeText(SignInActivity.this,getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
+                }else {
                     LoginAsync loginAsync = new LoginAsync(SignInActivity.this, txt_username.getText().toString(), password.getText().toString());
                     loginAsync.execute();
-                }else {
-                    Toast.makeText(SignInActivity.this,getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

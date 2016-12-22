@@ -114,7 +114,7 @@
                 android:padding="@dimen/margin_5dp"
                 android:text="@string/change_pass"
                 android:textColor="@color/white"
-
+                android:visibility="gone"
                 android:gravity="center"
                 android:id="@+id/btn_changePass"
                 android:layout_marginTop="@dimen/margin_5dp" />
