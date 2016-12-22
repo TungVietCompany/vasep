@@ -36,7 +36,7 @@ public class ForgotPassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!edit.getText().toString().trim().equals("")) {
-                    if(!checkEmail(edit.getText().toString().trim())) {
+                    if(checkEmail(edit.getText().toString().trim())) {
                         ForgotAsync forgotAsync = new ForgotAsync(ForgotPassActivity.this, edit.getText().toString());
                         forgotAsync.execute();
                     }else{

@@ -2,6 +2,7 @@ package com.vasep.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(screen7_pass.getText().toString().equals(screen_rep_pass_signup.getText().toString()))
                 {
-                    if(!checkEmail(screen_email_signup.getText().toString().trim())) {
+                    if(checkEmail(screen_email_signup.getText().toString().trim())) {
                         if(!screen_user_signup.getText().toString().trim().equals("")) {
                             SignUpAsync signUpAsync = new SignUpAsync(SignUpActivity.this, screen_user_signup.getText().toString(), screen7_pass.getText().toString(), screen_fullname_signup.getText().toString(), screen_email_signup.getText().toString());
                             signUpAsync.execute();
@@ -125,7 +126,9 @@ public class SignUpActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             try{
                 if(aBoolean == true){
-                    onBackPressed();
+                    Intent intent = getIntent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.signup_err),Toast.LENGTH_SHORT).show();
                 }

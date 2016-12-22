@@ -36,11 +36,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         Init();
-        try{
-            key=getIntent().getExtras().getInt("key");
-        }catch (Exception err){
-
-        }
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_sign_in);
         setSupportActionBar(toolbar);
@@ -87,11 +82,17 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(SignInActivity.this, SignUpActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode==RESULT_OK && requestCode==1){
+            finish();
+        }
+    }
     public void Init(){
         txt_username=(EditText) findViewById(R.id.screen_username);
         password=(EditText) findViewById(R.id.screen_pass);
@@ -130,11 +131,8 @@ public class SignInActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             try{
                 if(aBoolean == true){
-                    //onBackPressed();
-                    Intent intent = getIntent();
-                    intent.putExtra("result",key);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    onBackPressed();
+
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
                 }

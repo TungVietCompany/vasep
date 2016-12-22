@@ -265,8 +265,9 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), SignInActivity.class);
-                        intent.putExtra("key",1);
-                        getActivity().startActivityForResult(intent,1);
+
+                        startActivity(intent);
+                        dialog.dismiss();
                         if(!user_id.equals("")) {
                             editor.putString("user_id","");
                             editor.putString("pass","");
@@ -281,7 +282,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
-                        getContext().startActivity(intent);
+                        startActivity(intent);
                     }
                 });
 
