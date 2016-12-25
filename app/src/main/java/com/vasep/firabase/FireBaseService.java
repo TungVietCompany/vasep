@@ -33,12 +33,6 @@ public class FireBaseService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String ss= remoteMessage.getNotification().getBody();
         String id = remoteMessage.getNotification().getSound();
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("id_type",id+"");
-        editor.commit();
-
         sendNotification(remoteMessage.getNotification().getBody(),title,id);
 
     }

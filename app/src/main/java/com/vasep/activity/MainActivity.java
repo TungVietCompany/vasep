@@ -40,6 +40,7 @@ import com.vasep.R;
 import com.vasep.mFragments.ReportFragment;
 import com.vasep.mFragments.SpecialFragment;
 import com.vasep.models.Article;
+import com.vasep.models.Expire;
 
 
 public class MainActivity extends LocalizationActivity {
@@ -75,18 +76,10 @@ public class MainActivity extends LocalizationActivity {
         Intent i = getIntent();
         type = i.getIntExtra("type", 0);
 
-        String id_type = getIntent().getStringExtra("id_type");
-        if (id_type != null) {
-            String[] arr = id_type.split("_");
-            GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
-            getArticleAsync.execute();
-        }
-        else{
-            /*SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("id_type",id);
-            editor.commit();*/
-        }
+
+        onNewIntent(getIntent());
+
+
 
         Log.d("sa", type + "");
         if (type == 0) {
@@ -127,6 +120,24 @@ public class MainActivity extends LocalizationActivity {
         if (resultCode == RESULT_OK && requestCode == 1) {
             finish();
             startActivity(getIntent());
+        }
+    }
+    @Override
+    public void onNewIntent(Intent intent){
+        try {
+            String id_type = getIntent().getStringExtra("id_type");
+            if (id_type != null) {
+                String[] arr = id_type.split("_");
+                GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
+                getArticleAsync.execute();
+            } else {
+            /*SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("id_type",id);
+            editor.commit();*/
+            }
+        }catch (Exception err){
+
         }
     }
 
