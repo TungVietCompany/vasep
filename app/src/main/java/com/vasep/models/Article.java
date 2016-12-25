@@ -20,6 +20,8 @@ public class Article implements Serializable{
     private String is_buy;
     private String report;
     private String is_special;
+    private String is_lock;
+
 
     public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String is_buy, String report) {
         this.id = id;
@@ -38,6 +40,14 @@ public class Article implements Serializable{
     }
 
     public Article() {
+    }
+
+    public String getIs_lock() {
+        return is_lock;
+    }
+
+    public void setIs_lock(String is_lock) {
+        this.is_lock = is_lock;
     }
 
     public String getIs_special() {

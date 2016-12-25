@@ -64,14 +64,14 @@ public class ArticleController {
         return null;
     }
 
-    public List<Article> searchArticle(String categories,String title,int type,int top,int from,String language_type,int market_id,int product_id,int type_id){
+    public List<Article> searchArticle(String categories,String title,int type,int top,int from,String language_type,int market_id,int product_id,int type_id, int user_id){
         int type_lang=0;
         if(language_type.equals("en")){
             type_lang=1;
         }else{
             type_lang=0;
         }
-        Call<ArticleModel> search = service.searchArticle(categories,title,type,top,from,type_lang,market_id,product_id,type_id);
+        Call<ArticleModel> search = service.searchArticle(categories,title,type,top,from,type_lang,market_id,product_id,type_id,user_id);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

@@ -50,7 +50,7 @@ public interface ServiceInterface {
 
     @GET("rest_vasep/rest/searchArticle")
     Call<ArticleModel> searchArticle(@Query("categories") String categories,@Query("title") String title,@Query("type") int type,
-                                     @Query("top") int top,@Query("from") int from,@Query("language_type") int language_type,@Query("market_id") int market_id,@Query("product_id") int product_id ,@Query("type_id") int type_id);
+                                     @Query("top") int top,@Query("from") int from,@Query("language_type") int language_type,@Query("market_id") int market_id,@Query("product_id") int product_id ,@Query("type_id") int type_id,@Query("type_id") int user_id);
 
     @GET("rest_vasep/rest/getAllType")
     Call<TypeModel> getAllType();

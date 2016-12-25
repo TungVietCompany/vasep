@@ -135,10 +135,18 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof NewsHoder) {
             try {
                 Article article = itemList.get(position);
+
                 Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView);
                 ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
                 ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
                 ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
+                if(Integer.parseInt(article.getPrice())>0 ){
+                    if(article.getIs_lock().equals("1")){
+                        ((NewsHoder) holder).txt_lock.setVisibility(View.VISIBLE);
+                        ((NewsHoder) holder).img_lock.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }catch (Exception err){
 
             }
@@ -178,12 +186,18 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView txt_screen1_category;
         TextView txt_screen1_date;
 
+        TextView txt_lock;
+        ImageView img_lock;
+
         public NewsHoder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.screen1_image_item);
             txt_screen1_title = (TextView) itemView.findViewById(R.id.screen1_title_item);
             txt_screen1_category = (TextView) itemView.findViewById(R.id.screen_category_item);
             txt_screen1_date = (TextView) itemView.findViewById(R.id.screen_date_item);
+
+            txt_lock=(TextView) itemView.findViewById(R.id.txt_lock);
+            img_lock=(ImageView) itemView.findViewById(R.id.img_lock);
         }
     }
 
