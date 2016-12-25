@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -32,18 +33,25 @@ public class FireBaseService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String ss= remoteMessage.getNotification().getBody();
         String id = remoteMessage.getNotification().getSound();
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("id_type",id+"");
+        editor.commit();
+
         sendNotification(remoteMessage.getNotification().getBody(),title,id);
+
     }
 
     private void sendNotification(String messageBody,String title,String id) {
         Intent intent = new Intent( this , MainActivity.class );
-        intent.putExtra("id_type",id);
-
+        intent.putExtra("id_type",id+"");
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP );
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 , intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.icon_menu);
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_app);
         Bitmap thumb=Bitmap.createBitmap(100,132, Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(thumb);
         canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
@@ -52,10 +60,11 @@ public class FireBaseService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icon_menu)
+                .setSmallIcon(R.mipmap.ic_app)
                 .setLargeIcon(((BitmapDrawable)drawable).getBitmap())
                 .setContentTitle(title)
                 .setContentText(messageBody)
+                .setPriority(5)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

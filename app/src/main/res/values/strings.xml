@@ -50,7 +50,7 @@
     <string name="phone_number">Số điện thoại</string>
     <string name="address">Địa chỉ</string>
     <string name="note">Ghi chú</string>
-    <string name="send">Gửi</string>>
+    <string name="send">Gửi</string>
     <string name="username">Tên đăng nhập</string>
     <string name="password">Mật khẩu</string>
     <string name="title_sign_up">Đăng ký</string>
@@ -67,6 +67,7 @@
     <string name="title_forgot">Nhập Email</string>
 
     <string name="login_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
+    <string name="signup_success">Đăng ký tài khoản thành công</string>
     <string name="signup_err">Tên đăng nhập/Mật khẩu không hợp lệ</string>
     <string name="signup_pas">Mật khẩu xác nhận không đúng</string>
     <string name="email_err">Email không đúng</string>
@@ -79,6 +80,6 @@
     <string name="internet_banking">Thanh toán qua \nNgân hàng</string>
 
     <string name="view_report">Xem báo cáo</string>
-
+    <string name="register_success">Đăng ký thành công</string>
     <string name="toast_choose_purchase">Chọn hình thức thanh toán</string>
 </resources>

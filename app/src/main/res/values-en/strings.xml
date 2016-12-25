@@ -50,6 +50,7 @@
     <string name="nodata">No data found</string>
     <string name="title_forgot">Enter Email</string>
     <string name="login_err">Invalid Username/Password</string>
+    <string name="signup_success">Register successful</string>
     <string name="signup_err">Invalid Username or Username exist!</string>
     <string name="signup_pas">InValid Retype password</string>
     <string name="email_err">InValid Email</string>
@@ -66,7 +67,7 @@
     <string name="internet_banking">Internet Banking Purchase</string>
 
     <string name="view_report">View Report</string>
-
+    <string name="register_success">Register Successful</string>
     <string name="toast_choose_purchase">Choose Payment Option</string>
 
 </resources>

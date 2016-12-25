@@ -129,6 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     setResult(RESULT_OK, intent);
                     finish();
+                    Toast.makeText(context,context.getResources().getString(R.string.signup_success),Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.signup_err),Toast.LENGTH_SHORT).show();
                 }

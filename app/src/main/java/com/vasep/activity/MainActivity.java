@@ -75,11 +75,17 @@ public class MainActivity extends LocalizationActivity {
         Intent i = getIntent();
         type = i.getIntExtra("type", 0);
 
-        String id_type = i.getStringExtra("id_type");
+        String id_type = getIntent().getStringExtra("id_type");
         if (id_type != null) {
             String[] arr = id_type.split("_");
             GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
             getArticleAsync.execute();
+        }
+        else{
+            /*SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("id_type",id);
+            editor.commit();*/
         }
 
         Log.d("sa", type + "");

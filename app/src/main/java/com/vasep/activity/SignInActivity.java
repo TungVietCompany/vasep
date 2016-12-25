@@ -136,6 +136,7 @@ public class SignInActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     setResult(RESULT_OK, intent);
                     finish();
+                    Toast.makeText(context,context.getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,context.getResources().getString(R.string.login_err),Toast.LENGTH_SHORT).show();
                 }
