@@ -45,8 +45,10 @@ import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.vasep.activity.ChangePasswordActivity;
+import com.vasep.activity.ContactActivity;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
+import com.vasep.activity.PurchaseActivity;
 import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
@@ -282,6 +284,17 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                     public void onClick(View view) {
                         Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
                         startActivity(intent);
+                    }
+                });
+
+                TextView btn_contact=(TextView) dialog.findViewById(R.id.btn_contact);
+                btn_contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ContactActivity.class);
+                        intent.putExtra("type_send","menu");
+                        startActivity(intent);
+
                     }
                 });
 
