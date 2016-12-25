@@ -78,10 +78,20 @@ public class ContactActivity extends LocalizationActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ContactActivity.this,PurchaseActivity.class);
-                intent.putExtra("article",article);
-                startActivity(intent);
-                finish();
+                try{
+                    String type_send =getIntent().getStringExtra("type_send")==null?"":getIntent().getStringExtra("type_send");
+                    if(type_send.equals("")) {
+                        Intent intent = new Intent(ContactActivity.this, PurchaseActivity.class);
+                        intent.putExtra("article", article);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        onBackPressed();
+                    }
+                }catch (Exception err){
+
+                }
+
             }
         });
 
