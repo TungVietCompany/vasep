@@ -82,4 +82,8 @@
     <string name="view_report">Xem báo cáo</string>
     <string name="register_success">Đăng ký thành công</string>
     <string name="toast_choose_purchase">Chọn hình thức thanh toán</string>
+
+    <string name="title_total_carts">Tổng đơn</string>
+    <string name="title_total_discount_cart">Tổng giảm giá</string>
+    <string name="title_total_money_cart">Tổng tiền</string>
 </resources>

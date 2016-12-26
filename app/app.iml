@@ -175,5 +175,6 @@
     <orderEntry type="library" exported="" name="dialogplus-1.11" level="project" />
     <orderEntry type="library" exported="" name="firebase-messaging-9.0.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-9.0.0" level="project" />
+    <orderEntry type="library" exported="" name="android-android-23" level="project" />
   </component>
 </module>

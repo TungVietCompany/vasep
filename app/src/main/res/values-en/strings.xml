@@ -70,4 +70,7 @@
     <string name="register_success">Register Successful</string>
     <string name="toast_choose_purchase">Choose Payment Option</string>
 
+    <string name="title_total_carts">Total order</string>
+    <string name="title_total_discount_cart">Total discount</string>
+    <string name="title_total_money_cart">Total money</string>
 </resources>
