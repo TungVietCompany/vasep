@@ -72,7 +72,6 @@ public class PurchaseCartActivity extends AppCompatActivity {
         Intent i = getIntent();
         List<ReportItem> reportItems = (List<ReportItem>) i.getSerializableExtra("list_cart");
 
-
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recylerview_list_cart);
         LinearLayoutManager gridview= new LinearLayoutManager(PurchaseCartActivity.this);
         recyclerView.setLayoutManager(gridview);
