@@ -24,10 +24,10 @@ import java.util.List;
 
 public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_ITEM = 1;
-    private final int VIEW_PROG = 0;
+    private final int VIEW_BANNER = 0;
 
     private ArrayList<Article> itemList;
-
+    private ArrayList<String> urlList;
     private OnLoadMoreListener onLoadMoreListener;
     private GridLayoutManager mGridLayoutManager;
 
@@ -49,6 +49,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public AdapterItem(Context context, OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
         itemList = new ArrayList<>();
+
         this.context = context;
 
 
@@ -91,16 +92,16 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return itemList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+        return itemList.get(position) != null ? VIEW_ITEM : VIEW_BANNER;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
- //       if (viewType == VIEW_ITEM) {
+        if (viewType == VIEW_ITEM) {
             return new NewsHoder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dapter_recyclerview, parent, false));
-//        } else {
-//            return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
-//        }
+        } else {
+            return new BannerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_banner, parent, false));
+        }
 
     }
 
@@ -140,16 +141,21 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
                 ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
                 ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
-                if(Integer.parseInt(article.getPrice())>0 ){
-                    if(article.getIs_lock().equals("1")){
+                if (Integer.parseInt(article.getPrice()) > 0) {
+                    if (article.getIs_lock().equals("1")) {
                         ((NewsHoder) holder).txt_lock.setVisibility(View.VISIBLE);
                         ((NewsHoder) holder).img_lock.setVisibility(View.VISIBLE);
                     }
                 }
 
-            }catch (Exception err){
+            } catch (Exception err) {
 
             }
+
+        }
+        else{
+            int index= position/4;
+            Glide.with(context).load(urlList.get(index)).diskCacheStrategy(DiskCacheStrategy.ALL).into(((BannerHolder) holder).image_banner);
 
         }
     }
@@ -196,8 +202,18 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             txt_screen1_category = (TextView) itemView.findViewById(R.id.screen_category_item);
             txt_screen1_date = (TextView) itemView.findViewById(R.id.screen_date_item);
 
-            txt_lock=(TextView) itemView.findViewById(R.id.txt_lock);
-            img_lock=(ImageView) itemView.findViewById(R.id.img_lock);
+            txt_lock = (TextView) itemView.findViewById(R.id.txt_lock);
+            img_lock = (ImageView) itemView.findViewById(R.id.img_lock);
+        }
+    }
+
+    static class BannerHolder extends RecyclerView.ViewHolder {
+        ImageView image_banner;
+
+        public BannerHolder(View itemView) {
+            super(itemView);
+            image_banner = (ImageView) itemView.findViewById(R.id.image_banner);
+
         }
     }
 
