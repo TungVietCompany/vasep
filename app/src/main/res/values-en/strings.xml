@@ -73,4 +73,6 @@
     <string name="title_total_carts">Total order</string>
     <string name="title_total_discount_cart">Total discount</string>
     <string name="title_total_money_cart">Total money</string>
+
+    <string name="btn_continue">CONTINUE</string>
 </resources>

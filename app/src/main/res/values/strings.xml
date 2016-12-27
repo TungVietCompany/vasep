@@ -86,4 +86,6 @@
     <string name="title_total_carts">Tổng đơn</string>
     <string name="title_total_discount_cart">Tổng giảm giá</string>
     <string name="title_total_money_cart">Tổng tiền</string>
+
+    <string name="btn_continue">TIẾP TỤC</string>
 </resources>
