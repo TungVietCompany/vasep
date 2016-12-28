@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.async.BannerAsync;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 
@@ -133,13 +134,6 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int index = Integer.parseInt(itemList.get(count - 2).getId());
                 return index;
             }
-            /*if(count%2==0) {
-                int index = Integer.parseInt(itemList.get(count).getId());
-                return index;
-            }else{
-                int index = Integer.parseInt(itemList.get(count).getId());
-                return index;
-            }*/
         } else {
             return 0;
         }
@@ -155,34 +149,6 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsHoder) {
             try {
-
-                /*if(position%2==0) {
-                    Article article = itemList.get(position);
-
-                    Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView2);
-                    ((NewsHoder) holder).txt_screen1_title2.setText(article.getTitle());
-                    ((NewsHoder) holder).txt_screen1_category2.setText(article.getCategory_name());
-                    ((NewsHoder) holder).txt_screen1_date2.setText(ChangeDate.convertDate(article.getCreate_date()));
-                    if (Integer.parseInt(article.getPrice()) > 0) {
-                        if (article.getIs_lock().equals("1")) {
-                            ((NewsHoder) holder).txt_lock2.setVisibility(View.VISIBLE);
-                            ((NewsHoder) holder).img_lock2.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }else{
-                    Article article = itemList.get(position);
-
-                    Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView);
-                    ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
-                    ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
-                    ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
-                    if (Integer.parseInt(article.getPrice()) > 0) {
-                        if (article.getIs_lock().equals("1")) {
-                            ((NewsHoder) holder).txt_lock.setVisibility(View.VISIBLE);
-                            ((NewsHoder) holder).img_lock.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }*/
                 ((NewsHoder) holder).card2.setVisibility(View.INVISIBLE);
                 Article article = itemList.get((position) * 2);
 
@@ -215,7 +181,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
 
                 if(position!=0 && (position)%2==0){
+
                     ((NewsHoder) holder).layout_banner.setVisibility(View.VISIBLE);
+                    BannerAsync bannerAsync= new BannerAsync(context,((NewsHoder) holder).image_banner,page);
+                    bannerAsync.execute();
+
+                    page++;
                 }
 
 
@@ -257,7 +228,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class NewsHoder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView imageView,image_banner;
         TextView txt_screen1_title;
         TextView txt_screen1_category;
         TextView txt_screen1_date;
@@ -297,6 +268,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             card2=(CardView) itemView.findViewById(R.id.card2);
 
             layout_banner=(LinearLayout) itemView.findViewById(R.id.layout_banner);
+            image_banner=(ImageView) itemView.findViewById(R.id.image_banner);
         }
     }
 
