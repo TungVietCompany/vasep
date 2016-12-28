@@ -41,12 +41,20 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ExploreHoder> 
     }
 
     @Override
-    public void onBindViewHolder(AdapterCart.ExploreHoder holder, int position) {
+    public void onBindViewHolder(AdapterCart.ExploreHoder holder, final int position) {
         Picasso.with(mContext).load(categories.get(position).getUrl()).into(holder.image_report_cart);
         holder.txt_title_report_cart.setText(categories.get(position).getTitle());
-        holder.txt_title_report_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_order())));
-        holder.txt_discount_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_discount())));
-        holder.txt_total_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_total())));
+        holder.txt_unitprice_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_order()))+" vnđ");
+        holder.txt_discount_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_discount()))+" vnđ");
+        holder.txt_total_cart.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(categories.get(position).getMoney_total()))+" vnđ");
+
+        holder.btn_remove_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categories.remove(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -59,7 +67,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ExploreHoder> 
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        try {
+            return categories.size();
+        }catch (Exception err){
+            return 0;
+        }
     }
 
     public class ExploreHoder extends RecyclerView.ViewHolder{

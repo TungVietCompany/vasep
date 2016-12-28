@@ -6,10 +6,12 @@ import android.os.StrictMode;
 
 import com.vasep.api.ServiceGenerator;
 import com.vasep.api.ServiceInterface;
+import com.vasep.models.Banner;
 import com.vasep.models.Expire;
 import com.vasep.models.Payment;
 import com.vasep.models.PaymentResult;
 import com.vasep.models.Result;
+import com.vasep.models.ResultBanner;
 import com.vasep.models.User;
 
 import java.util.ArrayList;
@@ -137,8 +139,8 @@ public class ConnectApp {
         return false;
     }
 
-    public Boolean InserTransaction(int article_id,int user_id,int payment_id,int status,int error_code,String message,String transaction_id,String developer_trans_id,String amount,String currency,String url,String bank){
-        Call<Result> contact = service.insertTransaction(article_id, user_id, payment_id, status, error_code, message, transaction_id, developer_trans_id, amount, currency, url,bank);
+    public Boolean InserTransaction(int article_id,int user_id,int payment_id,int status,int error_code,String message,String transaction_id,String developer_trans_id,String amount,String currency,String url,String bank,int buy_type){
+        Call<Result> contact = service.insertTransaction(article_id, user_id, payment_id, status, error_code, message, transaction_id, developer_trans_id, amount, currency, url,bank,buy_type);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
@@ -173,5 +175,24 @@ public class ConnectApp {
             String err= ex.getMessage();
         }
         return new ArrayList<Payment>();
+    }
+
+    public ArrayList<Banner> GetBanner(){
+        Call<ResultBanner> contact = service.getBanner();
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            ResultBanner str = contact.execute().body();
+            if (str.getCode() == 200){
+
+                return str.getAdvertises();
+            }
+        } catch (Exception ex) {
+            String err= ex.getMessage();
+        }
+        return new ArrayList<Banner>();
     }
 }

@@ -38,9 +38,9 @@
     <string name="buy">ĐẶT MUA</string>
     <string name="purchase">THANH TOÁN</string>
     <string name="detail">CHI TIẾT</string>
-    <string name="unit_price">Đơn giá</string>
-    <string name="discount">Giảm giá</string>
-    <string name="total">Tổng tiền</string>
+    <string name="unit_price">Đơn giá: </string>
+    <string name="discount">Giảm giá: </string>
+    <string name="total">Tổng tiền: </string>
     <string name="option_pay">CHỌN HÌNH THỨC THANH TOÁN</string>
     <string name="bank_transfer">THANH TOÁN QUA NGÂN HÀNG</string>
 
@@ -88,4 +88,9 @@
     <string name="title_total_money_cart">Tổng tiền</string>
 
     <string name="btn_continue">TIẾP TỤC</string>
+
+    <string name="price_view_online">Giá xem online</string>
+    <string name="price_view_download">Giá download</string>
+    <string name="btn_view_online">XEM ONLINE</string>
+    <string name="btn_view_download">TẢI VỀ</string>
 </resources>

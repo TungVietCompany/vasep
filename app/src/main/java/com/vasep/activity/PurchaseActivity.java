@@ -27,8 +27,10 @@ import com.vasep.adapter.AdapterPayment;
 import com.vasep.async.GetPaymentAsync;
 import com.vasep.controller.money;
 import com.vasep.models.Article;
+import com.vasep.models.ReportItem;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -147,10 +149,20 @@ public class PurchaseActivity extends AppCompatActivity {
                         LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
                         recyclerView.setLayoutManager(gridview);
 
-                        AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,article,0);
+                        ArrayList<ReportItem> reportItems= new ArrayList<ReportItem>();
+                        ReportItem reportItem= new ReportItem();
+                        reportItem.setId(article.getId());
+                        reportItem.setTitle(article.getTitle());
+                        reportItem.setMoney_discount(article.getDiscount());
+                        reportItem.setMoney_order(article.getPrice());
+                        reportItem.setMoney_total((Integer.parseInt(article.getPrice())-Integer.parseInt(article.getDiscount()))+"");
+                        reportItem.setUrl(article.getImage());
+                        reportItems.add(reportItem);
+
+                        AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,reportItems,0,"online");
 
 
-                        GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseActivity.this, recyclerView, adapterMenu, article,select_type);
+                        GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseActivity.this, recyclerView, adapterMenu, reportItems,select_type,"online");
                         getPaymentAsync.execute();
 
                         dialog.show();

@@ -28,7 +28,8 @@ public class TransactionAsync extends AsyncTask<Void,Void,Boolean> {
     Article article;
     int article_id,user_id, payment_id, status, error_code;
     String message, transaction_id, developer_trans_id, amount, currency, url, bank;
-    public TransactionAsync(Context context, int article_id,int user_id,int payment_id,int status,int error_code,String message,String transaction_id,String developer_trans_id,String amount,String currency,String url,String bank){
+    int buy_type;
+    public TransactionAsync(Context context, int article_id,int user_id,int payment_id,int status,int error_code,String message,String transaction_id,String developer_trans_id,String amount,String currency,String url,String bank, int buy_type){
         this.context = context;
         this.article_id=article_id;
         this.user_id=user_id;
@@ -43,7 +44,7 @@ public class TransactionAsync extends AsyncTask<Void,Void,Boolean> {
         this.currency=currency;
         this.url=url;
         this.bank=bank;
-
+        this.buy_type=buy_type;
     }
 
 
@@ -59,7 +60,7 @@ public class TransactionAsync extends AsyncTask<Void,Void,Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         ConnectApp contactController = new ConnectApp(context);
-        return contactController.InserTransaction(article_id, user_id, payment_id, status, error_code, message, transaction_id, developer_trans_id, amount, currency, url,bank);
+        return contactController.InserTransaction(article_id, user_id, payment_id, status, error_code, message, transaction_id, developer_trans_id, amount, currency, url,bank,buy_type);
     }
 
     @Override

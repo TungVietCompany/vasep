@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.vasep.models.ListReportItem;
 import com.vasep.models.ReportItem;
 import com.vasep.notification.Information;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -112,50 +114,195 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
                             Intent intent=new Intent(activity, SignInActivity.class);
                             activity.startActivityForResult(intent,1);
                         }else {
-                            /*Intent intent1 = new Intent(context, PurchaseActivity.class);
-                            intent1.putExtra("article", article);
-                            activity.startActivityForResult(intent1, 1);*/
+                            final Dialog dialogs = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                            dialogs.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialogs.setContentView(R.layout.dialog_buy_type);
+                            dialogs.getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.bg_menu)));
+                            TextView price_view_online=(TextView) dialogs.findViewById(R.id.price_view_online);
+                            price_view_online.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice_online())) + " vnđ");
+                            TextView price_view_download=(TextView) dialogs.findViewById(R.id.price_view_download);
+                            price_view_download.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice_download())) + " vnđ");
 
-                            final Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setContentView(R.layout.dialog_add_cart);
-                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.bg_menu)));
-                            final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_item_cart);
-                            LinearLayoutManager gridview= new LinearLayoutManager(activity);
-                            recyclerView.setLayoutManager(gridview);
+                            TextView btn_view_online=(TextView) dialogs.findViewById(R.id.btn_view_online);
+                            TextView btn_view_download=(TextView) dialogs.findViewById(R.id.btn_view_download);
 
-                            SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                            final SharedPreferences.Editor editor = pref.edit();
-                            String report = pref.getString("listReport", "");
-
-                            Gson gson = new Gson();
-                            final ArrayList<ReportItem> reportItems = gson.fromJson(report, ListReportItem.class);
-
-                            AdapterCart adapterCart= new AdapterCart(context,reportItems);
-                            recyclerView.setAdapter(adapterCart);
-
-                            TextView btn_pays_dialog= (TextView) dialog.findViewById(R.id.btn_pays_dialog);
-                            TextView btn_continue_dialog= (TextView) dialog.findViewById(R.id.btn_continue_dialog);
-
-                            btn_continue_dialog.setOnClickListener(new View.OnClickListener() {
+                            ImageView imageView=(ImageView) dialogs.findViewById(R.id.img_close_dialog);
+                            imageView.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View view) {
+                                public void onClick(View v) {
+                                    dialogs.dismiss();
+                                }
+                            });
+
+                            btn_view_online.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogs.dismiss();
                                     ReportItem reportItem= new ReportItem();
                                     reportItem.setId(article.getId());
                                     reportItem.setUrl(article.getImage());
                                     reportItem.setTitle(article.getTitle());
-                                    reportItem.setMoney_discount(article.getDiscount());
-                                    reportItem.setMoney_order(article.getPrice());
-                                    reportItem.setMoney_total(Integer.parseInt(article.getPrice())-Integer.parseInt(article.getDiscount())+"");
-                                    reportItems.add(reportItem);
 
+                                    double discount_new=Double.parseDouble(article.getDiscount())*Double.parseDouble(article.getPrice_online())/Double.parseDouble(article.getPrice());
 
+                                    reportItem.setMoney_discount(discount_new+"");
+                                    reportItem.setMoney_order(article.getPrice_online());
+                                    reportItem.setMoney_total((Double.parseDouble(article.getPrice_online())-discount_new)+"");
+
+                                    SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                    final SharedPreferences.Editor editor = pref.edit();
                                     Gson gson = new Gson();
-                                    String json = gson.toJson(reportItems);
-                                    editor.putString("listReport", json);
-                                    editor.commit();
+                                    String report = pref.getString("listReport", "");
+                                    final ArrayList<ReportItem> reportItems = gson.fromJson(report, ListReportItem.class)==null?new ArrayList<ReportItem>():gson.fromJson(report, ListReportItem.class) ;
+
+                                    boolean flag=false;
+                                    for (int i=0; i< reportItems.size(); i++) {
+                                        if (reportItems.get(i).getId().equals(reportItem.getId())) {
+                                            flag=true;
+                                        }
+                                    }
+                                    if(reportItems.size()==0|| !flag){
+                                        reportItems.add(reportItem);
+                                        String json = gson.toJson(reportItems);
+                                        editor.putString("listReport", json);
+                                        editor.commit();
+                                    }
+
+                                    final Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setContentView(R.layout.dialog_add_cart);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.bg_menu)));
+                                    final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_item_cart);
+                                    LinearLayoutManager gridview= new LinearLayoutManager(activity);
+                                    recyclerView.setLayoutManager(gridview);
+
+                                    AdapterCart adapterCart= new AdapterCart(context,reportItems);
+                                    recyclerView.setAdapter(adapterCart);
+
+
+
+                                    TextView btn_pays_dialog= (TextView) dialog.findViewById(R.id.btn_pays_dialog);
+                                    TextView btn_continue_dialog= (TextView) dialog.findViewById(R.id.btn_continue_dialog);
+
+                                    btn_continue_dialog.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    btn_pays_dialog.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            editor.putString("listReport", "");
+                                            editor.commit();
+                                            dialog.dismiss();
+
+                                            Intent intent1 = new Intent(context, PurchaseCartActivity.class);
+                                            intent1.putExtra("listReportPays", reportItems);
+                                            intent1.putExtra("buy_type", "online");
+                                            activity.startActivityForResult(intent1, 1);
+                                        }
+                                    });
+
+                                    ImageView btn_close=(ImageView) dialog.findViewById(R.id.btn_close);
+                                    btn_close.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    dialog.show();
                                 }
                             });
+
+                            btn_view_download.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogs.dismiss();
+                                    ReportItem reportItem= new ReportItem();
+                                    reportItem.setId(article.getId());
+                                    reportItem.setUrl(article.getImage());
+                                    reportItem.setTitle(article.getTitle());
+
+                                    double discount_new=Double.parseDouble(article.getDiscount())*Double.parseDouble(article.getPrice_download())/Double.parseDouble(article.getPrice());
+
+                                    reportItem.setMoney_discount(discount_new+"");
+                                    reportItem.setMoney_order(article.getPrice_download());
+                                    reportItem.setMoney_total((Double.parseDouble(article.getPrice_download())-discount_new)+"");
+
+                                    SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                    final SharedPreferences.Editor editor = pref.edit();
+                                    Gson gson = new Gson();
+                                    String report = pref.getString("listReport", "");
+                                    final ArrayList<ReportItem> reportItems = gson.fromJson(report, ListReportItem.class)==null?new ArrayList<ReportItem>():gson.fromJson(report, ListReportItem.class) ;
+
+                                    boolean flag=false;
+                                    for (int i=0; i< reportItems.size(); i++) {
+                                        if (reportItems.get(i).getId().equals(reportItem.getId())) {
+                                            flag=true;
+                                        }
+                                    }
+                                    if(reportItems.size()==0|| !flag){
+                                        reportItems.add(reportItem);
+                                        String json = gson.toJson(reportItems);
+                                        editor.putString("listReport", json);
+                                        editor.commit();
+                                    }
+
+                                    final Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setContentView(R.layout.dialog_add_cart);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.bg_menu)));
+                                    final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_item_cart);
+                                    LinearLayoutManager gridview= new LinearLayoutManager(activity);
+                                    recyclerView.setLayoutManager(gridview);
+
+                                    AdapterCart adapterCart= new AdapterCart(context,reportItems);
+                                    recyclerView.setAdapter(adapterCart);
+
+
+
+                                    TextView btn_pays_dialog= (TextView) dialog.findViewById(R.id.btn_pays_dialog);
+                                    TextView btn_continue_dialog= (TextView) dialog.findViewById(R.id.btn_continue_dialog);
+
+                                    btn_continue_dialog.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    btn_pays_dialog.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            editor.putString("listReport", "");
+                                            editor.commit();
+                                            dialog.dismiss();
+
+                                            Intent intent1 = new Intent(context, PurchaseCartActivity.class);
+                                            intent1.putExtra("listReportPays", reportItems);
+                                            intent1.putExtra("buy_type", "download");
+                                            activity.startActivityForResult(intent1, 1);
+                                        }
+                                    });
+
+                                    ImageView btn_close=(ImageView) dialog.findViewById(R.id.btn_close);
+                                    btn_close.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    dialog.show();
+                                }
+                            });
+
+                            /*Intent intent1 = new Intent(context, PurchaseActivity.class);
+                            intent1.putExtra("article", article);
+                            activity.startActivityForResult(intent1, 1);*/
+
+                            dialogs.show();
                         }
                     }
                 });

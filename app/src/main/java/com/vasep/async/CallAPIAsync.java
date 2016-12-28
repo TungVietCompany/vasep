@@ -13,6 +13,7 @@ import com.vasep.controller.ConnectApp;
 import com.vasep.models.Article;
 import com.vasep.models.BankingAppotaAPI;
 import com.vasep.models.Payment;
+import com.vasep.models.ReportItem;
 import com.vasep.notification.Information;
 
 import java.util.ArrayList;
@@ -26,18 +27,20 @@ public class CallAPIAsync extends AsyncTask<Void,Void,BankingAppotaAPI> {
     Context context;
     ProgressDialog dialog;
     String amount,state,language,developer_trans_id,user_id,payment_id;
-    Article article;
+    ArrayList<ReportItem> list;
     int select_type;
-    public CallAPIAsync(Context context,String developer_trans_id,String amount,String state,String language,Article article,String user_id,String payment_id,int select_type){
+    String buy_type;
+    public CallAPIAsync(Context context, String developer_trans_id, String amount, String state, String language, ArrayList<ReportItem> list, String user_id, String payment_id, int select_type, String buy_type){
         this.context = context;
-        this.amount=amount;
+        this.amount=(int)Double.parseDouble(amount)+"";
         this.state=state;
         this.language=language;
         this.developer_trans_id=developer_trans_id;
-        this.article=article;
+        this.list= list;
         this.user_id=user_id;
         this.payment_id=payment_id;
         this.select_type=select_type;
+        this.buy_type=buy_type;
     }
 
     @Override
@@ -59,11 +62,19 @@ public class CallAPIAsync extends AsyncTask<Void,Void,BankingAppotaAPI> {
         try{
             if(model!=null){
                 BankingAppotaAPI item=model;
-                TransactionAsync transactionAsync= new TransactionAsync(context,Integer.parseInt(article.getId()),Integer.parseInt(user_id),Integer.parseInt(payment_id),
-                        0,model.getError_code(),model.getMessage(),model.getData().getTransaction_id(),model.getData().getDeveloper_trans_id(),
-                        model.getData().getAmount(),model.getData().getCurrency(),model.getData().getBank_options().get(0).getUrl(),model.getData().getBank_options().get(0).getBank());
-                transactionAsync.execute();
+                for (int i=0; i<list.size(); i++) {
+                    if(buy_type.equals("online")){
+                        buy_type="0";
+                    }
+                    else if(buy_type.equals("download")){
+                        buy_type="1";
+                    }
+                    TransactionAsync transactionAsync = new TransactionAsync(context, Integer.parseInt(list.get(i).getId()), Integer.parseInt(user_id), Integer.parseInt(payment_id),
+                            0, model.getError_code(), model.getMessage(), model.getData().getTransaction_id(), model.getData().getDeveloper_trans_id(),
+                            model.getData().getAmount(), model.getData().getCurrency(), model.getData().getBank_options().get(0).getUrl(), model.getData().getBank_options().get(0).getBank(),Integer.parseInt(buy_type));
+                    transactionAsync.execute();
 
+                }
                 String url = model.getData().getBank_options().get(0).getUrl();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));

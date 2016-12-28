@@ -1,5 +1,6 @@
 package com.vasep.async;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
 import com.vasep.activity.NewsDetailActivity;
+import com.vasep.activity.PurchaseActivity;
 import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SignInActivity;
 import com.vasep.activity.SpecialDetailActivity;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.controller.ArticleController;
@@ -55,7 +59,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     ProgressBar progressBar;
     RelativeLayout relative_crime;
     AppBarLayout appBarLayout;
-
+    Activity activity;
     public GetListArticleSearch(Context context,AdapterItem adapterItemNew, String category, String title, RecyclerView rView, AdapterItem adapterItem, int type_load, int top, int from, int type, String language_type, int market_id, int product_id, int type_id) {
         this.context = context;
         this.top = top;
@@ -120,11 +124,12 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
         this.progressBar = progressBar;
     }
 
-    public GetListArticleSearch(Context context,ProgressBar progressBar, int top, int from, int type, AdapterItem adapterItem,
+    public GetListArticleSearch(Activity activity,Context context, ProgressBar progressBar, int top, int from, int type, AdapterItem adapterItem,
                                 RecyclerView rView, int type_load, ImageView image_top,
                                 TextView txt_date_top, TextView txt_title_top, TextView txt_category_top,
-                                RelativeLayout screen1_tops,RelativeLayout relative_crime, AppBarLayout appBarLayout, AdapterItem adapterItemNew, String language_type,
+                                RelativeLayout screen1_tops, RelativeLayout relative_crime, AppBarLayout appBarLayout, AdapterItem adapterItemNew, String language_type,
                                 String category, String title, int market_id, int product_id, int type_id) {
+        this.activity=activity;
         this.context = context;
         this.top = top;
         this.from = from;
@@ -251,9 +256,24 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(context, SpecialDetailActivity.class);
-                                    intent.putExtra("article", adapterItem.getList().get(position));
-                                    context.startActivity(intent);
+                                    if (adapterItem.getList().get(position).getIs_lock().equals("0")) {
+                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                        intent.putExtra("article", adapterItem.getList().get(position));
+                                        context.startActivity(intent);
+                                    }else{
+                                        final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                        final String user_id = pref.getString("user_id", null);
+                                        String language= pref.getString("language", "vi");
+                                        if(user_id.equals("")){
+                                            Intent intent=new Intent(activity, SignInActivity.class);
+                                            activity.startActivityForResult(intent,1);
+                                        }else{
+                                            //set
+                                            Intent intent = new Intent(context, PurchaseActivity.class);
+                                            intent.putExtra("article", adapterItem.getList().get(position));
+                                            context.startActivity(intent);
+                                        }
+                                    }
                                 }
                             }));
                 } else {
@@ -277,9 +297,26 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(context, NewsDetailActivity.class);
-                                    intent.putExtra("article", adapterItem.getList().get(position));
-                                    context.startActivity(intent);
+
+
+                                    if (adapterItem.getList().get(position).getIs_lock().equals("0")) {
+                                        Intent intent = new Intent(context, NewsDetailActivity.class);
+                                        intent.putExtra("article", adapterItem.getList().get(position));
+                                        context.startActivity(intent);
+                                    }else{
+                                        final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                        final String user_id = pref.getString("user_id", null);
+                                        String language= pref.getString("language", "vi");
+                                        if(user_id.equals("")){
+                                            Intent intent=new Intent(activity, SignInActivity.class);
+                                            activity.startActivityForResult(intent,1);
+                                        }else{
+                                            //set
+                                            Intent intent = new Intent(context, PurchaseActivity.class);
+                                            intent.putExtra("article", adapterItem.getList().get(position));
+                                            context.startActivity(intent);
+                                        }
+                                    }
                                 }
                             }));
                 }

@@ -25,9 +25,9 @@
     <string name="purchase">PURCHASE</string>
 
     <string name="detail">DETAIL</string>
-    <string name="unit_price">Unit price</string>
-    <string name="discount">Discount</string>
-    <string name="total">Total</string>
+    <string name="unit_price">Unit price: </string>
+    <string name="discount">Discount: </string>
+    <string name="total">Total: </string>
     <string name="option_pay">SELECT PAYMENT OPTION</string>
     <string name="bank_transfer">BANK TRANSFER</string>
 
@@ -75,4 +75,9 @@
     <string name="title_total_money_cart">Total money</string>
 
     <string name="btn_continue">CONTINUE</string>
+
+    <string name="price_view_online">Price view online</string>
+    <string name="price_view_download">Price download</string>
+    <string name="btn_view_online">VIEW ONLINE</string>
+    <string name="btn_view_download">DOWNLOAD</string>
 </resources>

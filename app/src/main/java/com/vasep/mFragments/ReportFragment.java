@@ -113,7 +113,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         setHasOptionsMenu(true);
         swipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
 
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         rView.setLayoutManager(mLayoutManager);
         mAdapter = new AdapterItem(getContext(), this);
         mAdapterNew = new AdapterItem(getContext(), this);
@@ -592,7 +592,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             @Override
             public void run() {
                 mAdapter.setProgressMore(false);
-                int start = mAdapter.getItemCount();
+                int start = mAdapter.getItemCount()*2;
                 try {
                     SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();

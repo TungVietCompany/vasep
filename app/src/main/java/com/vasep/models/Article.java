@@ -17,13 +17,16 @@ public class Article implements Serializable{
     private String language_type;
     private String category_name;
     private String discount;
-    private String is_buy;
+
     private String report;
     private String is_special;
     private String is_lock;
+    private String price_online;
+    private String price_download;
 
 
-    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String is_buy, String report) {
+
+    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount,String report) {
         this.id = id;
         this.title = title;
         this.create_date = create_date;
@@ -35,11 +38,27 @@ public class Article implements Serializable{
         this.language_type = language_type;
         this.category_name = category_name;
         this.discount = discount;
-        this.is_buy = is_buy;
+
         this.report = report;
     }
 
     public Article() {
+    }
+
+    public String getPrice_online() {
+        return price_online;
+    }
+
+    public void setPrice_online(String price_online) {
+        this.price_online = price_online;
+    }
+
+    public String getPrice_download() {
+        return price_download;
+    }
+
+    public void setPrice_download(String price_download) {
+        this.price_download = price_download;
     }
 
     public String getIs_lock() {
@@ -64,14 +83,6 @@ public class Article implements Serializable{
 
     public void setReport(String report) {
         this.report = report;
-    }
-
-    public String getIs_buy() {
-        return is_buy;
-    }
-
-    public void setIs_buy(String is_buy) {
-        this.is_buy = is_buy;
     }
 
     public String getDiscount() {

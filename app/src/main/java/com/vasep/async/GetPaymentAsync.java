@@ -12,6 +12,7 @@ import com.vasep.adapter.AdapterPayment;
 import com.vasep.controller.ConnectApp;
 import com.vasep.models.Article;
 import com.vasep.models.Payment;
+import com.vasep.models.ReportItem;
 import com.vasep.notification.Information;
 
 import java.util.ArrayList;
@@ -27,14 +28,16 @@ public class GetPaymentAsync extends AsyncTask<Void,Void,ArrayList<Payment>> {
     ProgressDialog dialog;
     RecyclerView recyclerView;
     AdapterPayment adapterHome;
-    Article article;
+    ArrayList<ReportItem> lst;
     int select_type;
-    public GetPaymentAsync(Context context, RecyclerView recyclerView, AdapterPayment adapterHome, Article article,int select_type){
+    String buy_type;
+    public GetPaymentAsync(Context context, RecyclerView recyclerView, AdapterPayment adapterHome, ArrayList<ReportItem> list,int select_type, String buy_type){
         this.context = context;
         this.recyclerView=recyclerView;
         this.adapterHome=adapterHome;
-        this.article= article;
+        this.lst= list;
         this.select_type=select_type;
+        this.buy_type=buy_type;
     }
 
     @Override
@@ -55,8 +58,12 @@ public class GetPaymentAsync extends AsyncTask<Void,Void,ArrayList<Payment>> {
     protected void onPostExecute(ArrayList<Payment> list) {
         try{
             if(list.size()>0){
-                list.get(0).setPrice(article.getPrice()+"");
-                adapterHome= new AdapterPayment(context,list,article,select_type);
+                double price=0;
+                for (int i=0; i<lst.size(); i++){
+                    price=price+ Double.parseDouble(lst.get(i).getMoney_total());
+                }
+                list.get(0).setPrice(price+"");
+                adapterHome= new AdapterPayment(context,list,lst,select_type,buy_type);
                 recyclerView.setAdapter(adapterHome);
 
             }else{

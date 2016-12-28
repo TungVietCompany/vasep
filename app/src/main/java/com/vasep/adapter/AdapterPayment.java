@@ -30,8 +30,10 @@ import com.vasep.models.Article;
 import com.vasep.models.BankingAppotaAPI;
 import com.vasep.models.Category;
 import com.vasep.models.Payment;
+import com.vasep.models.ReportItem;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,13 +41,15 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.ExploreH
     private Context mContext;
     private List<Payment> payments;
     int type_language;
-    Article article;
+    ArrayList<ReportItem> list;
     int select_type;
-    public AdapterPayment(Context c, List<Payment> payments, Article article,int select_type) {
+    String buy_type;
+    public AdapterPayment(Context c, List<Payment> payments, ArrayList<ReportItem> list, int select_type, String buy_type) {
         mContext = c;
         this.payments = payments;
-        this.article = article;
+        this.list = list;
         this.select_type=select_type;
+        this.buy_type=buy_type;
     }
 
     @Override
@@ -77,7 +81,16 @@ public class AdapterPayment extends RecyclerView.Adapter<AdapterPayment.ExploreH
             public void onClick(View v) {
 
                 try {
-                    CallAPIAsync callAPIAsync = new CallAPIAsync(mContext, (DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date()).toString()).replaceAll(" ", "").replace(":", ""), payments.get(index).getPrice(), user_id + "_" + article.getId(), language, article, user_id, payments.get(index).getId(),select_type);
+                    String state=user_id+ "_";
+                    for(int i=0; i< list.size(); i++){
+                        if(i==list.size()-1){
+                            state=state+ list.get(i).getId();
+                        }else{
+                            state=state+ list.get(i).getId()+"_";
+                        }
+                    }
+
+                    CallAPIAsync callAPIAsync = new CallAPIAsync(mContext, (DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date()).toString()).replaceAll(" ", "").replace(":", ""), payments.get(index).getPrice(), state, language, list, user_id, payments.get(index).getId(),select_type,buy_type);
                     callAPIAsync.execute();
 
                 } catch (Exception e) {

@@ -37,68 +37,11 @@ import retrofit2.Call;
 
 public class AppotaBankAPI {
     public static final String BANK_PAYMENT_URL = "https://api.appotapay.com/v1/sandbox/services/ibanking?api_key=A180290-E5I9CK-A695AA44C9449619";
-    public static  final  String URL_SUCCESS="http://103.237.147.54/rest_vasep/rest/appota_success";
-    public static  final  String URL_FAIL="http://103.237.147.54/rest_vasep/rest/appota_fail";
-    /*public AppotaBankAPI() {
-    }
+   // public static  final  String URL_SUCCESS="http://103.237.147.54/rest_vasep/rest/appota_success";
+    //public static  final  String URL_FAIL="http://103.237.147.54/rest_vasep/rest/appota_fail";
 
-    public  String makeBankPayment(String developer_trans_id,int amount,int bank_id,String success_url, String error_url,
-                                  String state, String target,String language_code) throws Exception {
-
-        String url = BANK_PAYMENT_URL+"&lang="+language_code;;
-        URL obj = new URL(url);
-        HttpURLConnection httpConnection = (HttpURLConnection) obj.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1");
-        httpConnection.setRequestMethod("POST");
-        String urlParameters = "developer_trans_id=%developer_trans_id%&amount=%amount%&bank_id=%bank_id%"
-                +((success_url == null ||success_url.isEmpty())?"":"&success_url=%success_url%")
-                +((error_url == null ||error_url.isEmpty())?"":"&error_url=%error_url%")
-                +((state == null ||state.isEmpty())?"":"&state=%state%")
-                +((target == null ||target.isEmpty())?"":"&target=%target%");
-        urlParameters = urlParameters.replaceFirst("%amount%", String.valueOf(amount));
-        urlParameters = urlParameters.replaceFirst("%bank_id%", String.valueOf(bank_id));
-        if(success_url != null && !success_url.isEmpty()){
-            //success_url is optional
-            urlParameters = urlParameters.replaceFirst("%success_url%", success_url);
-        }
-        if(error_url != null && !error_url.isEmpty()){
-            //error_url is optional
-            urlParameters = urlParameters.replaceFirst("%error_url%", error_url);
-        }
-        if(target != null && !target.isEmpty()){
-            //target is optional
-            urlParameters = urlParameters.replaceFirst("%state%", state);
-        }
-        if(target != null && !target.isEmpty()){
-            //target is optional
-            urlParameters = urlParameters.replaceFirst("%target%", target);
-        }
-
-        httpConnection.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
-
-        return onReceiveResponse(url, httpConnection, urlParameters);
-    }
-
-    private String  onReceiveResponse(String url, HttpURLConnection httpConnection, String urlParameters)
-            throws IOException, UnsupportedEncodingException {
-        int responseCode = httpConnection.getResponseCode();
-        System.out.println("Url : " + url);
-        System.out.println("Parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
-        BufferedReader in = new BufferedReader(new InputStreamReader(httpConnection.getInputStream(),"UTF-8"));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        String json = response.toString();
-        return  json;
-    }*/
+    public static  final  String URL_SUCCESS="http://113.23.69.61:81/rest_vasep/rest/appota_success";
+    public static  final  String URL_FAIL="http://113.23.69.61:81/rest_vasep/rest/appota_fail";
 
     private ServiceInterfaceAppota service;
     String language;

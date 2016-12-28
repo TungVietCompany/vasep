@@ -8,6 +8,7 @@ import com.vasep.models.MarketResult;
 import com.vasep.models.PaymentResult;
 import com.vasep.models.ProductResult;
 import com.vasep.models.Result;
+import com.vasep.models.ResultBanner;
 import com.vasep.models.TypeModel;
 import com.vasep.models.AddView;
 import com.vasep.models.User;
@@ -50,7 +51,7 @@ public interface ServiceInterface {
 
     @GET("rest_vasep/rest/searchArticle")
     Call<ArticleModel> searchArticle(@Query("categories") String categories,@Query("title") String title,@Query("type") int type,
-                                     @Query("top") int top,@Query("from") int from,@Query("language_type") int language_type,@Query("market_id") int market_id,@Query("product_id") int product_id ,@Query("type_id") int type_id,@Query("type_id") int user_id);
+                                     @Query("top") int top,@Query("from") int from,@Query("language_type") int language_type,@Query("market_id") int market_id,@Query("product_id") int product_id ,@Query("type_id") int type_id,@Query("user_id") int user_id);
 
     @GET("rest_vasep/rest/getAllType")
     Call<TypeModel> getAllType();
@@ -90,7 +91,7 @@ public interface ServiceInterface {
 
     @FormUrlEncoded
     @POST("rest_vasep/rest/insertTransaction")
-    Call<Result> insertTransaction(@Field("article_id") int article_id, @Field("user_id") int user_id, @Field("payment_id") int payment_id, @Field("status") int status, @Field("error_code") int error_code,@Field("message") String message,@Field("transaction_id") String transaction_id,@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("currency") String currency,@Field("url") String url,@Field("bank") String bank);
+    Call<Result> insertTransaction(@Field("article_id") int article_id, @Field("user_id") int user_id, @Field("payment_id") int payment_id, @Field("status") int status, @Field("error_code") int error_code,@Field("message") String message,@Field("transaction_id") String transaction_id,@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("currency") String currency,@Field("url") String url,@Field("bank") String bank,@Field("buy_type") int buy_type);
 
     @GET("rest_vasep/rest/checkUserExpire")
     Call<Expire> checkUserExpire(@Query("user_id") int user_id,@Query("report_id") int report_id);
@@ -103,4 +104,7 @@ public interface ServiceInterface {
     @POST("api_key=A180290-E5I9CK-A695AA44C9449619&lang=en")
     Call<BankingAppotaAPI> callAPI_EN(@Field("developer_trans_id") String developer_trans_id,@Field("amount") String amount,@Field("state") String state,@Field("success_url") String success_url,@Field("error_url") String error_url);
 
+
+    @GET("rest_vasep/rest/getAllAdvertise")
+    Call<ResultBanner> getBanner();
 }

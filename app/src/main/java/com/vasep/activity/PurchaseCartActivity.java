@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.vasep.models.Article;
 import com.vasep.models.ReportItem;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -70,19 +72,35 @@ public class PurchaseCartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
         Intent i = getIntent();
-        List<ReportItem> reportItems = (List<ReportItem>) i.getSerializableExtra("list_cart");
+        final ArrayList<ReportItem> reportItems = (ArrayList<ReportItem>) i.getSerializableExtra("listReportPays");
+        final String buy_type= i.getStringExtra("buy_type");
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recylerview_list_cart);
         LinearLayoutManager gridview= new LinearLayoutManager(PurchaseCartActivity.this);
         recyclerView.setLayoutManager(gridview);
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         AdapterCart adapterCart= new AdapterCart(PurchaseCartActivity.this,reportItems);
         recyclerView.setAdapter(adapterCart);
 
-        /*screen6_price.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice())) + " vnđ");
-        screen6_discount.setText(new DecimalFormat("#,###.#").format(Double.parseDouble((Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100 + "")) + " vnđ");
-        float sum_money = Float.parseFloat(article.getPrice()) - (Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100;
-        screen6_summoney.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(sum_money + "")) + " vnđ");*/
+        double total_UnitPrice=0;
+        double total_Discount=0;
+        double total=0;
+        for(int j=0; j<reportItems.size(); j++){
+            total_UnitPrice=total_UnitPrice+Double.parseDouble(reportItems.get(j).getMoney_order());
+            total_Discount=total_Discount+Double.parseDouble(reportItems.get(j).getMoney_discount());
 
+        }
+        total= total_UnitPrice-total_Discount;
+
+        cart_total.setText(new DecimalFormat("#,###.#").format(total_UnitPrice) + " vnđ");
+        cart_discount.setText(new DecimalFormat("#,###.#").format(total_Discount) + " vnđ");
+        cart_summoney.setText(new DecimalFormat("#,###.#").format(total) + " vnđ");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_purchase);
         setSupportActionBar(toolbar);
@@ -146,11 +164,11 @@ public class PurchaseCartActivity extends AppCompatActivity {
                     LinearLayoutManager gridview= new LinearLayoutManager(PurchaseCartActivity.this);
                     recyclerView.setLayoutManager(gridview);
 
-                    /*AdapterPayment adapterMenu = new AdapterPayment(PurchaseCartActivity.this, null,article,0);
+                    AdapterPayment adapterMenu = new AdapterPayment(PurchaseCartActivity.this, null,reportItems,0,buy_type);
 
 
-                    GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseCartActivity.this, recyclerView, adapterMenu, article,select_type);
-                    getPaymentAsync.execute();*/
+                    GetPaymentAsync getPaymentAsync = new GetPaymentAsync(PurchaseCartActivity.this, recyclerView, adapterMenu, reportItems,select_type,buy_type);
+                    getPaymentAsync.execute();
 
                     dialog.show();
 

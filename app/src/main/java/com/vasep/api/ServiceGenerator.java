@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "http://42.112.214.103:81/";
+    public static final String API_BASE_URL = "http://113.23.69.61:81/";
     static ServiceInterface git;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
