@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/common_google_signin_btn_text_light_pressed"
+        app:srcCompat="@drawable/logo_vasp"
         android:id="@+id/image_banner"
         android:scaleType="centerCrop" />
 </android.support.v7.widget.CardView>

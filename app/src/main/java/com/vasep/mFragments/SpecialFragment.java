@@ -53,6 +53,7 @@ import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
+import com.vasep.async.BannerAsync;
 import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
@@ -145,7 +146,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         actionBar.setLogo(R.mipmap.icon_menu);
         actionBar.setDisplayUseLogoEnabled(true);
 
-
+        BannerAsync bannerAsync= new BannerAsync(getContext());
+        bannerAsync.execute();
 
         /*click vào nut home tren toolbar*/
         View view = toolbar.getChildAt(1);
@@ -444,6 +446,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                         language = "vi";
                     }
                     mAdapter.setType(1);
+
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),progressBar, mAdapterNew,catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 1, language, 0, 0, 0);
                     getListArticleSearch.execute();
                 } catch (Exception err) {

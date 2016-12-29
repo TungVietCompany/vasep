@@ -192,7 +192,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                         screen1_tops.setVisibility(View.VISIBLE);
                         relative_crime.setVisibility(View.VISIBLE);
                         ViewGroup.LayoutParams params = appBarLayout.getLayoutParams();
-                        params.height = (int) context.getResources().getDimension(R.dimen.imageview_width);;
+                        params.height = (int) context.getResources().getDimension(R.dimen.imageview_width);
                         appBarLayout.setLayoutParams(params);
                         if (articles.size() > 1) {
                             article = articles.get(0);
@@ -245,9 +245,15 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     image_top.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(context, SpecialDetailActivity.class);
-                            intent.putExtra("article", tmp);
-                            context.startActivity(intent);
+                            if(!tmp.getReport().equals("")) {
+                                Intent intent = new Intent(context, ReportDetailActivity.class);
+                                intent.putExtra("article",tmp);
+                                context.startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                intent.putExtra("article", tmp);
+                                context.startActivity(intent);
+                            }
                         }
                     });
 
@@ -256,24 +262,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    if (adapterItem.getList().get(position).getIs_lock().equals("0")) {
-                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
-                                        intent.putExtra("article", adapterItem.getList().get(position));
-                                        context.startActivity(intent);
-                                    }else{
-                                        final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                                        final String user_id = pref.getString("user_id", null);
-                                        String language= pref.getString("language", "vi");
-                                        if(user_id.equals("")){
-                                            Intent intent=new Intent(activity, SignInActivity.class);
-                                            activity.startActivityForResult(intent,1);
-                                        }else{
-                                            //set
-                                            Intent intent = new Intent(context, PurchaseActivity.class);
-                                            intent.putExtra("article", adapterItem.getList().get(position));
-                                            context.startActivity(intent);
-                                        }
-                                    }
+
                                 }
                             }));
                 } else {
@@ -298,25 +287,6 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                                 @Override
                                 public void onItemClick(View view, int position) {
 
-
-                                    if (adapterItem.getList().get(position).getIs_lock().equals("0")) {
-                                        Intent intent = new Intent(context, NewsDetailActivity.class);
-                                        intent.putExtra("article", adapterItem.getList().get(position));
-                                        context.startActivity(intent);
-                                    }else{
-                                        final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                                        final String user_id = pref.getString("user_id", null);
-                                        String language= pref.getString("language", "vi");
-                                        if(user_id.equals("")){
-                                            Intent intent=new Intent(activity, SignInActivity.class);
-                                            activity.startActivityForResult(intent,1);
-                                        }else{
-                                            //set
-                                            Intent intent = new Intent(context, PurchaseActivity.class);
-                                            intent.putExtra("article", adapterItem.getList().get(position));
-                                            context.startActivity(intent);
-                                        }
-                                    }
                                 }
                             }));
                 }

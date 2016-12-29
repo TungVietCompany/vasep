@@ -25,6 +25,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterRecylerSearch;
+import com.vasep.async.BannerAsync;
 import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetArticleAsync;
 import com.vasep.async.NotiAsync;
@@ -72,12 +73,29 @@ public class MainActivity extends LocalizationActivity {
 
         }
 
+        BannerAsync bannerAsync= new BannerAsync(MainActivity.this);
+        bannerAsync.execute();
+
         INSTANCE = this;
         Intent i = getIntent();
         type = i.getIntExtra("type", 0);
 
 
-        onNewIntent(getIntent());
+        try {
+            String id_type = getIntent().getExtras().getString("id_type");
+            if (id_type != null) {
+                String[] arr = id_type.split("_");
+                GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
+                getArticleAsync.execute();
+            } else {
+            /*SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("id_type",id);
+            editor.commit();*/
+            }
+        }catch (Exception err){
+
+        }
 
 
 
@@ -122,24 +140,7 @@ public class MainActivity extends LocalizationActivity {
             startActivity(getIntent());
         }
     }
-    @Override
-    public void onNewIntent(Intent intent){
-        try {
-            String id_type = getIntent().getStringExtra("id_type");
-            if (id_type != null) {
-                String[] arr = id_type.split("_");
-                GetArticleAsync getArticleAsync = new GetArticleAsync(MainActivity.this, arr[0], arr[1]);
-                getArticleAsync.execute();
-            } else {
-            /*SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("id_type",id);
-            editor.commit();*/
-            }
-        }catch (Exception err){
 
-        }
-    }
 
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();

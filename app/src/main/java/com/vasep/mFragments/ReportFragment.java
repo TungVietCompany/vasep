@@ -55,6 +55,7 @@ import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterLvMaketing;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.adapter.AdapterRecylerSearch;
+import com.vasep.async.BannerAsync;
 import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetAllMarket;
@@ -130,6 +131,10 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.mipmap.icon_menu);
         actionBar.setDisplayUseLogoEnabled(true);
+
+
+        BannerAsync bannerAsync= new BannerAsync(getContext());
+        bannerAsync.execute();
 
         /*click vào nut home tren toolbar*/
         final View view = toolbar.getChildAt(1);

@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
+import com.vasep.R;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.controller.CategoryController;
@@ -17,6 +19,8 @@ import com.vasep.controller.ConnectApp;
 import com.vasep.models.Article;
 import com.vasep.models.Banner;
 import com.vasep.models.Category;
+import com.vasep.models.ListReportItem;
+import com.vasep.models.ReportItem;
 import com.vasep.notification.Information;
 
 import java.util.ArrayList;
@@ -37,10 +41,9 @@ public class BannerAsync extends AsyncTask<Void,Void,List<Banner>> {
     AdapterItem adapterItem;
    ImageView imageView;
     int index;
-    public BannerAsync(Context context, ImageView imageView, int index){
+    public BannerAsync(Context context){
         this.context = context;
-        this.imageView=imageView;
-        this.index=index;
+
 
     }
 
@@ -61,17 +64,22 @@ public class BannerAsync extends AsyncTask<Void,Void,List<Banner>> {
     protected void onPostExecute(final List<Banner> categories) {
         try{
             if(categories.size() > 0){
-                if (index < categories.size()) {
-                    Glide.with(context).load(categories.get(index).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-                }else{
-                    Glide.with(context).load(categories.get(index-categories.size()).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-                }
+
+                SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = pref.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(categories);
+                editor.putString("listBanner", json);
+                editor.commit();
+
+
 
             }else{
-                Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
-            Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, Information.no_data, Toast.LENGTH_SHORT).show();
         }
 
     }

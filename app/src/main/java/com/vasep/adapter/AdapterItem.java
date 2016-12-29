@@ -1,6 +1,8 @@
 package com.vasep.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,11 +18,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.activity.NewsDetailActivity;
+import com.vasep.activity.PurchaseActivity;
+import com.vasep.activity.ReportDetailActivity;
+import com.vasep.activity.SignInActivity;
+import com.vasep.activity.SpecialDetailActivity;
 import com.vasep.async.BannerAsync;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
+import com.vasep.models.Banner;
+import com.vasep.models.ListBanner;
+import com.vasep.models.ListReportItem;
+import com.vasep.models.ReportItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +51,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private boolean isMoreLoading = false;
-    private int visibleThreshold =2;
+    private int visibleThreshold = 2;
     private Context context;
     private int type = 1;
     int lastVisibleItem, visibleItemCount, totalItemCount;
     int page = 0;
+    ArrayList<Banner> list;
 
     public interface OnLoadMoreListener {
         void onLoadMore();
@@ -56,6 +69,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         this.context = context;
 
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String report = pref.getString("listBanner", "");
+        list = gson.fromJson(report, ListBanner.class) == null ? new ArrayList<Banner>() : gson.fromJson(report, ListBanner.class);
 
     }
 
@@ -102,9 +120,9 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //if (viewType == VIEW_ITEM) {
-            return new NewsHoder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dapter_recyclerview, parent, false));
+        return new NewsHoder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dapter_recyclerview, parent, false));
         //} else {
-            //return new BannerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_banner, parent, false));
+        //return new BannerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_banner, parent, false));
         //}
 
     }
@@ -130,7 +148,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     int index = Integer.parseInt(itemList.get(count - 1).getId());
                     return index;
                 }
-            }catch (Exception err){
+            } catch (Exception err) {
                 int index = Integer.parseInt(itemList.get(count - 2).getId());
                 return index;
             }
@@ -150,48 +168,172 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof NewsHoder) {
             try {
                 ((NewsHoder) holder).card2.setVisibility(View.INVISIBLE);
-                Article article = itemList.get((position) * 2);
+                ((NewsHoder) holder).layout_banner.setVisibility(View.GONE);
+                ((NewsHoder) holder).txt_lock.setVisibility(View.INVISIBLE);
+                ((NewsHoder) holder).img_lock.setVisibility(View.INVISIBLE);
+                final Article article = itemList.get((position) * 2);
 
                 Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView);
                 ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
                 ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
                 ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
                 if (Integer.parseInt(article.getPrice()) > 0) {
-                    if (article.getIs_lock().equals("1")) {
+                    if (article.getIs_lock().equals("1")&& article.getReport()==null) {
                         ((NewsHoder) holder).txt_lock.setVisibility(View.VISIBLE);
                         ((NewsHoder) holder).img_lock.setVisibility(View.VISIBLE);
                     }
                 }
-                if((position) * 2+1<itemList.size()) {
+                if ((position) * 2 + 1 < itemList.size()) {
                     ((NewsHoder) holder).card2.setVisibility(View.VISIBLE);
-                    Article article2 = itemList.get((position) * 2+1);
+                    final Article article2 = itemList.get((position) * 2 + 1);
 
                     Glide.with(context).load(article2.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView2);
                     ((NewsHoder) holder).txt_screen1_title2.setText(article2.getTitle());
                     ((NewsHoder) holder).txt_screen1_category2.setText(article2.getCategory_name());
                     ((NewsHoder) holder).txt_screen1_date2.setText(ChangeDate.convertDate(article2.getCreate_date()));
                     if (Integer.parseInt(article2.getPrice()) > 0) {
-                        if (article2.getIs_lock().equals("1")) {
+                        if (article2.getIs_lock().equals("1")&& !article2.getPrice().equals("") && article2.getReport()==null) {
                             ((NewsHoder) holder).txt_lock2.setVisibility(View.VISIBLE);
                             ((NewsHoder) holder).img_lock2.setVisibility(View.VISIBLE);
                         }
                     }
-                }else{
+
+                    ((NewsHoder) holder).card2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (type == 0) {
+                                if (article2.getIs_lock().equals("0")||(article2.getIs_lock().equals("1")&&Integer.parseInt(article2.getPrice()) == 0)) {
+                                    Intent intent = new Intent(context, NewsDetailActivity.class);
+                                    intent.putExtra("article", article2);
+                                    context.startActivity(intent);
+                                } else {
+                                    final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                    final String user_id = pref.getString("user_id", "");
+                                    String language = pref.getString("language", "vi");
+                                    if (user_id.equals("")) {
+                                        //Intent intent=new Intent(context, SignInActivity.class);
+                                        //context.startActivityForResult(intent,1);
+                                    } else {
+                                        //set
+                                        Intent intent = new Intent(context, PurchaseActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    }
+                                }
+                            }else if(type==1){
+                                if (article2.getIs_lock().equals("0")||(article2.getIs_lock().equals("1")&&Integer.parseInt(article2.getPrice()) == 0)) {
+                                    if(article2.getReport()==null) {
+                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    }
+                                    else{
+                                        Intent intent = new Intent(context, ReportDetailActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    }
+                                }else{
+                                    final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                    final String user_id = pref.getString("user_id", "");
+                                    String language= pref.getString("language", "vi");
+                                    if(user_id.equals("")){
+                                        //Intent intent=new Intent(activity, SignInActivity.class);
+                                        //activity.startActivityForResult(intent,1);
+                                    }else{
+                                        //set
+                                        Intent intent = new Intent(context, PurchaseActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    }
+                                }
+                            }else{
+                                Intent intent = new Intent(context, ReportDetailActivity.class);
+                                intent.putExtra("article", article2);
+                                context.startActivity(intent);
+                            }
+                        }
+                    });
+                } else {
                     ((NewsHoder) holder).card2.setVisibility(View.INVISIBLE);
                 }
 
-                if(position!=0 && (position)%2==0){
-
+                if (position != 0 && (position) % 2 == 1) {
                     ((NewsHoder) holder).layout_banner.setVisibility(View.VISIBLE);
-                    BannerAsync bannerAsync= new BannerAsync(context,((NewsHoder) holder).image_banner,page);
-                    bannerAsync.execute();
-
+                    Picasso.with(context).load(list.get(page % list.size()).getImage()).into(((NewsHoder) holder).image_banner);
                     page++;
                 }
 
+                ((NewsHoder) holder).card1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (type == 0) {
+                            if (article.getIs_lock().equals("0")||(article.getIs_lock().equals("1")&&Integer.parseInt(article.getPrice()) == 0)) {
+                                Intent intent = new Intent(context, NewsDetailActivity.class);
+                                intent.putExtra("article", article);
+                                context.startActivity(intent);
+                            } else {
+                                final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                final String user_id = pref.getString("user_id", "");
+                                String language = pref.getString("language", "vi");
+                                if (user_id.equals("")) {
+                                    //Intent intent=new Intent(context, SignInActivity.class);
+                                    //context.startActivityForResult(intent,1);
+                                } else {
+                                    //set
+                                    Intent intent = new Intent(context, PurchaseActivity.class);
+                                    intent.putExtra("article", article);
+                                    context.startActivity(intent);
+                                }
+                            }
+                        }else if(type==1){
+                            if (article.getIs_lock().equals("0")||(article.getIs_lock().equals("1")&&Integer.parseInt(article.getPrice()) == 0)) {
+                                if(article.getReport()==null) {
+                                    Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                    intent.putExtra("article", article);
+                                    context.startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(context, ReportDetailActivity.class);
+                                    intent.putExtra("article", article);
+                                    context.startActivity(intent);
+                                }
+                            }else{
+                                final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                final String user_id = pref.getString("user_id", "");
+                                String language= pref.getString("language", "vi");
+                                if(user_id.equals("")){
+                                    //Intent intent=new Intent(activity, SignInActivity.class);
+                                    //activity.startActivityForResult(intent,1);
+                                }else{
+                                    //set
+
+                                    if(article.getReport()==null) {
+                                        Intent intent = new Intent(context, PurchaseActivity.class);
+                                        intent.putExtra("article", article);
+                                        context.startActivity(intent);
+                                    }
+                                    else{
+                                        Intent intent = new Intent(context, ReportDetailActivity.class);
+                                        intent.putExtra("article", article);
+                                        context.startActivity(intent);
+                                    }
+
+                                }
+                            }
+                        }else{
+                            Intent intent = new Intent(context, ReportDetailActivity.class);
+                            intent.putExtra("article", article);
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+
+
+
+
 
             } catch (Exception err) {
-                String exx= err.getMessage();
+                String exx = err.getMessage();
             }
 
         }
@@ -228,7 +370,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class NewsHoder extends RecyclerView.ViewHolder {
-        ImageView imageView,image_banner;
+        ImageView imageView, image_banner;
         TextView txt_screen1_title;
         TextView txt_screen1_category;
         TextView txt_screen1_date;
@@ -244,7 +386,7 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView txt_lock2;
         ImageView img_lock2;
 
-        CardView card2;
+        CardView card1,card2;
         LinearLayout layout_banner;
 
         public NewsHoder(View itemView) {
@@ -265,10 +407,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             txt_lock2 = (TextView) itemView.findViewById(R.id.txt_lock2);
             img_lock2 = (ImageView) itemView.findViewById(R.id.img_lock2);
 
-            card2=(CardView) itemView.findViewById(R.id.card2);
+            card2 = (CardView) itemView.findViewById(R.id.card2);
+            card1 = (CardView) itemView.findViewById(R.id.card1);
 
-            layout_banner=(LinearLayout) itemView.findViewById(R.id.layout_banner);
-            image_banner=(ImageView) itemView.findViewById(R.id.image_banner);
+            layout_banner = (LinearLayout) itemView.findViewById(R.id.layout_banner);
+            image_banner = (ImageView) itemView.findViewById(R.id.image_banner);
         }
     }
 

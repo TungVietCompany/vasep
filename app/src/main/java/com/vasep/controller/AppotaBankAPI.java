@@ -37,11 +37,11 @@ import retrofit2.Call;
 
 public class AppotaBankAPI {
     public static final String BANK_PAYMENT_URL = "https://api.appotapay.com/v1/sandbox/services/ibanking?api_key=A180290-E5I9CK-A695AA44C9449619";
-   // public static  final  String URL_SUCCESS="http://103.237.147.54/rest_vasep/rest/appota_success";
-    //public static  final  String URL_FAIL="http://103.237.147.54/rest_vasep/rest/appota_fail";
+    public static  final  String URL_SUCCESS="http://103.237.147.54/rest_vasep/rest/appota_success";
+    public static  final  String URL_FAIL="http://103.237.147.54/rest_vasep/rest/appota_fail";
 
-    public static  final  String URL_SUCCESS="http://113.23.69.61:81/rest_vasep/rest/appota_success";
-    public static  final  String URL_FAIL="http://113.23.69.61:81/rest_vasep/rest/appota_fail";
+    //public static  final  String URL_SUCCESS="http://113.23.69.61:81/rest_vasep/rest/appota_success";
+    //public static  final  String URL_FAIL="http://113.23.69.61:81/rest_vasep/rest/appota_fail";
 
     private ServiceInterfaceAppota service;
     String language;

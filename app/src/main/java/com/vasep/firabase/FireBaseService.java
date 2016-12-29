@@ -30,24 +30,29 @@ public class FireBaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        String title = remoteMessage.getNotification().getTitle();
-        String ss= remoteMessage.getNotification().getBody();
-        String id = remoteMessage.getNotification().getSound();
-        sendNotification(remoteMessage.getNotification().getBody(),title,id);
+        if (remoteMessage.getData().size() > 0) {
+            String title = remoteMessage.getNotification().getTitle();
+            String ss = remoteMessage.getNotification().getBody();
+            String id = title.replace(ss, "");
+            String click_action = remoteMessage.getNotification().getClickAction();
+            sendNotification(remoteMessage.getNotification().getBody(), title, id,click_action);
+        }
 
     }
 
-    private void sendNotification(String messageBody,String title,String id) {
-        Intent intent = new Intent( this , MainActivity.class );
+    private void sendNotification(String messageBody,String title,String id,String click_actiong) {
+        Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("id_type",id+"");
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP );
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_SINGLE_TOP );
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 , intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
+        /*PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);*/
 
         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_app);
-        Bitmap thumb=Bitmap.createBitmap(100,132, Bitmap.Config.ARGB_8888);
+        Bitmap thumb=Bitmap.createBitmap(100,160, Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(thumb);
         canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                 new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);

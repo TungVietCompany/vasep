@@ -84,10 +84,10 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
 
         if (Build.VERSION.SDK_INT >= 21) {
             if(key_view==1){
-                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getContent(), this);
+                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
                 remotePDFViewPager.setId(R.id.pdfViewPager);
             }else{
-                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
+                remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport_main(), this);
                 remotePDFViewPager.setId(R.id.pdfViewPager);
             }
 
@@ -99,9 +99,9 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
             String pdf="";
             // demo
             if(key_view==1){
-                pdf=article.getContent();
-            }else{
                 pdf=article.getReport();
+            }else{
+                pdf=article.getReport_main();
             }
             webview.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf+"&overridemobile=true");
             WebSettings webSettings = webview.getSettings();

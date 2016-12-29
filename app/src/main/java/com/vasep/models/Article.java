@@ -19,14 +19,14 @@ public class Article implements Serializable{
     private String discount;
 
     private String report;
+    private String report_main;
     private String is_special;
     private String is_lock;
     private String price_online;
     private String price_download;
 
 
-
-    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount,String report) {
+    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String report, String report_main, String is_special, String is_lock, String price_online, String price_download) {
         this.id = id;
         this.title = title;
         this.create_date = create_date;
@@ -38,11 +38,23 @@ public class Article implements Serializable{
         this.language_type = language_type;
         this.category_name = category_name;
         this.discount = discount;
-
         this.report = report;
+        this.report_main = report_main;
+        this.is_special = is_special;
+        this.is_lock = is_lock;
+        this.price_online = price_online;
+        this.price_download = price_download;
     }
 
     public Article() {
+    }
+
+    public String getReport_main() {
+        return report_main;
+    }
+
+    public void setReport_main(String report_main) {
+        this.report_main = report_main;
     }
 
     public String getPrice_online() {

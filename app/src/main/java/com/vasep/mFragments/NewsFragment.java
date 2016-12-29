@@ -53,6 +53,7 @@ import com.vasep.activity.SignInActivity;
 import com.vasep.adapter.AdapterHome;
 import com.vasep.adapter.AdapterItem;
 import com.vasep.adapter.AdapterMenu;
+import com.vasep.async.BannerAsync;
 import com.vasep.async.GetAllCategory;
 import com.vasep.async.GetAllCategoryMenu;
 import com.vasep.async.GetListArticle;
@@ -62,6 +63,7 @@ import com.vasep.async.NotiAsync;
 import com.vasep.async.GetListArticleSearch;
 import com.vasep.controller.Common;
 import com.vasep.models.Article;
+import com.vasep.models.Banner;
 import com.vasep.models.Category;
 import com.vasep.recyclerclick.RecyclerItemClickListener;
 import com.vasep.R;
@@ -151,6 +153,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         actionBar.setDisplayShowHomeEnabled(true); // show or hide the default home button
         actionBar.setLogo(R.mipmap.icon_menu);
 
+        BannerAsync bannerAsync= new BannerAsync(getContext());
+        bannerAsync.execute();
 
         /*bottom bar*/
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
@@ -205,6 +209,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                 }
             }
         });
+
+
 
         return rootView;
     }

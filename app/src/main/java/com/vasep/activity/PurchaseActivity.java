@@ -110,10 +110,7 @@ public class PurchaseActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PurchaseActivity.this, ReportDetailActivity.class);
-                intent.putExtra("article", article);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 
