@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">VASEPPortal</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="text_content">Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel </string>
 
-    <string name="user_name">Delaroy</string>
     <string name="title_activity_toolbar">Toolbar</string>
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="action_search">search</string>
@@ -93,4 +89,6 @@
     <string name="price_view_download">Giá download</string>
     <string name="btn_view_online">XEM ONLINE</string>
     <string name="btn_view_download">TẢI VỀ</string>
+    <string name="content">Nội Dung</string>
+    <string name="title">Vasep</string>
 </resources>

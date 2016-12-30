@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.vasep.R;
 import com.vasep.adapter.AdapterCart;
 import com.vasep.adapter.AdapterPayment;
+import com.vasep.async.CallAPIAsync;
 import com.vasep.async.GetPaymentAsync;
 import com.vasep.models.Article;
 import com.vasep.models.ReportItem;
@@ -93,7 +95,7 @@ public class PurchaseCartActivity extends AppCompatActivity {
         double total=0;
         for(int j=0; j<reportItems.size(); j++){
             total_UnitPrice=total_UnitPrice+Double.parseDouble(reportItems.get(j).getMoney_order());
-            total_Discount=total_Discount+Double.parseDouble(reportItems.get(j).getMoney_discount());
+            //total_Discount=total_Discount+Double.parseDouble(reportItems.get(j).getMoney_discount());
 
         }
         total= total_UnitPrice-total_Discount;
@@ -156,7 +158,35 @@ public class PurchaseCartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(select_type!=0){
-                    final Dialog dialog = new Dialog(PurchaseCartActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                    double price=0;
+                    for (int i=0; i<reportItems.size(); i++){
+                        price=price+ Double.parseDouble(reportItems.get(i).getMoney_total());
+                    }
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+                    final String user_id = pref.getString("user_id", "");
+                    final String language = pref.getString("language", "vi");
+                    try {
+                        String state=user_id+ "_";
+                        for(int i=0; i< reportItems.size(); i++){
+                            if(i==reportItems.size()-1){
+                                state=state+ reportItems.get(i).getId();
+                            }else{
+                                state=state+ reportItems.get(i).getId()+"_";
+                            }
+                        }
+
+                        CallAPIAsync callAPIAsync = new CallAPIAsync(PurchaseCartActivity.this, (DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date()).toString()).replaceAll(" ", "").replace(":", "").replace("-",""), price+"", state, language, reportItems, user_id, "1",select_type,buy_type);
+                        callAPIAsync.execute();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                    /*final Dialog dialog = new Dialog(PurchaseCartActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_list_payment);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
@@ -182,7 +212,7 @@ public class PurchaseCartActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-
+*/
 
                 }else{
                     Toast.makeText(PurchaseCartActivity.this,"Chọn phương thức thanh toán",Toast.LENGTH_SHORT).show();

@@ -75,13 +75,8 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
                 finish();
             }
         });
-
         AddView insert = new AddView(ShowDetailActivity.this,article.getId());
         insert.execute();
-
-//        InsertView insert = new InsertView(ShowDetailActivity.this,article.getId());
-//        insert.execute();
-
         if (Build.VERSION.SDK_INT >= 21) {
             if(key_view==1){
                 remotePDFViewPager = new RemotePDFViewPager(ShowDetailActivity.this, article.getReport(), this);
@@ -94,8 +89,7 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
         } else {
             webview = (WebView) findViewById(R.id.pdfView);
             webview.getSettings().setJavaScriptEnabled(true);
-            //progress.setProgress(0);
-            //String pdf = "http://103.237.147.54/Webtin/public/templates/upload/report_full/1481397968.pdf";
+
             String pdf="";
             // demo
             if(key_view==1){
@@ -105,7 +99,6 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
             }
             webview.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf+"&overridemobile=true");
             WebSettings webSettings = webview.getSettings();
-            //webSettings.setBuiltInZoomControls(true);
             webSettings.setSupportZoom(true);
             webview.setWebViewClient(new MyWebViewClient());
         }
@@ -121,7 +114,6 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
         @Override
         public void onPageFinished(WebView view, String url) {
             dialog.dismiss();
-            //progress.setProgress(100);
             super.onPageFinished(view, url);
         }
 
@@ -129,7 +121,6 @@ public class ShowDetailActivity extends AppCompatActivity implements DownloadFil
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             dialog.setMessage(Information.loading);
             dialog.show();
-            //progress.setProgress(0);
             super.onPageStarted(view, url, favicon);
         }
     }

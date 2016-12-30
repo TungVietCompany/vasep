@@ -47,8 +47,8 @@ public class ReportDetailActivity extends AppCompatActivity {
     @Bind(R.id.screen4_date_top)
     TextView screen4_date_top;
 
-    @Bind(R.id.screen4_money_item)
-    TextView screen4_money_item;
+    //@Bind(R.id.screen4_money_item)
+    //TextView screen4_money_item;
 
     @Bind(R.id.webview_reportdetail)
     WebView webview_reportdetail;
@@ -74,7 +74,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen4_title_item.setText(article.getTitle());
-        screen4_money_item.setText( new DecimalFormat("#,###.##").format(Double.parseDouble(article.getPrice())) +" vnđ");
+        //screen4_money_item.setText( new DecimalFormat("#,###.##").format(Double.parseDouble(article.getPrice())) +" vnđ");
         webview_reportdetail.getSettings().setJavaScriptEnabled(true);
         webview_reportdetail.loadDataWithBaseURL(
                 "",
@@ -84,8 +84,6 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
         String user_id = pref.getString("user_id", "");
-
-
         CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this,ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
         checkExpireAsync.execute();
 

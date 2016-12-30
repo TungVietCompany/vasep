@@ -44,6 +44,7 @@ import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.vasep.activity.CatalogActivity;
 import com.vasep.activity.ChangePasswordActivity;
 import com.vasep.activity.ContactActivity;
 import com.vasep.activity.MainActivity;
@@ -250,10 +251,11 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                editor.putString("catalog", adapterMenu.getCategories().get(position).getId());
-                                editor.commit();
+                                Intent intent= new Intent(getActivity(), CatalogActivity.class);
+                                intent.putExtra("catagory",adapterMenu.getCategories().get(position));
+                                startActivity(intent);
                                 dialog.dismiss();
-                                loadData(0);
+
                             }
                         }));
                 TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);

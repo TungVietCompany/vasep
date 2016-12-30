@@ -110,6 +110,10 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
                 buy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                        String user_id = pref.getString("user_id", "");
+
                         if(user_id.equals("")){
                             Intent intent=new Intent(activity, SignInActivity.class);
                             activity.startActivityForResult(intent,1);
@@ -143,7 +147,7 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
                                     reportItem.setUrl(article.getImage());
                                     reportItem.setTitle(article.getTitle());
 
-                                    double discount_new=Double.parseDouble(article.getDiscount())*Double.parseDouble(article.getPrice_online())/Double.parseDouble(article.getPrice());
+                                    double discount_new=Double.parseDouble("0");
 
                                     reportItem.setMoney_discount(discount_new+"");
                                     reportItem.setMoney_order(article.getPrice_online());
@@ -225,7 +229,7 @@ public class CheckExpireAsync extends AsyncTask<Void,Void,Boolean> {
                                     reportItem.setUrl(article.getImage());
                                     reportItem.setTitle(article.getTitle());
 
-                                    double discount_new=Double.parseDouble(article.getDiscount())*Double.parseDouble(article.getPrice_download())/Double.parseDouble(article.getPrice());
+                                    double discount_new=Double.parseDouble("0");
 
                                     reportItem.setMoney_discount(discount_new+"");
                                     reportItem.setMoney_order(article.getPrice_download());

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">VASEPPortal</string>
-    <string name="change_language">Thay đổi ngôn ngữ</string>
+
     <string name="title">Các ứng dụng sẽ thích ứng theo các thiết bị khác nhau</string>
     <string name="content">Gandalf</string>
 
@@ -80,4 +80,11 @@
     <string name="price_view_download">Price download</string>
     <string name="btn_view_online">VIEW ONLINE</string>
     <string name="btn_view_download">DOWNLOAD</string>
+    <string name="action_search">Search</string>
+    <string name="Purchare">PAYS</string>
+    <string name="hello_blank_fragment">Hello</string>
+    <string name="title_activity_feature">FeatureActivity</string>
+    <string name="title_activity_news_detail">FeatureActivity</string>
+    <string name="title_activity_report">ReportActivity</string>
+    <string name="title_activity_toolbar">Toolbar</string>
 </resources>

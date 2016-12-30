@@ -16,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ServiceGeneratorAppota {
-    //public static final String API_BASE_URL = "https://api.appotapay.com/v1/services/";
-    public static final String API_BASE_URL = "https://api.appotapay.com/v1/sandbox/services/";
+    public static final String API_BASE_URL = "https://api.appotapay.com/v1/services/";
+    //public static final String API_BASE_URL = "https://api.appotapay.com/v1/sandbox/services/";
     static ServiceInterfaceAppota git;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

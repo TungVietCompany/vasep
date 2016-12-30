@@ -24,7 +24,10 @@
         android:id="@+id/screen10_txt_category"
         android:maxLines="2"
         android:layout_weight="1"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxWidth="40dp"
+        android:singleLine="true" />
         <ImageView
             android:layout_gravity="center"
             android:padding="@dimen/padding_5dp"

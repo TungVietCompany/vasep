@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import com.vasep.R;
 import com.vasep.adapter.AdapterMenu;
 import com.vasep.adapter.AdapterPayment;
+import com.vasep.async.CallAPIAsync;
 import com.vasep.async.GetPaymentAsync;
 import com.vasep.controller.money;
 import com.vasep.models.Article;
@@ -80,8 +82,8 @@ public class PurchaseActivity extends AppCompatActivity {
         Picasso.with(PurchaseActivity.this).load(article.getImage()).into(screen6_image);
         screen6_title.setText(article.getTitle());
         screen6_price.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(article.getPrice())) + " vnđ");
-        screen6_discount.setText(new DecimalFormat("#,###.#").format(Double.parseDouble((Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100 + "")) + " vnđ");
-        float sum_money = Float.parseFloat(article.getPrice()) - (Float.parseFloat(article.getPrice()) * Float.parseFloat(article.getDiscount())) / 100;
+        screen6_discount.setText("0 vnđ");
+        float sum_money = Float.parseFloat(article.getPrice());
         screen6_summoney.setText(new DecimalFormat("#,###.#").format(Double.parseDouble(sum_money + "")) + " vnđ");
 
 
@@ -140,13 +142,6 @@ public class PurchaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(select_type!=0){
-                        final Dialog dialog = new Dialog(PurchaseActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.dialog_list_payment);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
-                        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_payment);
-                        LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
-                        recyclerView.setLayoutManager(gridview);
 
                         ArrayList<ReportItem> reportItems= new ArrayList<ReportItem>();
                         ReportItem reportItem= new ReportItem();
@@ -157,6 +152,37 @@ public class PurchaseActivity extends AppCompatActivity {
                         reportItem.setMoney_total((Integer.parseInt(article.getPrice())-Integer.parseInt(article.getDiscount()))+"");
                         reportItem.setUrl(article.getImage());
                         reportItems.add(reportItem);
+
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+                        final String user_id = pref.getString("user_id", "");
+                        final String language = pref.getString("language", "vi");
+                        try {
+                            String state=user_id+ "_";
+                            for(int i=0; i< reportItems.size(); i++){
+                                if(i==reportItems.size()-1){
+                                    state=state+ reportItems.get(i).getId();
+                                }else{
+                                    state=state+ reportItems.get(i).getId()+"_";
+                                }
+                            }
+
+                            CallAPIAsync callAPIAsync = new CallAPIAsync(PurchaseActivity.this, (DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date()).toString()).replaceAll(" ", "").replace(":", "").replace("-",""), reportItem.getMoney_total()+"", state, language, reportItems, user_id, "1",select_type,"online");
+                            callAPIAsync.execute();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        /*final Dialog dialog = new Dialog(PurchaseActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_list_payment);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_menu)));
+                        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.listView_payment);
+                        LinearLayoutManager gridview= new LinearLayoutManager(PurchaseActivity.this);
+                        recyclerView.setLayoutManager(gridview);
+
+
 
                         AdapterPayment adapterMenu = new AdapterPayment(PurchaseActivity.this, null,reportItems,0,"online");
 
@@ -178,7 +204,7 @@ public class PurchaseActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
-
+*/
 
                     }else{
                         Toast.makeText(PurchaseActivity.this,"Chọn phương thức thanh toán",Toast.LENGTH_SHORT).show();
@@ -199,9 +225,13 @@ public class PurchaseActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            MainActivity.types=Integer.parseInt(key_type);
-            Intent intent= new Intent(PurchaseActivity.this, MainActivity.class);
-            startActivity(intent);
+            if(!key_type.equals("-1")) {
+                MainActivity.types = Integer.parseInt(key_type);
+                Intent intent = new Intent(PurchaseActivity.this, MainActivity.class);
+                startActivity(intent);
+            }else {
+
+            }
             finish();
         }
         return true;

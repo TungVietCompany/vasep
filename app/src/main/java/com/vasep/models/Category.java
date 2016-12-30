@@ -1,10 +1,12 @@
 package com.vasep.models;
 
+import java.io.Serializable;
+
 /**
  * Created by thuyetpham94 on 13/12/2016.
  */
 
-public class Category {
+public class Category implements Serializable {
     private String id;
     private String name;
     private String eng_name;

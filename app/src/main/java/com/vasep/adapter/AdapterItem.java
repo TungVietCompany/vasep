@@ -259,7 +259,43 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         activity.startActivityForResult(intent,1);
                                     }
                                 }
-                            }else{
+                            }
+                            else if(type==-1){
+                                if (article2.getIs_lock().equals("0") || (article2.getIs_lock().equals("1") && Integer.parseInt(article2.getPrice()) == 0)) {
+                                    if (article.getReport() == null) {
+                                        Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(context, ReportDetailActivity.class);
+                                        intent.putExtra("article", article2);
+                                        context.startActivity(intent);
+                                    }
+                                }else{
+                                    final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                    final String user_id = pref.getString("user_id", "");
+
+                                    if(user_id.equals("")){
+                                        Intent intent=new Intent(activity, SignInActivity.class);
+                                        activity.startActivityForResult(intent,1);
+                                    }else{
+                                        //set
+                                        if(article2.getReport()==null) {
+                                            Intent intent = new Intent(context, PurchaseActivity.class);
+                                            intent.putExtra("article", article2);
+                                            intent.putExtra("key_type","-1");
+                                            activity.startActivityForResult(intent,1);
+                                        }
+                                        else{
+                                            Intent intent = new Intent(context, ReportDetailActivity.class);
+                                            intent.putExtra("article", article2);
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                }
+                            }
+
+                            else{
                                 Intent intent = new Intent(context, ReportDetailActivity.class);
                                 intent.putExtra("article", article2);
                                 context.startActivity(intent);
@@ -315,13 +351,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                             }
                         }else if(type==1){
-                            if (article.getIs_lock().equals("0")||(article.getIs_lock().equals("1")&&Integer.parseInt(article.getPrice()) == 0)) {
-                                if(article.getReport()==null) {
+                            if (article.getIs_lock().equals("0") || (article.getIs_lock().equals("1") && Integer.parseInt(article.getPrice()) == 0)) {
+                                if (article.getReport() == null) {
                                     Intent intent = new Intent(context, SpecialDetailActivity.class);
                                     intent.putExtra("article", article);
                                     context.startActivity(intent);
-                                }
-                                else{
+                                } else {
                                     Intent intent = new Intent(context, ReportDetailActivity.class);
                                     intent.putExtra("article", article);
                                     context.startActivity(intent);
@@ -350,7 +385,42 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                                 }
                             }
-                        }else{
+                        }
+                        else if(type==-1){
+                            if (article.getIs_lock().equals("0") || (article.getIs_lock().equals("1") && Integer.parseInt(article.getPrice()) == 0)) {
+                                if (article.getReport() == null) {
+                                    Intent intent = new Intent(context, SpecialDetailActivity.class);
+                                    intent.putExtra("article", article);
+                                    context.startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(context, ReportDetailActivity.class);
+                                    intent.putExtra("article", article);
+                                    context.startActivity(intent);
+                                }
+                            }else{
+                                final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                                final String user_id = pref.getString("user_id", "");
+
+                                if(user_id.equals("")){
+                                    Intent intent=new Intent(activity, SignInActivity.class);
+                                    activity.startActivityForResult(intent,1);
+                                }else{
+                                    //set
+                                    if(article.getReport()==null) {
+                                        Intent intent = new Intent(context, PurchaseActivity.class);
+                                        intent.putExtra("article", article);
+                                        intent.putExtra("key_type","-1");
+                                        activity.startActivityForResult(intent,1);
+                                    }
+                                    else{
+                                        Intent intent = new Intent(context, ReportDetailActivity.class);
+                                        intent.putExtra("article", article);
+                                        context.startActivity(intent);
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             Intent intent = new Intent(context, ReportDetailActivity.class);
                             intent.putExtra("article", article);
                             context.startActivity(intent);

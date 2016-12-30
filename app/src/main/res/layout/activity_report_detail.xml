@@ -98,14 +98,6 @@
                     android:id="@+id/screen4_date_top"
                     />
             </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1500000 vnđ"
-                android:textColor="@color/screen4_money_item"
-                android:id="@+id/screen4_money_item"
-                android:layout_marginBottom="@dimen/screen2_margin_title"
-                />
             <WebView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
