@@ -125,8 +125,8 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(), this);
-        mAdapterNew= new AdapterItem(getContext(), this);
+        mAdapter = new AdapterItem(getContext(),getActivity(), this);
+        mAdapterNew= new AdapterItem(getContext(),getActivity(), this);
         mAdapter.setType(1);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
@@ -375,6 +375,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // In fragment class callback
+        String abc="xyz";
     }
     private void createNavItems() {
         //CREATE ITEMS
@@ -467,7 +468,7 @@ public class SpecialFragment extends Fragment implements AHBottomNavigation.OnTa
                 language = "vi";
             }
             mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getActivity(),getContext(),progressBar,Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(), this), language, catalog, "", 0, 0, 0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getActivity(),getContext(),progressBar,Common.LOAD_TOP, from, 1, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top,screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(),getActivity(), this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errr = err.getMessage();

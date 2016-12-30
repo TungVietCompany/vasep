@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -65,7 +66,7 @@ public class PurchaseActivity extends AppCompatActivity {
     CardView btn_pays;
 
     int select_type = 0;
-
+    String key_type="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,7 @@ public class PurchaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent i = getIntent();
         final Article article = (Article) i.getSerializableExtra("article");
+        key_type =i.getStringExtra("key_type");
 
 
         Picasso.with(PurchaseActivity.this).load(article.getImage()).into(screen6_image);
@@ -170,8 +172,9 @@ public class PurchaseActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 dialog.dismiss();
 
-                                Intent intent = getIntent();
-                                setResult(RESULT_OK, intent);
+                                MainActivity.types=Integer.parseInt(key_type);
+                                Intent intent= new Intent(PurchaseActivity.this, MainActivity.class);
+                                startActivity(intent);
                                 finish();
                             }
                         });
@@ -191,6 +194,17 @@ public class PurchaseActivity extends AppCompatActivity {
             finish();
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            MainActivity.types=Integer.parseInt(key_type);
+            Intent intent= new Intent(PurchaseActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        return true;
     }
 
 }

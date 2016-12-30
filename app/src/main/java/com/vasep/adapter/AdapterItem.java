@@ -1,5 +1,6 @@
 package com.vasep.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,11 +63,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void onLoadMore();
     }
 
-
-    public AdapterItem(Context context, OnLoadMoreListener onLoadMoreListener) {
+    private Activity activity;
+    public AdapterItem(Context context,Activity activity, OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
         itemList = new ArrayList<>();
-
+        this.activity= activity;
         this.context = context;
 
         SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
@@ -167,6 +168,8 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsHoder) {
             try {
+                final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                String language_type = pref.getString("language", "vi");
                 ((NewsHoder) holder).card2.setVisibility(View.INVISIBLE);
                 ((NewsHoder) holder).layout_banner.setVisibility(View.GONE);
                 ((NewsHoder) holder).txt_lock.setVisibility(View.INVISIBLE);
@@ -175,7 +178,11 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 Glide.with(context).load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView);
                 ((NewsHoder) holder).txt_screen1_title.setText(article.getTitle());
-                ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
+                if(language_type.equals("vi")) {
+                    ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name());
+                }else{
+                    ((NewsHoder) holder).txt_screen1_category.setText(article.getCategory_name_eng());
+                }
                 ((NewsHoder) holder).txt_screen1_date.setText(ChangeDate.convertDate(article.getCreate_date()));
                 if (Integer.parseInt(article.getPrice()) > 0) {
                     if (article.getIs_lock().equals("1")&& article.getReport()==null) {
@@ -189,7 +196,12 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     Glide.with(context).load(article2.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(((NewsHoder) holder).imageView2);
                     ((NewsHoder) holder).txt_screen1_title2.setText(article2.getTitle());
-                    ((NewsHoder) holder).txt_screen1_category2.setText(article2.getCategory_name());
+                    if(language_type.equals("vi")) {
+                        ((NewsHoder) holder).txt_screen1_category2.setText(article2.getCategory_name());
+                    }else{
+                        ((NewsHoder) holder).txt_screen1_category2.setText(article2.getCategory_name_eng());
+                    }
+
                     ((NewsHoder) holder).txt_screen1_date2.setText(ChangeDate.convertDate(article2.getCreate_date()));
                     if (Integer.parseInt(article2.getPrice()) > 0) {
                         if (article2.getIs_lock().equals("1")&& !article2.getPrice().equals("") && article2.getReport()==null) {
@@ -209,15 +221,15 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 } else {
                                     final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                                     final String user_id = pref.getString("user_id", "");
-                                    String language = pref.getString("language", "vi");
                                     if (user_id.equals("")) {
-                                        //Intent intent=new Intent(context, SignInActivity.class);
-                                        //context.startActivityForResult(intent,1);
+                                        Intent intent=new Intent(activity, SignInActivity.class);
+                                        activity.startActivityForResult(intent,1);
                                     } else {
                                         //set
                                         Intent intent = new Intent(context, PurchaseActivity.class);
                                         intent.putExtra("article", article2);
-                                        context.startActivity(intent);
+                                        intent.putExtra("key_type","2");
+                                        activity.startActivityForResult(intent,1);
                                     }
                                 }
                             }else if(type==1){
@@ -235,15 +247,15 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }else{
                                     final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                                     final String user_id = pref.getString("user_id", "");
-                                    String language= pref.getString("language", "vi");
                                     if(user_id.equals("")){
-                                        //Intent intent=new Intent(activity, SignInActivity.class);
-                                        //activity.startActivityForResult(intent,1);
+                                        Intent intent=new Intent(activity, SignInActivity.class);
+                                        activity.startActivityForResult(intent,1);
                                     }else{
                                         //set
                                         Intent intent = new Intent(context, PurchaseActivity.class);
                                         intent.putExtra("article", article2);
-                                        context.startActivity(intent);
+                                        intent.putExtra("key_type","1");
+                                        activity.startActivityForResult(intent,1);
                                     }
                                 }
                             }else{
@@ -274,15 +286,16 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             } else {
                                 final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                                 final String user_id = pref.getString("user_id", "");
-                                String language = pref.getString("language", "vi");
+
                                 if (user_id.equals("")) {
-                                    //Intent intent=new Intent(context, SignInActivity.class);
-                                    //context.startActivityForResult(intent,1);
+                                    Intent intent=new Intent(activity, SignInActivity.class);
+                                    activity.startActivityForResult(intent,1);
                                 } else {
                                     //set
                                     Intent intent = new Intent(context, PurchaseActivity.class);
                                     intent.putExtra("article", article);
-                                    context.startActivity(intent);
+                                    intent.putExtra("key_type","2");
+                                    activity.startActivityForResult(intent,1);
                                 }
                             }
                         }else if(type==1){
@@ -300,17 +313,18 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             }else{
                                 final SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                                 final String user_id = pref.getString("user_id", "");
-                                String language= pref.getString("language", "vi");
+
                                 if(user_id.equals("")){
-                                    //Intent intent=new Intent(activity, SignInActivity.class);
-                                    //activity.startActivityForResult(intent,1);
+                                    Intent intent=new Intent(activity, SignInActivity.class);
+                                    activity.startActivityForResult(intent,1);
                                 }else{
                                     //set
 
                                     if(article.getReport()==null) {
                                         Intent intent = new Intent(context, PurchaseActivity.class);
                                         intent.putExtra("article", article);
-                                        context.startActivity(intent);
+                                        intent.putExtra("key_type","1");
+                                        activity.startActivityForResult(intent,1);
                                     }
                                     else{
                                         Intent intent = new Intent(context, ReportDetailActivity.class);

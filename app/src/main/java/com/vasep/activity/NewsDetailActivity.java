@@ -2,6 +2,7 @@ package com.vasep.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,12 +22,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
+import com.vasep.adapter.AdapterItem;
 import com.vasep.async.AddView;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
+import com.vasep.models.Banner;
+import com.vasep.models.ListBanner;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +73,18 @@ public class NewsDetailActivity extends AppCompatActivity {
         screen2_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
         screen1_title_item.setText(article.getTitle());
 
+        ImageView new_image_banner=(ImageView) findViewById(R.id.new_image_banner);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String report = pref.getString("listBanner", "");
+        ArrayList<Banner> list = gson.fromJson(report, ListBanner.class) == null ? new ArrayList<Banner>() : gson.fromJson(report, ListBanner.class);
+        Random r = new Random();
+        int i1 = r.nextInt(list.size());
+        Picasso.with(NewsDetailActivity.this).load(list.get(i1).getImage()).into(new_image_banner);
+
+
         toolbar = (Toolbar)findViewById(R.id.toolbar_newsdetail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Material Search");
@@ -82,10 +102,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewsDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",2);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 

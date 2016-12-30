@@ -76,7 +76,7 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
                 adapterHome.setCategories(list);
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();
-                String language = pref.getString("language", null);
+                String language = pref.getString("language", "vi");
                 if(null==language||language.equals("vi")) {
                     for (int i=0; i<list.size(); i++){
                         list.get(i).setLanguage_type(0);

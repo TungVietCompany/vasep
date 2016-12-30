@@ -167,7 +167,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
     protected List<Article> doInBackground(Void... voids) {
         ArticleController articleController = new ArticleController();
          SharedPreferences pref =context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
-         String user_id = pref.getString("user_id", "0");
+         String user_id = pref.getString("user_id", "0").equals("")?"0":pref.getString("user_id", "0");
         return articleController.searchArticle(category, title, type, top, from, language_type, market_id, product_id, type_id, Integer.parseInt(user_id));
     }
 
@@ -227,11 +227,10 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(context, ReportDetailActivity.class);
+                                    /*Intent intent = new Intent(context, ReportDetailActivity.class);
                                     intent.putExtra("article", adapterItem.getList().get(position));
-                                    context.startActivity(intent);
-//                                        GetReport getReport = new GetReport(context,Integer.parseInt(adapterItem.getList().get(position).getId()),1);
-//                                        getReport.execute();
+                                    context.startActivity(intent);*/
+
                                 }
                             }));
 

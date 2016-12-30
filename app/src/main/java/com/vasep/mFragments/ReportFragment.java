@@ -116,8 +116,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(), this);
-        mAdapterNew = new AdapterItem(getContext(), this);
+        mAdapter = new AdapterItem(getContext(),getActivity(), this);
+        mAdapterNew = new AdapterItem(getContext(),getActivity(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -566,7 +566,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     int type_report = pref.getInt("type_report", -1);
                     String language = pref.getString("language", "vi");
                     String catalog = pref.getString("catalog", "");
-                    mAdapter.setType(0);
+                    mAdapter.setType(2);
                     dialog.dismiss();
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), mAdapterNew, catalog, "", rView, mAdapter, 1, Common.LOAD_TOP, 0, 2, language, marketID, productID, type_report);
                     getListArticleSearch.execute();
@@ -612,7 +612,7 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                     int type_report = pref.getInt("type_report", -1);
                     marketID = pref.getInt("marketID", -1);
                     productID = pref.getInt("productID", -1);
-                    mAdapter.setType(0);
+                    mAdapter.setType(2);
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), progressBar, mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 2, language, marketID, productID, type_report);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
@@ -638,8 +638,8 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
             int type_report = pref.getInt("type_report", -1);
             marketID = pref.getInt("marketID", -1);
             productID = pref.getInt("productID", -1);
-            mAdapter.setType(0);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), progressBar, new AdapterItem(getContext(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP, from, 2, language, marketID, productID, type_report);
+            mAdapter.setType(2);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(), progressBar, new AdapterItem(getContext(),getActivity(), this), catalog, "", rView, mAdapter, 1, Common.LOAD_TOP, from, 2, language, marketID, productID, type_report);
             getListArticleSearch.execute();
         } catch (Exception err) {
             String errs = err.getMessage();

@@ -100,7 +100,10 @@
                         android:text="Báo cáo"
                         android:textAllCaps="true"
                         android:textColor="@color/screen1_category"
-                        android:textSize="@dimen/screen1_date_item" />
+                        android:textSize="@dimen/screen1_category"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:maxWidth="80dp" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -117,8 +120,9 @@
                         android:layout_height="wrap_content"
                         android:text="28/11/2016"
                         android:textAllCaps="true"
+                        android:maxLines="1"
                         android:textColor="@color/screen1_date_item"
-                        android:textSize="@dimen/screen1_date_item" />
+                        android:textSize="@dimen/screen1_category" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -211,8 +215,11 @@
                         android:layout_height="wrap_content"
                         android:text="Báo cáo"
                         android:textAllCaps="true"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:textColor="@color/screen1_category"
-                        android:textSize="@dimen/screen1_date_item" />
+                        android:textSize="@dimen/screen1_category"
+                        android:maxWidth="80dp" />
 
                     <TextView
                         android:id="@+id/textView32"
@@ -227,10 +234,11 @@
                         android:id="@+id/screen_date_item2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="28/11/2016"
                         android:textAllCaps="true"
+                        android:maxLines="1"
                         android:textColor="@color/screen1_date_item"
-                        android:textSize="@dimen/screen1_date_item" />
+                        android:textSize="@dimen/screen1_category"
+                        android:text="28/11/2016" />
                 </LinearLayout>
             </RelativeLayout>
 

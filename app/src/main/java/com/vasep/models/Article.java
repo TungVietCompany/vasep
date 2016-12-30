@@ -16,6 +16,7 @@ public class Article implements Serializable{
     private String price;
     private String language_type;
     private String category_name;
+    private String category_name_eng;
     private String discount;
 
     private String report;
@@ -25,8 +26,7 @@ public class Article implements Serializable{
     private String price_online;
     private String price_download;
 
-
-    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String discount, String report, String report_main, String is_special, String is_lock, String price_online, String price_download) {
+    public Article(String id, String title, String create_date, String content, String category_id, String image, String last_update, String price, String language_type, String category_name, String category_name_eng, String discount, String report, String report_main, String is_special, String is_lock, String price_online, String price_download) {
         this.id = id;
         this.title = title;
         this.create_date = create_date;
@@ -37,6 +37,7 @@ public class Article implements Serializable{
         this.price = price;
         this.language_type = language_type;
         this.category_name = category_name;
+        this.category_name_eng = category_name_eng;
         this.discount = discount;
         this.report = report;
         this.report_main = report_main;
@@ -44,6 +45,14 @@ public class Article implements Serializable{
         this.is_lock = is_lock;
         this.price_online = price_online;
         this.price_download = price_download;
+    }
+
+    public String getCategory_name_eng() {
+        return category_name_eng;
+    }
+
+    public void setCategory_name_eng(String category_name_eng) {
+        this.category_name_eng = category_name_eng;
     }
 
     public Article() {

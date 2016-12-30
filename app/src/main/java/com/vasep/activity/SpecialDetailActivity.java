@@ -2,6 +2,7 @@ package com.vasep.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.vasep.R;
 
@@ -30,7 +32,12 @@ import com.vasep.async.AddView;
 import com.vasep.controller.ArticleController;
 import com.vasep.controller.ChangeDate;
 import com.vasep.models.Article;
+import com.vasep.models.Banner;
+import com.vasep.models.ListBanner;
 
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,15 +88,23 @@ public class SpecialDetailActivity extends AppCompatActivity {
         actionBar.setIcon(R.drawable.btn_back1);
         actionBar.setDisplayUseLogoEnabled(true);
 
+        ImageView new_image_banner=(ImageView) findViewById(R.id.new_image_banner);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String report = pref.getString("listBanner", "");
+        ArrayList<Banner> list = gson.fromJson(report, ListBanner.class) == null ? new ArrayList<Banner>() : gson.fromJson(report, ListBanner.class);
+        Random r = new Random();
+        int i1 = r.nextInt(list.size());
+        Picasso.with(SpecialDetailActivity.this).load(list.get(i1).getImage()).into(new_image_banner);
+
+
          /*click vào nut home tren toolbar*/
         View view = toolbar.getChildAt(0);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SpecialDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",1);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 

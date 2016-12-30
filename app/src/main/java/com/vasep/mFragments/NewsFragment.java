@@ -131,8 +131,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
         rView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         rView.setLayoutManager(mLayoutManager);
-        mAdapter = new AdapterItem(getContext(), this);
-        mAdapterNew= new AdapterItem(getContext(), this);
+        mAdapter = new AdapterItem(getContext(),getActivity(), this);
+        mAdapterNew= new AdapterItem(getContext(),getActivity(), this);
         mAdapter.setGridLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(rView);
         swipeRefresh.setOnRefreshListener(this);
@@ -392,7 +392,11 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             callFragment(new ReportFragment());
         }
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // In fragment class callback
+        String abc="xyz";
+    }
     public void callFragment(Fragment fragment) {
         FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -432,7 +436,7 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
                     if (null == language) {
                         language = "vi";
                     }
-                    mAdapter.setType(1);
+                    mAdapter.setType(0);
                     GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getContext(),pBar,mAdapterNew, catalog, "", rView, mAdapter, 2, Common.LOAD_TOP, mAdapter.getArticle(start), 0, language, 0, 0, 0);
                     getListArticleSearch.execute();
                 } catch (Exception err) {
@@ -453,8 +457,8 @@ public class NewsFragment extends Fragment implements AHBottomNavigation.OnTabSe
             if (null == language) {
                 language = "vi";
             }
-            mAdapter.setType(1);
-            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getActivity(),getContext(),pBar, Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(),this), language, catalog, "", 0, 0, 0);
+            mAdapter.setType(0);
+            GetListArticleSearch getListArticleSearch = new GetListArticleSearch(getActivity(),getContext(),pBar, Common.LOAD_TOP, from, 0, mAdapter, rView, 1, screen1_image_top, screen1_date_top, screen1_title_top, screen1_category_top, screen1_tops,relative_crime,appBarLayout,new AdapterItem(getContext(),getActivity(),this), language, catalog, "", 0, 0, 0);
             getListArticleSearch.execute();
         } catch (Exception err) {
 

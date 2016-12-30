@@ -53,10 +53,8 @@ public class ReportDetailActivity extends AppCompatActivity {
     @Bind(R.id.webview_reportdetail)
     WebView webview_reportdetail;
 
-    @Bind(R.id.screen4_book)
-    CardView screen4_book;
 
-    @Bind(R.id.screen4_read)
+    CardView screen4_book;
     CardView screen4_read;
 
     @Bind(R.id.btn_preview)
@@ -70,7 +68,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Article article = (Article)i.getSerializableExtra("article");
 
-
+        screen4_book= (CardView) findViewById(R.id.screen4_book);
+        screen4_read= (CardView) findViewById(R.id.screen4_read);
         Glide.with(ReportDetailActivity.this). load(article.getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(screen4_image_item);
         screen4_category_top.setText(article.getCategory_name()+" | ");
         screen4_date_top.setText(ChangeDate.convertDate(article.getCreate_date()));
@@ -127,10 +126,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReportDetailActivity.this,MainActivity.class);
-                intent.putExtra("type",3);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
     }

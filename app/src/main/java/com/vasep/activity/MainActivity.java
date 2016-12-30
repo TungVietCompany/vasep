@@ -141,6 +141,31 @@ public class MainActivity extends LocalizationActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        try {
+            Intent i = getIntent();
+            String key_type = MainActivity.types + "";
+            if (key_type.equals("2")) {
+                callFragment(new NewsFragment());
+            } else if (key_type.equals("1")) {
+                callFragment(new SpecialFragment());
+            }
+        }catch (Exception err){}
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        editor.putString("catalog", "");
+        editor.commit();
+    }
+
 
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
