@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -273,6 +274,21 @@ public class AdapterItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((NewsHoder) holder).layout_banner.setVisibility(View.VISIBLE);
                     Picasso.with(context).load(list.get(page % list.size()).getImage()).into(((NewsHoder) holder).image_banner);
                     page++;
+
+                    ((NewsHoder) holder).layout_banner.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                String url = list.get(page % list.size()).getLink();
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(url));
+                                context.startActivity(i);
+                            }catch (Exception err){
+
+                            }
+                        }
+                    });
+
                 }
 
                 ((NewsHoder) holder).card1.setOnClickListener(new View.OnClickListener() {

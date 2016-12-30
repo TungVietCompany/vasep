@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -79,11 +80,24 @@ public class NewsDetailActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
         String report = pref.getString("listBanner", "");
-        ArrayList<Banner> list = gson.fromJson(report, ListBanner.class) == null ? new ArrayList<Banner>() : gson.fromJson(report, ListBanner.class);
+        final ArrayList<Banner> list = gson.fromJson(report, ListBanner.class) == null ? new ArrayList<Banner>() : gson.fromJson(report, ListBanner.class);
         Random r = new Random();
-        int i1 = r.nextInt(list.size());
+        final int i1 = r.nextInt(list.size());
         Picasso.with(NewsDetailActivity.this).load(list.get(i1).getImage()).into(new_image_banner);
 
+        new_image_banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String url = list.get(i1).getLink();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }catch (Exception err){
+
+                }
+            }
+        });
 
         toolbar = (Toolbar)findViewById(R.id.toolbar_newsdetail);
         setSupportActionBar(toolbar);

@@ -9,16 +9,25 @@ public class Banner {
     String name;
     String image;
     String create_date;
-
+    String link;
     public Banner() {
 
     }
 
-    public Banner(String id, String name, String image, String create_date) {
+    public Banner(String id, String name, String image, String create_date, String link) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.create_date = create_date;
+        this.link = link;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getId() {
