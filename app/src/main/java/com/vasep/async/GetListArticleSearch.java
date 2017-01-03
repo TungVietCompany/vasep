@@ -244,7 +244,7 @@ public class GetListArticleSearch extends AsyncTask<Void, Void, List<Article>> {
                     image_top.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(!tmp.getReport().equals("")) {
+                            if(tmp.getReport()!=null) {
                                 Intent intent = new Intent(context, ReportDetailActivity.class);
                                 intent.putExtra("article",tmp);
                                 context.startActivity(intent);
