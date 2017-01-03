@@ -5,6 +5,7 @@
     <string name="title_activity_toolbar">Toolbar</string>
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="action_search">search</string>
+    <string name="action_share">Share</string>
     <string name="title_activity_news_detail">NewsDetailActivity</string>
     <string name="title_activity_report">ReportActivity</string>
 
