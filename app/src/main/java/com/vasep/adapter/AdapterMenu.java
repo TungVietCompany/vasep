@@ -56,11 +56,8 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.ExploreHoder> 
 
     @Override
     public void onBindViewHolder(ExploreHoder holder, int position) {
-        if(position==0) {
-            Picasso.with(mContext).load(R.drawable.app_icon).into(holder.img_menu);
-        }else {
-            Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
-        }
+
+        Picasso.with(mContext).load(categories.get(position).getImage()).into(holder.img_menu);
         if(0== categories.get(position).getLanguage_type()) {
             holder.textView.setText(categories.get(position).getName());
         }else{

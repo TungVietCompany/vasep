@@ -20,10 +20,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.vasep.R;
 import com.vasep.activity.MainActivity;
 
-
-/**
- * Created by duong on 9/20/2016.
- */
 public class FireBaseService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
