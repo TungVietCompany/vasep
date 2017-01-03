@@ -134,11 +134,24 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_newsdetail,menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.vasep&hl=vi"));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    //e.toString();
+                }
+
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
