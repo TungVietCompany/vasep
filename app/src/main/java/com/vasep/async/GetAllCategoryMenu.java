@@ -71,8 +71,8 @@ public class GetAllCategoryMenu extends AsyncTask<Void,Void,List<Category>>{
         try{
             if(categories.size() > 0){
                 List<Category> list=new ArrayList<>();
-                list.add(new Category("","Tất cả","All","","",false,""));
-                list.addAll(1,categories);
+
+                list.addAll(0,categories);
                 adapterHome.setCategories(list);
                 SharedPreferences pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = pref.edit();

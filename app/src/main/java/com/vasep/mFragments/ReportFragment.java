@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.vasep.activity.CatalogActivity;
 import com.vasep.activity.ChangePasswordActivity;
 import com.vasep.activity.MainActivity;
 import com.vasep.activity.NewsDetailActivity;
@@ -229,10 +230,10 @@ public class ReportFragment extends Fragment implements AHBottomNavigation.OnTab
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                editor.putString("catalog", adapterMenu.getCategories().get(position).getId());
-                                editor.commit();
+                                Intent intent= new Intent(getActivity(), CatalogActivity.class);
+                                intent.putExtra("catagory",adapterMenu.getCategories().get(position));
+                                startActivity(intent);
                                 dialog.dismiss();
-                                loadData(0);
                             }
                         }));
                 TextView btn_changePass= (TextView) dialog.findViewById(R.id.btn_changePass);
