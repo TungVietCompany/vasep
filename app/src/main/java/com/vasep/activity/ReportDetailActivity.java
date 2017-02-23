@@ -82,10 +82,25 @@ public class ReportDetailActivity extends AppCompatActivity {
                         + " p {font-family:\"Tangerine\", \"Sans-serif\",  \"Serif\" font-size: 48px} </style>"
                         + article.getContent(), "text/html", "UTF-8", "");
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",MODE_PRIVATE);
-        String user_id = pref.getString("user_id", "");
-        CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this,ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
-        checkExpireAsync.execute();
+        if(Integer.parseInt(article.getPrice())==0){
+            btn_review.setText(getResources().getString(R.string.view_report));
+            screen4_book.setVisibility(View.INVISIBLE);
+            btn_review.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent1 = new Intent(ReportDetailActivity.this,ShowDetailActivity.class);
+                    intent1.putExtra("article",article);
+                    intent1.putExtra("key_view", 2);
+                    startActivity(intent1);
+                }
+            });
+
+        }else {
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            String user_id = pref.getString("user_id", "");
+            CheckExpireAsync checkExpireAsync = new CheckExpireAsync(ReportDetailActivity.this, ReportDetailActivity.this, user_id, article.getId(), screen4_read, screen4_book, article, btn_review);
+            checkExpireAsync.execute();
+        }
 
 
         /*screen4_read.setOnClickListener(new View.OnClickListener() {
